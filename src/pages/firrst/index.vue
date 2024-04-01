@@ -15,6 +15,23 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
+            <el-form-item label="送货时间" prop="time">
+              <el-date-picker
+                v-model="formData.time"
+                type="datetime"
+                placeholder="选择时间"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="选择图片" prop="file">
+              <uploadPicture
+                v-model="formData.file"
+                :limit="10"
+              ></uploadPicture>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
             <el-form-item label="地址" prop="address">
               <el-select
                 v-model="formData.address"
@@ -33,7 +50,7 @@
         </el-row>
       </div>
       <div class="table">
-        <el-table style="width: 100%" :data="tableList">
+        <el-table border :data="tableList" style="width: 100%">
           <el-table-column
             v-for="item in columnList"
             :key="item.prop"
@@ -61,8 +78,8 @@
 import { reactive, ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import { columnList, tableList } from "./constant.js";
-
+import { columnList, tableList, addressList } from "./constant.js";
+import uploadPicture from "../../components/uploadPicture.vue";
 const form = ref(null);
 const store = useStore();
 const router = useRouter();
@@ -70,41 +87,16 @@ const router = useRouter();
 const formData = reactive({
   name: "",
   address: "",
+  time: "",
+  file: [],
 });
 
-const addressList = reactive([
-  {
-    value: "Option1",
-    label: "Option1",
-  },
-  {
-    value: "Option2",
-    label: "Option2",
-  },
-  {
-    value: "Option3",
-    label: "Option3",
-  },
-  {
-    value: "Option4",
-    label: "Option4",
-  },
-  {
-    value: "Option5",
-    label: "Option5",
-  },
-]);
 const rules = reactive({
   name: [{ required: true, message: "请填写货主名", trigger: "blur" }],
   address: [{ required: true, message: "请填写地址", trigger: "blur" }],
+  time: [{ required: true, message: "请填写时间", trigger: "blur" }],
 });
-const handleaddress = (item) => {};
-const handleclick = () => {
-  form.value.validate(async (value) => {
-    if (value) {
-    }
-  });
-};
+const handleclick = () => {};
 </script>
 
 
@@ -115,6 +107,9 @@ const handleclick = () => {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  .table {
+    margin-bottom: 8px;
+  }
   .footer {
     margin: 0 auto;
   }

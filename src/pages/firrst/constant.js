@@ -23,32 +23,48 @@ export const tableList = reactive([
     price: "98.8w",
   },
 ]);
-
+export const addressList = reactive([
+  {
+    value: "Option1",
+    label: "Option1",
+  },
+  {
+    value: "Option2",
+    label: "Option2",
+  },
+  {
+    value: "Option3",
+    label: "Option3",
+  },
+  {
+    value: "Option4",
+    label: "Option4",
+  },
+  {
+    value: "Option5",
+    label: "Option5",
+  },
+]);
 export const columnList = [
   {
     label: "车辆名",
     prop: "car",
-    width: 170,
   },
   {
     label: "级别",
     prop: "xh",
-    width: 170,
   },
   {
     label: "重量",
     prop: "size",
-    width: 170,
   },
   {
     label: "颜色",
     prop: "color",
-    width: 170,
     formatter: (row) => `${row.color}--颜色`,
   },
   {
     label: "价格",
     prop: "price",
-    width: 170,
   },
 ];
