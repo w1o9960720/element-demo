@@ -2,7 +2,7 @@
   <div class="form">
     <el-form
       ref="form"
-      size="large"
+      size="mini"
       :model="formData"
       :rules="rules"
       label-position="left"
@@ -48,9 +48,21 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row :gutter="24">
+          <el-col :span="6">
+            <el-form-item label="车辆" prop="car">
+              <el-input @click="handlefocus" v-model="formData.car"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </div>
       <div class="table">
-        <el-table border :data="tableList" style="width: 100%">
+        <el-table
+          border
+          :data="tableList"
+          style="width: 100%"
+          :span-method="arraySpanMethod"
+        >
           <el-table-column
             v-for="item in columnList"
             :key="item.prop"
@@ -59,7 +71,7 @@
             <template v-if="item.prop === 'color'" #default="{ row }">
               <el-tag type="warn">删除</el-tag>
             </template>
-            <template v-if="item.prop === 'price'" #default="{ row }">
+            <template v-else-if="item.prop === 'price'" #default="{ row }">
               <el-tag type="success">添加</el-tag>
             </template>
           </el-table-column>
@@ -67,10 +79,11 @@
       </div>
     </el-form>
     <div class="footer">
-      <el-button size="large" @click="handleclick" type="primary"
+      <!-- <el-button size="large" @click="handleclick" type="primary"
         >保存</el-button
-      >
+      > -->
     </div>
+    <Dialog v-model="visible" @confim="handlecomfims"></Dialog>
   </div>
 </template>
 
@@ -80,7 +93,10 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { columnList, tableList, addressList } from "./constant.js";
 import uploadPicture from "../../components/uploadPicture.vue";
+import Dialog from "./components/dialog.vue";
 const form = ref(null);
+const visible = ref(null);
+
 const store = useStore();
 const router = useRouter();
 
@@ -96,7 +112,21 @@ const rules = reactive({
   address: [{ required: true, message: "请填写地址", trigger: "blur" }],
   time: [{ required: true, message: "请填写时间", trigger: "blur" }],
 });
-const handleclick = () => {};
+const handlecomfims = (val) => {
+  console.log("val: ", val);
+};
+const handlefocus = () => {
+  visible.value = true;
+};
+const arraySpanMethod = ({ row, column, rowIndex, columnIndex }) => {
+  // if (rowIndex % 2 === 0) {
+  //   if (columnIndex === 0) {
+  //     return [2, 1];
+  //   } else if (columnIndex === 1) {
+  //     return [0, 0];
+  //   }
+  // }
+};
 </script>
 
 

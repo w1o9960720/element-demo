@@ -5,8 +5,6 @@ const importRoutes = Object.values(modules)
   .map((item) => item.default)
   .flat()
   .filter((v) => v);
-console.log("importRoutes: ", importRoutes);
-
 const routes = [
   {
     path: "/",
@@ -27,6 +25,6 @@ const routes = [
       import(/* webpackChunkName: "login" */ "@/pages/login/index.vue"),
   },
 ];
-console.log('routes: ', routes);
+console.log("routes: ", routes);
 
 export default routes;

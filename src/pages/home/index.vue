@@ -13,8 +13,15 @@
             <div>{{ item.name }}</div>
           </li>
         </div>
+        <div class="search">
+          <el-input v-model="keywords">
+            <template #append>
+              <el-button :icon="Search" />
+            </template>
+          </el-input>
+        </div>
         <div class="right">
-          <el-button type="primary" @click="handleout">退出登录</el-button>
+          <el-button type="primary" @click="handleout">退出页面</el-button>
           <el-button type="primary" @click="handletarget">跳转新页面</el-button>
         </div>
       </div>
@@ -32,6 +39,7 @@ import { useRouter } from "vue-router";
 
 const store = useStore();
 const router = useRouter();
+const keywords = ref("");
 const menuList = reactive([
   {
     name: "货主",
@@ -41,6 +49,10 @@ const menuList = reactive([
     name: "车辆",
     url: "/home/car",
   },
+  // {
+  //   name: "搜索",
+  //   url: "/home/search",
+  // },
 ]);
 const handleout = async () => {
   await store.dispatch("out");
@@ -74,6 +86,11 @@ const handletarget = () => {
     align-items: center;
     justify-content: space-between;
     .left {
+    }
+    .search {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .menu {
       display: flex;

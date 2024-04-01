@@ -5,7 +5,7 @@
       size="large"
       :model="formData"
       :rules="rules"
-      label-position="left"
+      label-position="right"
     >
       <el-row :gutter="24">
         <el-col :span="6">
@@ -13,6 +13,8 @@
             <el-input v-model="formData.name"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="24">
         <el-col :span="6">
           <el-form-item label="密码" prop="password">
             <el-input type="password" v-model="formData.password"></el-input>

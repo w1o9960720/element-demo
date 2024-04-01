@@ -68,3 +68,26 @@ export const columnList = [
     prop: "price",
   },
 ];
+export const dialogcolumnList = [
+  {
+    label: "车辆名",
+    prop: "car",
+  },
+  {
+    label: "级别",
+    prop: "xh",
+  },
+  {
+    label: "重量",
+    prop: "size",
+  },
+  {
+    label: "颜色",
+    prop: "color",
+    formatter: (row) => `${row.color}--颜色`,
+  },
+  {
+    label: "价格",
+    prop: "price",
+  },
+];

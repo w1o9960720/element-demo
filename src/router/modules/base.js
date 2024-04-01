@@ -1,4 +1,3 @@
-
 export default [
   {
     path: "/home/suppler",
@@ -9,5 +8,10 @@ export default [
     path: "/home/car",
     name: "车辆",
     component: () => import("@/pages/second/index.vue"),
+  },
+  {
+    path: "/home/search",
+    name: "搜索",
+    component: () => import("@/pages/search/index.vue"),
   },
 ];

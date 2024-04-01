@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
     "axios": "^1.6.8",
     "element-plus": "^2.0.0",
     "lodash": "^4.17.21",
@@ -30,7 +31,7 @@
     "xe-utils": "2.7.8"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.0.4",
+    "@vitejs/plugin-vue": "^4.0.0",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.27",
     "postcss-html": "^1.2.0",
