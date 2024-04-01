@@ -96,6 +96,9 @@ const handletarget = () => {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      .menu-item {
+        padding: 0px 2px;
+      }
     }
     .right {
     }

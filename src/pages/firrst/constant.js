@@ -2,6 +2,7 @@ import { reactive, ref } from "vue";
 
 export const tableList = reactive([
   {
+    id: "1",
     car: "轿车",
     xh: "B级",
     size: "1.8吨",
@@ -9,6 +10,7 @@ export const tableList = reactive([
     price: "18.8w",
   },
   {
+    id: "2",
     car: "轿车",
     xh: "c级",
     size: "1.8吨",
@@ -16,6 +18,7 @@ export const tableList = reactive([
     price: "38.8w",
   },
   {
+    id: "3",
     car: "轿车",
     xh: "d级",
     size: "2吨",
@@ -47,6 +50,10 @@ export const addressList = reactive([
 ]);
 export const columnList = [
   {
+    type: "selection",
+    with: 50,
+  },
+  {
     label: "车辆名",
     prop: "car",
   },
@@ -66,6 +73,11 @@ export const columnList = [
   {
     label: "价格",
     prop: "price",
+  },
+  {
+    label: "操作",
+    prop: "fixed",
+    fixed: "right",
   },
 ];
 export const dialogcolumnList = [

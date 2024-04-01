@@ -22,9 +22,6 @@
         <template v-if="item.prop === 'color'" #default="{ row }">
           <el-tag type="warn">删除</el-tag>
         </template>
-        <template v-if="item.prop === 'price'" #default="{ row }">
-          <el-tag type="success">添加</el-tag>
-        </template>
       </el-table-column>
     </el-table>
 
