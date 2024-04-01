@@ -1,0 +1,113 @@
+// 全局变量
+// @import './variables.scss';
+// // ele样式覆盖
+// @import './element-ui.scss';
+// // 顶部右侧显示
+// @import './top.scss';
+// // 导航标签
+// @import './tags.scss';
+// // 工具类函数
+// @import './mixin.scss';
+// // 侧面导航栏
+// @import './sidebar.scss';
+// // 动画
+// @import './animate/vue-transition.scss';
+// //主题
+// @import './theme/index.scss';
+// //适配
+// @import './media.scss';
+// //通用配置
+// @import './normalize.scss';
+//字体
+// @import './font.css';
+// @import './font2.css';
+// @import './tailwind.css';
+
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+* {
+  outline: none;
+  box-sizing: border-box;
+}
+
+// 关于 图标 CSS 的设置
+[class^='icon-'] {
+  font-family: 'iconfont' !important;
+  /* 以下内容参照第三方图标库本身的规则 */
+  font-size: 18px !important;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.el-menu-item [class^='icon-'] {
+  margin-right: 5px;
+  width: 24px;
+  text-align: center;
+  font-size: 18px;
+  vertical-align: middle;
+}
+
+.el-submenu [class^='icon-'] {
+  vertical-align: middle;
+  margin-right: 5px;
+  width: 24px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.yun-pro-form .el-row,
+.el-form .el-row {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.wk-text-left .el-form-item__label {
+  text-align: left;
+}
+.yun-pro-form-item.wk-text-left {
+  margin-bottom: 0 !important;
+}
+
+.el-button {
+  background: var(--el-button-bg-color, var(--el-color-white));
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #0003;
+  border-radius: 10px;
+  transition: all 0.2s ease-in-out;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  cursor: pointer;
+  background-color: #0000004d;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #fff3;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: #fff6;
+}
+.wk-required:before {
+  content: '*';
+  color: var(--el-color-danger);
+  margin-right: 4px;
+}
