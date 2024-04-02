@@ -76,6 +76,9 @@
               <el-button @click="handleEidt(row)" type="success" size="small"
                 >编辑</el-button
               >
+              <el-button @click="handleDetail(row)" type="primary" size="small"
+                >详情</el-button
+              >
               <el-button @click="handleDelete(row)" type="danger" size="small"
                 >删除</el-button
               >
@@ -92,6 +95,7 @@
     </div>
     <Dialog v-model="visible" @confim="handlecomfims"></Dialog>
     <editDialog ref="forme" @confirm="handlecomfimss"></editDialog>
+    <Detail v-model="visible1" :data="item"></Detail>
   </div>
 </template>
 
@@ -101,21 +105,26 @@ import { useRouter } from "vue-router";
 import { columnList, tableList, addressList } from "./constant.js";
 import Dialog from "./components/dialog.vue";
 import editDialog from "./components/editDialog.vue";
+import Detail from "./components/detail.vue";
+
 import init from "./usehook.js";
 import Pagenation from "@/components/Pagination/index.vue";
 import initForm from "./useForm.js";
 
-const { form, forme, visible, total, item, rules, page, formData } = initForm();
+const { form, forme, visible, visible1, total, item, rules, page, formData } =
+  initForm();
 const {
   handlecomfims,
   handleadd,
   handlefocus,
   handleEidt,
   handlecomfimss,
+  handleDetail,
   handleDelete,
   handlesearch,
 } = init({
   visible,
+  visible1,
   tableList,
   item,
   formData,

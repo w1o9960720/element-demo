@@ -4,6 +4,8 @@ export default () => {
   const form = ref(null);
   const forme = ref(null);
   const visible = ref(null);
+  const visible1 = ref(null);
+
   const total = ref(100);
   const item = ref({});
   const formData = reactive({
@@ -26,6 +28,7 @@ export default () => {
   return {
     form,
     visible,
+    visible1,
     total,
     item,
     rules,

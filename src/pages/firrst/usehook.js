@@ -1,6 +1,14 @@
 import { ElMessage } from "element-plus";
 
-export default ({ visible, item, formData, page, forme, tableList }) => {
+export default ({
+  visible,
+  visible1,
+  item,
+  formData,
+  page,
+  forme,
+  tableList,
+}) => {
   const handlecomfims = (val) => {
     console.log("val: ", val);
   };
@@ -22,6 +30,10 @@ export default ({ visible, item, formData, page, forme, tableList }) => {
   const handleEidt = (row) => {
     forme.value.show(row);
   };
+  const handleDetail = (row) => {
+    visible1.value = true;
+    item.value = row;
+  };
   const handleDelete = (row) => {
     let index = tableList.findIndex((item) => item.id === row.id);
     tableList.splice(index, 1);
@@ -41,6 +53,7 @@ export default ({ visible, item, formData, page, forme, tableList }) => {
     handleadd,
     handleDelete,
     handlefocus,
+    handleDetail,
     handleEidt,
     handlesearch,
   };

@@ -97,6 +97,7 @@ import { reactive, ref, computed, toRefs, watch, nextTick } from "vue";
 import uploadPicture from "../../../components/uploadPicture.vue";
 import { levelList } from "../constant";
 import { ElMessage } from "element-plus";
+import dayjs from "dayjs";
 const form = ref(null);
 const forma = {
   id: "",
@@ -146,7 +147,7 @@ const show = (row) => {
 const handleconfim = () => {
   form.value.validate((value) => {
     if (value) {
-      const { id } = formData;
+      const { id, time, ...rest } = formData;
       if (id) {
         ElMessage({
           message: "编辑成功",
@@ -158,7 +159,14 @@ const handleconfim = () => {
           type: "success",
         });
       }
-      emit("confirm", formData);
+      const data = {
+        id,
+        time: dayjs(time).format("YYYY:MM:HH"),
+        ...rest,
+      };
+      console.log("data: ", data);
+
+      emit("confirm", data);
       visible.value = false;
     } else {
       console.log("value: ", value);
