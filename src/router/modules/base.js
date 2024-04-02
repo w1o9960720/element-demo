@@ -14,4 +14,9 @@ export default [
     name: "搜索",
     component: () => import("@/pages/search/index.vue"),
   },
+  {
+    path: "/home/echarts",
+    name: "搜索",
+    component: () => import("@/pages/echarts/index.vue"),
+  },
 ];

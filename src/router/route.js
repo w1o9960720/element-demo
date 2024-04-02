@@ -25,6 +25,5 @@ const routes = [
       import(/* webpackChunkName: "login" */ "@/pages/login/index.vue"),
   },
 ];
-console.log("routes: ", routes);
 
 export default routes;

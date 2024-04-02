@@ -36,6 +36,7 @@
 <script setup>
 import { reactive, ref, computed } from "vue";
 import { dialogcolumnList, tableList, addressList } from "../constant.js";
+
 const selectList = ref([]);
 const props = defineProps({
   modelValue: {
