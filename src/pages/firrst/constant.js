@@ -3,27 +3,30 @@ import { reactive, ref } from "vue";
 export const tableList = reactive([
   {
     id: "1",
-    car: "轿车",
-    xh: "B级",
-    size: "1.8吨",
+    name: "轿车",
+    level: "B级",
+    weight: "1.8吨",
     color: "黑色",
     price: "18.8w",
+    time: "2024-09-08",
   },
   {
     id: "2",
-    car: "轿车",
-    xh: "c级",
-    size: "1.8吨",
+    name: "轿车",
+    level: "c级",
+    weight: "1.8吨",
     color: "白色",
     price: "38.8w",
+    time: "2024-09-28",
   },
   {
     id: "3",
-    car: "轿车",
-    xh: "d级",
-    size: "2吨",
+    name: "轿车",
+    level: "d级",
+    weight: "2吨",
     color: "黑色",
     price: "98.8w",
+    time: "2024-09-18",
   },
 ]);
 export const addressList = reactive([
@@ -48,6 +51,28 @@ export const addressList = reactive([
     label: "Option5",
   },
 ]);
+export const levelList = reactive([
+  {
+    value: "A",
+    label: "A级",
+  },
+  {
+    value: "B",
+    label: "B级",
+  },
+  {
+    value: "C",
+    label: "C级",
+  },
+  {
+    value: "D",
+    label: "D级",
+  },
+  {
+    value: "D+",
+    label: "D+级",
+  },
+]);
 export const columnList = [
   {
     type: "selection",
@@ -55,15 +80,15 @@ export const columnList = [
   },
   {
     label: "车辆名",
-    prop: "car",
+    prop: "name",
   },
   {
     label: "级别",
-    prop: "xh",
+    prop: "level",
   },
   {
     label: "重量",
-    prop: "size",
+    prop: "weight",
   },
   {
     label: "颜色",

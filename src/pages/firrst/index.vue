@@ -10,8 +10,8 @@
       <div class="filterForm">
         <el-row :gutter="24">
           <el-col :span="6">
-            <el-form-item label="货主" prop="name">
-              <el-input v-model="formData.name"></el-input>
+            <el-form-item label="级别" prop="level">
+              <el-input v-model="formData.level"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -33,11 +33,7 @@
           </el-col> -->
           <el-col :span="6">
             <el-form-item label="地址" prop="address">
-              <el-select
-                v-model="formData.address"
-                filterable
-                @change="handleaddress"
-              >
+              <el-select v-model="formData.address" filterable>
                 <el-option
                   v-for="(item, index) in addressList"
                   :key="index"
@@ -74,11 +70,14 @@
             v-bind="item"
           >
             <template v-if="item.prop === 'color'" #default="{ row }">
-              <el-tag type="warn">删除</el-tag>
+              <el-tag type="success">{{ row.color }}</el-tag>
             </template>
             <template v-else-if="item.fixed === 'right'" #default="{ row }">
               <el-button @click="handleEidt(row)" type="success" size="small"
                 >编辑</el-button
+              >
+              <el-button @click="handleDelete(row)" type="danger" size="small"
+                >删除</el-button
               >
             </template>
           </el-table-column>
@@ -92,64 +91,36 @@
       > -->
     </div>
     <Dialog v-model="visible" @confim="handlecomfims"></Dialog>
-    <editDialog
-      :data="item"
-      v-model="visible1"
-      @confim="handlecomfimss"
-      :isEdit="isEdit"
-    ></editDialog>
+    <editDialog ref="forme" @confirm="handlecomfimss"></editDialog>
   </div>
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { columnList, tableList, addressList } from "./constant.js";
-import uploadPicture from "../../components/uploadPicture.vue";
 import Dialog from "./components/dialog.vue";
 import editDialog from "./components/editDialog.vue";
 import init from "./usehook.js";
 import Pagenation from "@/components/Pagination/index.vue";
-const store = useStore();
-const router = useRouter();
-const form = ref(null);
-const visible = ref(null);
-const visible1 = ref(null);
-const isEdit = ref(false);
+import initForm from "./useForm.js";
 
-const total = ref(100);
-const item = ref(null);
-const formData = reactive({
-  name: "",
-  address: "",
-  time: "",
-  // file: [],
-});
-const page = reactive({
-  page: "",
-  size: "",
-});
-const rules = reactive({
-  name: [{ required: true, message: "请填写货主名", trigger: "blur" }],
-  address: [{ required: true, message: "请填写地址", trigger: "blur" }],
-  time: [{ required: true, message: "请填写时间", trigger: "blur" }],
-});
-
+const { form, forme, visible, total, item, rules, page, formData } = initForm();
 const {
   handlecomfims,
   handleadd,
   handlefocus,
   handleEidt,
   handlecomfimss,
+  handleDelete,
   handlesearch,
 } = init({
   visible,
-  visible1,
+  tableList,
   item,
   formData,
+  forme,
   page,
-  isEdit,
 });
 
 const arraySpanMethod = ({ row, column, rowIndex, columnIndex }) => {};
