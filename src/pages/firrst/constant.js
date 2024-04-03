@@ -4,7 +4,7 @@ export const tableList = reactive([
   {
     id: "1",
     name: "轿车",
-    level: "B级",
+    level: "B",
     weight: "1.8吨",
     color: "黑色",
     price: "18.8w",
@@ -13,7 +13,7 @@ export const tableList = reactive([
   {
     id: "2",
     name: "轿车",
-    level: "c级",
+    level: "C",
     weight: "1.8吨",
     color: "白色",
     price: "38.8w",
@@ -22,7 +22,70 @@ export const tableList = reactive([
   {
     id: "3",
     name: "轿车",
-    level: "d级",
+    level: "D",
+    weight: "2吨",
+    color: "黑色",
+    price: "98.8w",
+    time: "2024-09-18",
+  },
+  {
+    id: "4",
+    name: "轿车",
+    level: "B",
+    weight: "1.8吨",
+    color: "黑色",
+    price: "18.8w",
+    time: "2024-09-08",
+  },
+  {
+    id: "5",
+    name: "轿车",
+    level: "C",
+    weight: "1.8吨",
+    color: "白色",
+    price: "38.8w",
+    time: "2024-09-28",
+  },
+  {
+    id: "6",
+    name: "轿车",
+    level: "D",
+    weight: "2吨",
+    color: "黑色",
+    price: "98.8w",
+    time: "2024-09-18",
+  },
+  {
+    id: "7",
+    name: "轿车",
+    level: "B",
+    weight: "1.8吨",
+    color: "黑色",
+    price: "18.8w",
+    time: "2024-09-08",
+  },
+  {
+    id: "8",
+    name: "轿车",
+    level: "C",
+    weight: "1.8吨",
+    color: "白色",
+    price: "38.8w",
+    time: "2024-09-28",
+  },
+  {
+    id: "9",
+    name: "轿车",
+    level: "D",
+    weight: "2吨",
+    color: "黑色",
+    price: "98.8w",
+    time: "2024-09-18",
+  },
+  {
+    id: "10",
+    name: "轿车",
+    level: "D",
     weight: "2吨",
     color: "黑色",
     price: "98.8w",
@@ -85,6 +148,8 @@ export const columnList = [
   {
     label: "级别",
     prop: "level",
+    formatter: (row) =>
+      levelList.find(({ value }) => row.level === value)?.label || "--",
   },
   {
     label: "重量",
@@ -108,15 +173,15 @@ export const columnList = [
 export const dialogcolumnList = [
   {
     label: "车辆名",
-    prop: "car",
+    prop: "name",
   },
   {
     label: "级别",
-    prop: "xh",
+    prop: "level",
   },
   {
     label: "重量",
-    prop: "size",
+    prop: "weight",
   },
   {
     label: "颜色",

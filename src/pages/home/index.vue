@@ -1,66 +1,95 @@
 <template>
-  <div>
-    <div class="home">
-      <Header></Header>
-      <div class="content">
-        <router-view></router-view>
-      </div>
-    </div>
+  <div class="common-layout">
+    <el-container>
+      <el-header>
+        <Header></Header>
+      </el-header>
+      <el-container>
+        <el-aside width="200px"><Aside :menu="menuTree"></Aside></el-aside>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
 <script setup>
 import { reactive, ref } from "vue";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
 import Header from "../../layout/header.vue";
-const store = useStore();
-const router = useRouter();
-const keywords = ref("");
-const menuList = reactive([
+import Aside from "../../layout/aside.vue";
+let menuTree = reactive([]);
+const treeArray = [
   {
-    name: "表单",
-    url: "/home/suppler",
+    pid: 0,
+    id: 1,
+    label: "用户管理",
+    path: "1-1",
   },
   {
-    name: "车辆",
-    url: "/home/car",
+    pid: 0,
+    id: 8,
+    label: "成本管理",
+    path: "1-6",
   },
   {
-    name: "图表",
-    url: "/home/echarts",
+    pid: 8,
+    id: 9,
+    label: "车辆成本管理",
+    path: "1-9",
   },
-]);
-const handleout = async () => {
-  await store.dispatch("out");
-  window.location.reload();
-};
-const handlemenu = async (item) => {
-  router.push({
-    path: item.url,
+  {
+    pid: 0,
+    id: 2,
+    label: "车辆管理",
+    path: "/home/suppler",
+  },
+  {
+    pid: 2,
+    id: 3,
+    label: "轿车管理",
+    path: "/home/echarts",
+  },
+  {
+    pid:2,
+    id: 4,
+    label: "汽车配件管理",
+    path: "/home/car",
+  },
+  {
+    pid: 1,
+    id: 5,
+    label: "添加用户",
+    path: "1-2",
+  },
+  {
+    pid: 1,
+    id: 6,
+    label: "修改用户",
+    path: "1-3",
+  },
+  {
+    pid: 0,
+    id: 7,
+    label: "其他",
+    path: "1-4",
+  },
+];
+
+const toTree = (list, id = 0) => {
+  let newArr = list.filter((item) => item.pid === id);
+  newArr.forEach((item) => {
+    item.children = toTree(list, item.id);
   });
+  return newArr;
 };
-const handletarget = () => {
-  const routeUrl = router.resolve({
-    path: "/login",
-    query: { id: "row.id " },
-  });
-  window.open(routeUrl.href, "_blank");
-};
+menuTree = toTree(treeArray);
 </script>
 
 
 
 <style lang="scss" scoped>
-.home {
-  // max-width: 1280px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  .content {
-    flex: 1;
-    width: 1280px;
-    margin: 0 auto;
-  }
+.el-header {
+  background: beige;
 }
 </style>

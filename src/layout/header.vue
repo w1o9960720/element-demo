@@ -71,11 +71,11 @@ const handletarget = () => {
 
 <style lang="scss" scoped>
 .h {
-  background: slategrey;
+  // background: slategrey;
   margin-bottom: 8px;
   width: 100%;
   .header {
-    width: 1280px;
+    width: 100%;
     margin: 0 auto;
     height: 50px;
     display: flex;

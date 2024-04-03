@@ -100,8 +100,6 @@
 </template>
 
 <script setup>
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
 import { columnList, tableList, addressList } from "./constant.js";
 import Dialog from "./components/dialog.vue";
 import editDialog from "./components/editDialog.vue";
