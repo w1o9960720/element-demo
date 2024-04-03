@@ -16,7 +16,12 @@ export default [
   },
   {
     path: "/home/echarts",
-    name: "搜索",
+    name: "图表",
     component: () => import("@/pages/echarts/index.vue"),
+  },
+  {
+    path: "/home/test",
+    name: "测试",
+    component: () => import("@/pages/test/index.vue"),
   },
 ];

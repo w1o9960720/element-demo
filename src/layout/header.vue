@@ -48,6 +48,10 @@ const menuList = reactive([
     name: "图表",
     url: "/home/echarts",
   },
+  {
+    name: "测试",
+    url: "/home/test",
+  },
 ]);
 const handleout = async () => {
   await store.dispatch("out");
