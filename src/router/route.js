@@ -12,6 +12,9 @@ const routes = [
     redirect: "/home",
     component: home,
     children: importRoutes,
+    meta:{
+      title:"首页"
+    }
   },
   {
     path: "/home",
@@ -23,6 +26,12 @@ const routes = [
     name: "登录",
     component: () =>
       import(/* webpackChunkName: "login" */ "@/pages/login/index.vue"),
+  },
+  {
+    path: "/:catchAll(.*)",
+    name: "404",
+    component: () =>
+      import(/* webpackChunkName: "login" */ "@/pages/unmatch/404.vue"),
   },
 ];
 

@@ -59,7 +59,7 @@
       </div>
       <div class="table">
         <el-table
-          border
+          height="450px"
           :data="tableList"
           style="width: 100%"
           :span-method="arraySpanMethod"

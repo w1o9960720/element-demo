@@ -1,21 +1,21 @@
 <template>
-  <div class="form">
+  <div class="login">
     <el-form
       ref="form"
-      size="large"
       :model="formData"
       :rules="rules"
+      style="width: 30%"
       label-position="right"
     >
-      <el-row :gutter="24">
-        <el-col :span="6">
+      <el-row>
+        <el-col :span="24">
           <el-form-item label="用户名" prop="name">
             <el-input v-model="formData.name"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row :gutter="24">
-        <el-col :span="6">
+      <el-row>
+        <el-col :span="24">
           <el-form-item label="密码" prop="password">
             <el-input type="password" v-model="formData.password"></el-input>
           </el-form-item>
@@ -63,13 +63,19 @@ const handleclick = () => {
 
 
 <style lang="scss" scoped>
-.form {
-  max-width: 1280px;
+.login {
+  width: 1280px;
+  height: 100vh;
   margin: 0 auto;
+  padding: 5px 60px;
   display: flex;
   flex-direction: column;
-  .footer {
-    margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  .form {
+    .footer {
+      margin: 0 auto;
+    }
   }
 }
 </style>

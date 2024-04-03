@@ -7,7 +7,19 @@
       <el-container>
         <el-aside width="200px"><Aside :menu="menuTree"></Aside></el-aside>
         <el-main>
-          <router-view></router-view>
+          <div style="margin-bottom: 8px">
+            <el-breadcrumb>
+              <el-breadcrumb-item
+                :key="item"
+                v-for="item in route.matched"
+                :to="{ path: item.path }"
+                >{{ item.meta.title }}
+              </el-breadcrumb-item>
+            </el-breadcrumb>
+          </div>
+          <transition name="hide">
+            <router-view></router-view>
+          </transition>
         </el-main>
       </el-container>
     </el-container>
@@ -18,6 +30,11 @@
 import { reactive, ref } from "vue";
 import Header from "../../layout/header.vue";
 import Aside from "../../layout/aside.vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+console.log("route: ", route.matched);
+
 let menuTree = reactive([]);
 const treeArray = [
   {
@@ -25,12 +42,13 @@ const treeArray = [
     id: 1,
     label: "用户管理",
     path: "1-1",
+    url: "",
   },
   {
     pid: 0,
     id: 8,
     label: "成本管理",
-    path: "1-6",
+    path: "/home/suppler",
   },
   {
     pid: 8,
@@ -72,7 +90,7 @@ const treeArray = [
     pid: 0,
     id: 7,
     label: "其他",
-    path: "1-4",
+    path: "/home/suppler",
   },
 ];
 
@@ -90,6 +108,23 @@ menuTree = toTree(treeArray);
 
 <style lang="scss" scoped>
 .el-header {
-  background: beige;
+  background: darkseagreen;
+}
+.hide-enter-active {
+  animation: scsle-in 0.2s;
+}
+
+.hide-leave-active {
+  animation: scsle-in 0.2s reverse;
+}
+@keyframes scsle-in {
+  0% {
+    transform: translate(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(0%);
+    opacity: 1;
+  }
 }
 </style>
