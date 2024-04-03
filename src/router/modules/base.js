@@ -53,6 +53,6 @@ export default [
     meta: {
       title: "人员管理",
     },
-    component: () => import("@/pages/third/index.vue"),
+    component: () => import("@/pages/four/index.vue"),
   },
 ];
