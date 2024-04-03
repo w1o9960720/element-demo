@@ -18,7 +18,7 @@
         <el-row :gutter="4">
           <el-col :span="12">
             <el-form-item label="车辆名" prop="name">
-              <el-input v-model="formData.name"></el-input>
+              <el-input :disabled="isEdit" v-model="formData.name"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -131,12 +131,15 @@ const props = defineProps({
 });
 const emit = defineEmits(["update:modelValue", "confirm"]);
 const visible = ref(false);
+const isEdit = ref(false);
 
 const show = (row) => {
   visible.value = true;
   if (row) {
+    isEdit.value = true;
     Object.assign(formData, row);
   } else {
+    isEdit.value = false;
     nextTick(() => {
       form.value?.resetFields?.();
       Object.assign(formData, forma);

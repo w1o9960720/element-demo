@@ -104,10 +104,21 @@ import { columnList, tableList, addressList } from "./constant.js";
 import Dialog from "./components/dialog.vue";
 import editDialog from "./components/editDialog.vue";
 import Detail from "./components/detail.vue";
-
+import { keyBy, groupBy } from "lodash";
 import init from "./usehook.js";
 import Pagenation from "@/components/Pagination/index.vue";
 import initForm from "./useForm.js";
+
+// var array = [
+//   { dir: "left", code: 97 },
+//   { dir: "right", code: 100 },
+//   { dir: "left", code: 97 },
+//   { dir: "right", code: 60 },
+//   { dir: "left", code: 97 },
+//   { dir: "right", code: 60 },
+// ];
+// console.log('keyBy(array, "dir"): ', keyBy(array, "code"));
+// console.log('keyBy(array, "dir"): ', groupBy(array, "dir"));
 
 const { form, forme, visible, visible1, total, item, rules, page, formData } =
   initForm();

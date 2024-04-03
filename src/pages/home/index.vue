@@ -51,7 +51,7 @@ const treeArray = [
     path: "/home/echarts",
   },
   {
-    pid:2,
+    pid: 2,
     id: 4,
     label: "汽车配件管理",
     path: "/home/car",
