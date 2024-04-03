@@ -3,7 +3,7 @@ export default [
     path: "/home/suppler",
     name: "货主",
     meta: {
-      title: "货主",
+      title: "货主管理",
     },
     component: () => import("@/pages/firrst/index.vue"),
   },
@@ -11,7 +11,7 @@ export default [
     path: "/home/car",
     name: "车辆",
     meta: {
-      title: "车辆",
+      title: "车辆管理",
     },
     component: () => import("@/pages/second/index.vue"),
   },
@@ -38,5 +38,21 @@ export default [
       title: "测试",
     },
     component: () => import("@/pages/test/index.vue"),
+  },
+  {
+    path: "/home/third",
+    name: "能源管理",
+    meta: {
+      title: "能源管理",
+    },
+    component: () => import("@/pages/third/index.vue"),
+  },
+  {
+    path: "/home/four",
+    name: "人员管理",
+    meta: {
+      title: "人员管理",
+    },
+    component: () => import("@/pages/third/index.vue"),
   },
 ];

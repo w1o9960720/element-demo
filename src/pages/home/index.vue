@@ -51,12 +51,6 @@ const treeArray = [
     path: "/home/suppler",
   },
   {
-    pid: 8,
-    id: 9,
-    label: "车辆成本管理",
-    path: "1-9",
-  },
-  {
     pid: 0,
     id: 2,
     label: "车辆管理",
@@ -75,16 +69,16 @@ const treeArray = [
     path: "/home/car",
   },
   {
-    pid: 1,
-    id: 5,
-    label: "添加用户",
-    path: "1-2",
+    pid: 8,
+    id: 18,
+    label: "能源管理",
+    path: "/home/third",
   },
   {
     pid: 1,
-    id: 6,
-    label: "修改用户",
-    path: "1-3",
+    id: 18,
+    label: "人员管理",
+    path: "/home/four",
   },
   {
     pid: 0,
