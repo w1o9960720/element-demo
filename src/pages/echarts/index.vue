@@ -42,7 +42,7 @@
     <div class="echarts">
       <lineCharts
         :option="option"
-        :style="{ width: '100% ', height: '300px' }"
+        :style="{ width: '100% ', height: '90vh' }"
       ></lineCharts>
     </div>
   </div>
@@ -157,43 +157,43 @@ const handlefilter = () => {
 };
 const getDataInfo = async () => {
   datainfo = await getDataApi();
-  let params = {
-    xAxis: {
-      type: "category",
-      boundaryGap: false,
-      data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-    },
-    yAxis: {
-      type: "value",
-    },
-    series: [
-      {
-        data: [820, 932, 901, 934, 1290, 1330, 1320],
-        type: "line",
-        areaStyle: {},
-      },
-    ],
-  };
   // let params = {
-  //   title: {
-  //     text: "车辆销量",
-  //   },
-  //   tooltip: {},
-  //   legend: {
-  //     data: ["销量"],
-  //   },
   //   xAxis: {
-  //     data: datainfo.map(({ barnd }) => barnd),
+  //     type: "category",
+  //     boundaryGap: false,
+  //     data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
   //   },
-  //   yAxis: {},
+  //   yAxis: {
+  //     type: "value",
+  //   },
   //   series: [
   //     {
-  //       name: "销量",
-  //       type: "bar",
-  //       data: datainfo.map(({ num }) => num),
+  //       data: [820, 932, 901, 934, 1290, 1330, 1320],
+  //       type: "line",
+  //       areaStyle: {},
   //     },
   //   ],
   // };
+  let params = {
+    title: {
+      text: "车辆销量",
+    },
+    tooltip: {},
+    legend: {
+      data: ["销量"],
+    },
+    xAxis: {
+      data: datainfo.map(({ barnd }) => barnd),
+    },
+    yAxis: {},
+    series: [
+      {
+        name: "销量",
+        type: "bar",
+        data: datainfo.map(({ num }) => num),
+      },
+    ],
+  };
   option.value = params;
 };
 
