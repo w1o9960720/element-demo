@@ -75,6 +75,12 @@ const treeArray = [
     path: "/home/third",
   },
   {
+    pid: 2,
+    id: 38,
+    label: "车辆分类管理",
+    path: "/home/category",
+  },
+  {
     pid: 1,
     id: 18,
     label: "人员管理",

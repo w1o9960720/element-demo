@@ -55,4 +55,12 @@ export default [
     },
     component: () => import("@/pages/four/index.vue"),
   },
+  {
+    path: "/home/category",
+    name: "分类管理",
+    meta: {
+      title: "分类管理",
+    },
+    component: () => import("@/pages/category/index.vue"),
+  },
 ];
