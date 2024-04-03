@@ -51,8 +51,6 @@
         </el-row>
       </div>
       <div class="btn" style="margin-bottom: 8px">
-        <!-- <el-button @click="handleadd" type="primary">查询</el-button>
-        <el-button @click="handleadd" type="primary">重置</el-button> -->
       </div>
       <div class="btn" style="margin-bottom: 8px">
         <el-button @click="handleadd" type="primary">新增</el-button>
