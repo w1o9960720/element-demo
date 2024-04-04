@@ -19,7 +19,7 @@ export default [
   },
   {
     path: "/home/car",
-    name: "成本管理",
+    name: "车辆管理",
     meta: {
       title: "车辆管理",
     },
@@ -49,17 +49,24 @@ export default [
         },
         component: () => import("@/pages/category/index.vue"),
       },
+      {
+        path: "/home/quantites",
+        name: "销量管理",
+        meta: {
+          title: "销量管理",
+        },
+        component: () => import("@/pages/quantites/index.vue"),
+      },
     ],
   },
-
   {
     path: "/home/third",
-    name: "能源管理",
+    name: "品牌管理",
     redirect: "/home/third",
     children: [
       {
         path: "/home/third",
-        name: "能源管理",
+        name: "品牌类型",
         meta: {
           title: "能源管理",
         },

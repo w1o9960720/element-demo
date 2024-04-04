@@ -3,12 +3,13 @@ import { importRoutes } from "../../router/route";
 import { useRouter } from "vue-router";
 import { cloneDeep } from "lodash";
 import { useStorage } from "@vueuse/core";
+import { resetRouter } from "@/router";
 export let tableList = useStorage("menu");
 let menuStorege = JSON.parse(tableList.value);
 const filter = (store, routeTree) => {
   return routeTree.filter((item) => {
-    if(item.children?.length>0){
-      item.children=filter(store,item.children)
+    if (item.children?.length > 0) {
+      item.children = filter(store, item.children);
     }
     return store.includes(item.path);
   });
@@ -39,16 +40,17 @@ const user = {
     },
     getMenu({ commit, dispatch }, role) {
       return new Promise((reslove, reject) => {
-        console.log("role: ", role);
         let userMenu = menuStorege
           .filter((item) => {
             return item.role.split(",").includes(role);
           })
           .map((item) => item.path);
         let menu = filter(userMenu, cloneDeep(importRoutes.value));
-        commit("SET_MENU", importRoutes.value);
+        // console.log("userMenu: ", userMenu);
+        console.log("menu: ", menu);
+        commit("SET_MENU", menu);
         setTimeout(() => {
-          reslove(importRoutes.value);
+          reslove(menu);
         }, 100);
       });
     },
@@ -56,7 +58,10 @@ const user = {
       return new Promise(async (resolve, reject) => {
         setTimeout(async () => {
           localStorage.removeItem("token");
+          localStorage.removeItem("userinfo");
           commit("SET_TOKEN", " ");
+          commit("SET_USER_INFO", " ");
+          resetRouter();
           resolve();
         }, 1500);
       });
