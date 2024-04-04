@@ -10,10 +10,8 @@ export default () => {
   const item = ref({});
   const formData = reactive({
     name: "",
-    address: "",
     time: "",
     level: "",
-    // file: [],
   });
   const page = reactive({
     page: "",

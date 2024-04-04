@@ -1,5 +1,5 @@
 import { ElMessage } from "element-plus";
-
+import { useStorage } from "@vueuse/core";
 export default ({
   visible,
   visible1,
@@ -14,11 +14,11 @@ export default ({
   };
   const handlecomfimss = (val) => {
     const { id } = val;
-    let index = tableList.findIndex((item) => item.id === val.id);
+    let index = tableList.value.findIndex((item) => item.id === val.id);
     if (index < 0) {
-      tableList.push({ ...val, id: `${Math.random()}` });
+      tableList.value.push({ ...val, id: `${Math.random()}` });
     } else {
-      tableList.splice(index, 1, val);
+      tableList.value.splice(index, 1, val);
     }
   };
   const handleadd = () => {
@@ -35,16 +35,17 @@ export default ({
     item.value = row;
   };
   const handleDelete = (row) => {
-    let index = tableList.findIndex((item) => item.id === row.id);
-    tableList.splice(index, 1);
+    let index = tableList.value.findIndex((item) => item.id === row.id);
+    tableList.value.splice(index, 1);
     ElMessage({
       message: "删除成功",
       type: "success",
     });
   };
   const handlesearch = (page, size) => {
-    page.page = page;
-    page.size = size;
+    console.log("page: ", page, size);
+    // page.page = page;
+    // page.size = size;
   };
   return {
     handlecomfims,

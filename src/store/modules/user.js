@@ -2,33 +2,51 @@ import { getUserInfo } from "@/api/user";
 import { importRoutes } from "../../router/route";
 import { useRouter } from "vue-router";
 import { cloneDeep } from "lodash";
-const router = useRouter();
-
+import { useStorage } from "@vueuse/core";
+export let tableList = useStorage("menu");
+let menuStorege = JSON.parse(tableList.value);
+const filter = (store, routeTree) => {
+  return routeTree.filter((item) => {
+    if(item.children?.length>0){
+      item.children=filter(store,item.children)
+    }
+    return store.includes(item.path);
+  });
+};
 const user = {
   state: {
-    userInfo: {},
+    userInfo: JSON.parse(localStorage.getItem("userinfo")),
     token: localStorage.getItem("token"),
     menu: [],
   },
   actions: {
     // 查询用户信息
     GetUserInfo({ commit, dispatch }, data) {
-      console.log("dispatch: ", data);
       return new Promise((resolve, reject) => {
         setTimeout(async () => {
           // let res = await getUserInfo(data);
-          let res = `Beare ${Math.random()}-saddada`;
-          localStorage.setItem("token", res);
-          commit("SET_TOKEN", res);
-          resolve(res);
+          const data = {
+            token: `Beare ${Math.random()}-saddada`,
+            role: "admin",
+          };
+          localStorage.setItem("token", data.token);
+          commit("SET_TOKEN", data.token);
+          localStorage.setItem("userinfo", JSON.stringify(data));
+          commit("SET_USER_INFO", data);
+          resolve(data);
         }, 1500);
       });
     },
-    getMenu({ commit, dispatch }, data) {
+    getMenu({ commit, dispatch }, role) {
       return new Promise((reslove, reject) => {
-        const ApiTree = localStorage.getItem("menuTree") || [];
-        cloneDeep(importRoutes.value);
-        commit("SET_MENU", []);
+        console.log("role: ", role);
+        let userMenu = menuStorege
+          .filter((item) => {
+            return item.role.split(",").includes(role);
+          })
+          .map((item) => item.path);
+        let menu = filter(userMenu, cloneDeep(importRoutes.value));
+        commit("SET_MENU", importRoutes.value);
         setTimeout(() => {
           reslove(importRoutes.value);
         }, 100);

@@ -1,4 +1,6 @@
+import layout from "@/pages/layout/index.vue";
 import home from "@/pages/home/index.vue";
+
 import { ref } from "vue";
 // 批量导入路由
 const modules = import.meta.globEager("./modules/**/*.js");
@@ -8,23 +10,7 @@ export let importRoutes = ref(
     .flat()
     .filter((v) => v)
 );
-
-const routes = [
-  {
-    path: "/",
-    name: "main",
-    redirect: "/home",
-    component: home,
-    children: [],
-    meta: {
-      title: "首页",
-    },
-  },
-  {
-    path: "/home",
-    name: "首页",
-    component: home,
-  },
+const constantRoutes = [
   {
     path: "/login",
     name: "登录",
@@ -37,6 +23,26 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "login" */ "@/pages/unmatch/404.vue"),
   },
+];
+const routes = [
+  {
+    path: "/",
+    name: "layout",
+    redirect: "/home",
+    component: layout,
+    children: [
+      {
+        path: "home",
+        name: "home",
+        component: home,
+        meta: { title: "首页" },
+      },
+    ],
+    meta: {
+      title: "首页",
+    },
+  },
+  ...constantRoutes,
 ];
 
 export default routes;

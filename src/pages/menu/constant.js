@@ -1,97 +1,6 @@
 import { reactive, ref } from "vue";
-
-export const tableList = reactive([
-  {
-    id: "1",
-    name: "轿车",
-    level: "B",
-    weight: "1.8吨",
-    color: "黑色",
-    price: "18.8w",
-    time: "2024-09-08",
-  },
-  {
-    id: "2",
-    name: "轿车",
-    level: "C",
-    weight: "1.8吨",
-    color: "白色",
-    price: "38.8w",
-    time: "2024-09-28",
-  },
-  {
-    id: "3",
-    name: "轿车",
-    level: "D",
-    weight: "2吨",
-    color: "黑色",
-    price: "98.8w",
-    time: "2024-09-18",
-  },
-  {
-    id: "4",
-    name: "轿车",
-    level: "B",
-    weight: "1.8吨",
-    color: "黑色",
-    price: "18.8w",
-    time: "2024-09-08",
-  },
-  {
-    id: "5",
-    name: "轿车",
-    level: "C",
-    weight: "1.8吨",
-    color: "白色",
-    price: "38.8w",
-    time: "2024-09-28",
-  },
-  {
-    id: "6",
-    name: "轿车",
-    level: "D",
-    weight: "2吨",
-    color: "黑色",
-    price: "98.8w",
-    time: "2024-09-18",
-  },
-  {
-    id: "7",
-    name: "轿车",
-    level: "B",
-    weight: "1.8吨",
-    color: "黑色",
-    price: "18.8w",
-    time: "2024-09-08",
-  },
-  {
-    id: "8",
-    name: "轿车",
-    level: "C",
-    weight: "1.8吨",
-    color: "白色",
-    price: "38.8w",
-    time: "2024-09-28",
-  },
-  {
-    id: "9",
-    name: "轿车",
-    level: "D",
-    weight: "2吨",
-    color: "黑色",
-    price: "98.8w",
-    time: "2024-09-18",
-  },
-  {
-    id: "10",
-    name: "轿车",
-    level: "D",
-    weight: "2吨",
-    color: "黑色",
-    price: "98.8w",
-    time: "2024-09-18",
-  },
-]);
+import { useStorage } from "@vueuse/core";
+export let tableList = useStorage("menu", []);
 export const addressList = reactive([
   {
     value: "Option1",
@@ -142,27 +51,20 @@ export const columnList = [
     with: 50,
   },
   {
-    label: "车辆名",
-    prop: "name",
+    label: "菜单名",
+    prop: "label",
   },
   {
-    label: "级别",
-    prop: "level",
-    formatter: (row) =>
-      levelList.find(({ value }) => row.level === value)?.label || "--",
+    label: "路径",
+    prop: "path",
   },
   {
-    label: "重量",
-    prop: "weight",
+    label: "角色",
+    prop: "role",
   },
   {
-    label: "颜色",
-    prop: "color",
-    formatter: (row) => `${row.color}--颜色`,
-  },
-  {
-    label: "价格",
-    prop: "price",
+    label: "icon图标",
+    prop: "icon",
   },
   {
     label: "操作",

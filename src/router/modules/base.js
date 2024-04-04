@@ -1,83 +1,94 @@
 export default [
   {
-    path: "/home/suppler",
-    name: "货主",
+    path: "/home/four",
+    name: "用户管理",
     meta: {
-      title: "货主管理",
-      role: "",
+      title: "用户管理",
     },
-    component: () => import("@/pages/firrst/index.vue"),
+    redirect: "/home/four",
+    children: [
+      {
+        path: "/home/four",
+        name: "人员管理",
+        meta: {
+          title: "人员管理",
+        },
+        component: () => import("@/pages/four/index.vue"),
+      },
+    ],
   },
   {
     path: "/home/car",
-    name: "车辆",
+    name: "成本管理",
     meta: {
       title: "车辆管理",
-      role: "",
     },
-    component: () => import("@/pages/second/index.vue"),
+    redirect: "/home/car",
+    children: [
+      {
+        path: "/home/car",
+        name: "车辆配件",
+        meta: {
+          title: "车辆配件",
+        },
+        component: () => import("@/pages/second/index.vue"),
+      },
+      {
+        path: "/home/echarts",
+        name: "车辆图表",
+        meta: {
+          title: "车辆图表",
+        },
+        component: () => import("@/pages/echarts/index.vue"),
+      },
+      {
+        path: "/home/category",
+        name: "分类管理",
+        meta: {
+          title: "分类管理",
+        },
+        component: () => import("@/pages/category/index.vue"),
+      },
+    ],
   },
-  {
-    path: "/home/search",
-    name: "搜索",
-    meta: {
-      title: "搜索",
-      role: "",
-    },
-    component: () => import("@/pages/search/index.vue"),
-  },
-  {
-    path: "/home/echarts",
-    name: "图表",
-    meta: {
-      title: "图表",
-      role: "",
-    },
-    component: () => import("@/pages/echarts/index.vue"),
-  },
-  {
-    path: "/home/test",
-    name: "测试",
-    meta: {
-      title: "测试",
-      role: "",
-    },
-    component: () => import("@/pages/test/index.vue"),
-  },
+
   {
     path: "/home/third",
     name: "能源管理",
-    meta: {
-      title: "能源管理",
-      role: "",
-    },
-    component: () => import("@/pages/third/index.vue"),
-  },
-  {
-    path: "/home/four",
-    name: "人员管理",
-    meta: {
-      title: "人员管理",
-      role: "",
-    },
-    component: () => import("@/pages/four/index.vue"),
-  },
-  {
-    path: "/home/category",
-    name: "分类管理",
-    meta: {
-      title: "分类管理",
-      role: "",
-    },
-    component: () => import("@/pages/category/index.vue"),
+    redirect: "/home/third",
+    children: [
+      {
+        path: "/home/third",
+        name: "能源管理",
+        meta: {
+          title: "能源管理",
+        },
+        component: () => import("@/pages/third/index.vue"),
+      },
+    ],
   },
   {
     path: "/home/menu",
     name: "菜单管理",
     meta: {
       title: "菜单管理",
-      role: "",
     },
     component: () => import("@/pages/menu/index.vue"),
+    children: [],
+  },
+  {
+    path: "/home/search",
+    name: "搜索",
+    component: () => import("@/pages/search/index.vue"),
+    children: [],
+  },
+  {
+    path: "/home/test",
+    name: "测试",
+    meta: {
+      title: "测试",
+    },
+    component: () => import("@/pages/test/index.vue"),
+    children: [],
   },
 ];

@@ -4,7 +4,7 @@
  */
 import store from "@/store";
 // progress bar style
-import home from "@/pages/home/index.vue";
+import layout from "@/pages/layout/index.vue";
 
 const whiteList = ["trajectory"];
 let flag = false;
@@ -16,15 +16,20 @@ export default (router) => {
     }
     if (store.getters.access_token) {
       if (!flag) {
-        store.dispatch("getMenu").then((res) => {
+        store.dispatch("getMenu", store.getters.role).then((res) => {
           router.addRoute({
             name: "main",
             path: "/",
-            component: home,
+            component: layout,
             children: res,
           });
           flag = true;
-          console.log("获取菜单");
+          next({
+            path: `/${router.currentRoute.value.fullPath}`,
+            replace: true,
+          });
+          // router.replace(router.currentRoute.value.fullPath)
+          console.log("获取菜单", res);
         });
       }
 

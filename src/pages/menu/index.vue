@@ -7,40 +7,20 @@
       :rules="rules"
       label-position="left"
     >
-      <div class="filterForm">
+      <!-- <div class="filterForm">
         <el-row :gutter="24">
           <el-col :span="6">
-            <el-form-item label="级别" prop="level">
-              <el-input v-model="formData.level"></el-input>
+            <el-form-item label="菜单名" prop="level">
+              <el-input v-model="formData.menuname"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="送货时间" prop="time">
+            <el-form-item label="路径名" prop="load">
               <el-date-picker
-                v-model="formData.time"
+                v-model="formData.load"
                 type="datetime"
                 placeholder="选择时间"
               />
-            </el-form-item>
-          </el-col>
-          <!-- <el-col :span="6">
-            <el-form-item label="选择图片" prop="file">
-              <uploadPicture
-                v-model="formData.file"
-                :limit="10"
-              ></uploadPicture>
-            </el-form-item>
-          </el-col> -->
-          <el-col :span="6">
-            <el-form-item label="地址" prop="address">
-              <el-select v-model="formData.address" filterable>
-                <el-option
-                  v-for="(item, index) in addressList"
-                  :key="index"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -49,10 +29,8 @@
             </el-form-item>
           </el-col>
         </el-row>
-      </div>
-      <div class="btn" style="margin-bottom: 8px">
-      </div>
-      <div class="btn" style="margin-bottom: 8px">
+      </div> -->
+      <div class="btn" style="margin: 18px 0px">
         <el-button @click="handleadd" type="primary">新增</el-button>
       </div>
       <div class="table">

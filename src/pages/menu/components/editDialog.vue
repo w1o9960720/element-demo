@@ -17,27 +17,24 @@
       <div class="filterForm">
         <el-row :gutter="4">
           <el-col :span="12">
-            <el-form-item label="车辆名" prop="name">
-              <el-input :disabled="isEdit" v-model="formData.name"></el-input>
+            <el-form-item label="菜单名" prop="label">
+              <el-input v-model="formData.label"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="出厂时间" prop="time">
-              <el-date-picker
-                v-model="formData.time"
-                type="datetime"
-                placeholder="选择时间"
-              />
+            <el-form-item label="路径" prop="path">
+              <el-input v-model="formData.path"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="4">
           <el-col :span="12">
-            <el-form-item label="级别" prop="level">
+            <el-form-item label="上级菜单" prop="topMenu">
               <el-select
-                v-model="formData.level"
+                v-model="formData.topMenu"
                 filterable
                 @change="handleaddress"
+                placeholder="请选择"
               >
                 <el-option
                   v-for="(item, index) in levelList"
@@ -49,39 +46,16 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="重量" prop="weight">
-              <el-input
-                @click="handlefocus"
-                v-model="formData.weight"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="4">
-          <el-col :span="12">
-            <el-form-item label="颜色" prop="color">
-              <el-input v-model="formData.color"></el-input>
+            <el-form-item label="icon图标" prop="icon">
+              <el-input v-model="formData.icon"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="价格" prop="price">
-              <el-input
-                @click="handlefocus"
-                v-model="formData.price"
-              ></el-input>
+            <el-form-item label="角色" prop="role">
+              <el-input v-model="formData.role"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <!-- <el-row :gutter="4">
-          <el-col :span="24">
-            <el-form-item label="选择图片" prop="file">
-              <uploadPicture
-                v-model="formData.file"
-                :limit="10"
-              ></uploadPicture>
-            </el-form-item>
-          </el-col>
-        </el-row> -->
       </div>
     </el-form>
     <template #footer>
@@ -101,26 +75,17 @@ import dayjs from "dayjs";
 const form = ref(null);
 const forma = {
   id: "",
-  name: "",
-  level: "",
-  weight: "",
-  price: "",
-  color: "",
-  time: "",
-  // file: [],
+  label: "",
+  topMenu: "",
+  path: "",
+  icon: "",
+  role: "",
 };
 const formData = reactive({
   ...forma,
 });
 const rules = reactive({
-  name: [{ required: true, message: "请填写货主名", trigger: "blur" }],
-  address: [{ required: true, message: "请填写地址", trigger: "blur" }],
-  time: [{ required: true, message: "请填写时间", trigger: "blur" }],
-  price: [{ required: true, message: "请填", trigger: "blur" }],
-  level: [{ required: true, message: "请填", trigger: "blur" }],
-  color: [{ required: true, message: "请填写", trigger: "blur" }],
-  weight: [{ required: true, message: "请填写", trigger: "blur" }],
-  file: [{ required: true, message: "请填写", trigger: "change" }],
+  label: [{ required: true, message: "请填写菜单名", trigger: "blur" }],
 });
 
 const props = defineProps({
@@ -150,7 +115,7 @@ const show = (row) => {
 const handleconfim = () => {
   form.value.validate((value) => {
     if (value) {
-      const { id, time, ...rest } = formData;
+      const { id, ...rest } = formData;
       if (id) {
         ElMessage({
           message: "编辑成功",
@@ -164,7 +129,6 @@ const handleconfim = () => {
       }
       const data = {
         id,
-        time: dayjs(time).format("YYYY:MM:HH"),
         ...rest,
       };
       console.log("data: ", data);
