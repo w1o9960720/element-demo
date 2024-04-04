@@ -1,20 +1,24 @@
 import home from "@/pages/home/index.vue";
+import { ref } from "vue";
 // 批量导入路由
 const modules = import.meta.globEager("./modules/**/*.js");
-const importRoutes = Object.values(modules)
-  .map((item) => item.default)
-  .flat()
-  .filter((v) => v);
+export let importRoutes = ref(
+  Object.values(modules)
+    .map((item) => item.default)
+    .flat()
+    .filter((v) => v)
+);
+
 const routes = [
   {
     path: "/",
     name: "main",
     redirect: "/home",
     component: home,
-    children: importRoutes,
-    meta:{
-      title:"首页"
-    }
+    children: [],
+    meta: {
+      title: "首页",
+    },
   },
   {
     path: "/home",

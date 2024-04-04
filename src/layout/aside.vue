@@ -3,7 +3,7 @@
     <el-scrollbar>
       <el-menu>
         <template v-for="item in menu" :key="item.id">
-          <el-sub-menu  :index="item.path" v-if="item.children.length > 0">
+          <el-sub-menu :index="item.path" v-if="item.children.length > 0">
             <template #title>
               <el-icon><message /></el-icon>{{ item.label }}
             </template>
@@ -43,7 +43,6 @@ const handlemenu = (item) => {
   });
 };
 const { menu } = toRefs(props);
-console.log("menuArray: ", menu);
 </script>
 
 <style lang="scss" scoped>

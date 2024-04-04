@@ -1,9 +1,14 @@
 import { getUserInfo } from "@/api/user";
+import { importRoutes } from "../../router/route";
+import { useRouter } from "vue-router";
+import { cloneDeep } from "lodash";
+const router = useRouter();
 
 const user = {
   state: {
     userInfo: {},
     token: localStorage.getItem("token"),
+    menu: [],
   },
   actions: {
     // 查询用户信息
@@ -17,6 +22,16 @@ const user = {
           commit("SET_TOKEN", res);
           resolve(res);
         }, 1500);
+      });
+    },
+    getMenu({ commit, dispatch }, data) {
+      return new Promise((reslove, reject) => {
+        const ApiTree = localStorage.getItem("menuTree") || [];
+        cloneDeep(importRoutes.value);
+        commit("SET_MENU", []);
+        setTimeout(() => {
+          reslove(importRoutes.value);
+        }, 100);
       });
     },
     out({ commit, dispatch }) {
@@ -35,6 +50,9 @@ const user = {
     },
     SET_TOKEN: (state, token) => {
       state.token = token;
+    },
+    SET_MENU(state, menu) {
+      state.menu = menu;
     },
   },
 };

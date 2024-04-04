@@ -33,7 +33,6 @@ import Aside from "../../layout/aside.vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
-console.log("route: ", route.matched);
 
 let menuTree = reactive([]);
 const treeArray = [
@@ -48,13 +47,13 @@ const treeArray = [
     pid: 0,
     id: 8,
     label: "成本管理",
-    path: "/home/suppler",
+    path: "/o",
   },
   {
     pid: 0,
     id: 2,
     label: "车辆管理",
-    path: "/home/suppler",
+    path: "/l",
   },
   {
     pid: 2,
@@ -91,6 +90,12 @@ const treeArray = [
     id: 7,
     label: "其他",
     path: "/home/suppler",
+  },
+  {
+    pid: 0,
+    id: 123,
+    label: "菜单管理",
+    path: "/home/menu",
   },
 ];
 
