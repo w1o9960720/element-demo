@@ -35,7 +35,8 @@
       </div>
       <div class="table">
         <el-table
-          height="450px"
+          height="400px"
+          size="mini"
           :data="tableList"
           style="width: 100%"
           :span-method="arraySpanMethod"

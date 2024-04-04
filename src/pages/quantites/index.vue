@@ -50,8 +50,7 @@
           </el-col>
         </el-row>
       </div>
-      <div class="btn" style="margin-bottom: 8px">
-      </div>
+      <div class="btn" style="margin-bottom: 8px"></div>
       <div class="btn" style="margin-bottom: 8px">
         <el-button @click="handleadd" type="primary">新增</el-button>
       </div>
@@ -106,7 +105,8 @@ import { keyBy, groupBy } from "lodash";
 import init from "./usehook.js";
 import Pagenation from "@/components/Pagination/index.vue";
 import initForm from "./useForm.js";
-
+import { useRouter } from "vue-router";
+const router = useRouter();
 // var array = [
 //   { dir: "left", code: 97 },
 //   { dir: "right", code: 100 },
@@ -130,6 +130,7 @@ const {
   handleDelete,
   handlesearch,
 } = init({
+  router,
   visible,
   visible1,
   tableList,

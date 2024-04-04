@@ -1,7 +1,19 @@
 <template>
   <div class="h">
     <div class="header">
-      <div class="left">logo</div>
+      <div class="left" @click="handlelogo">logo</div>
+      <div class="down">
+        <div>sdff</div>
+        <ul class="down-d">
+          <li v-for="item in 4" :key="item" class="item">
+            <el-card style="height: 100%">
+              <p v-for="o in 4" :key="o" class="text item">
+                {{ "List item " + o }}
+              </p>
+            </el-card>
+          </li>
+        </ul>
+      </div>
       <div class="right">
         <el-dropdown>
           <span class="el-dropdown-link">
@@ -28,6 +40,11 @@ import { useRouter } from "vue-router";
 
 const store = useStore();
 const router = useRouter();
+const handlelogo = () => {
+  router.push({
+    path: "/",
+  });
+};
 const handleout = async () => {
   await store.dispatch("out");
   window.location.reload();
@@ -56,6 +73,39 @@ const handleout = async () => {
     align-items: center;
     justify-content: space-between;
     .left {
+    }
+    .down {
+      line-height: 3em;
+      height: 100%;
+      .down-d {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        padding: 4px;
+        flex-direction: column;
+        position: absolute;
+        top: 37px;
+        left: 0;
+        height: 300px;
+        width: 100%;
+        text-align: center;
+        z-index: 999;
+        transition: all 0.5s;
+        background: white;
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+        overflow: hidden;
+        .item {
+          height: 300px;
+        }
+      }
+      &:hover .down-d {
+        visibility: visible;
+        pointer-events: visible;
+        opacity: 1;
+        // height: 50%;
+      }
     }
     .search {
       display: flex;

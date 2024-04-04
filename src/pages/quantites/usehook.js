@@ -8,6 +8,7 @@ export default ({
   page,
   forme,
   tableList,
+  router
 }) => {
   const handlecomfims = (val) => {
     console.log("val: ", val);
@@ -31,8 +32,13 @@ export default ({
     forme.value.show(row);
   };
   const handleDetail = (row) => {
-    visible1.value = true;
-    item.value = row;
+    // visible1.value = true;
+    // item.value = row;
+    console.log("router: ", router);
+    router.push({
+      path: "/home/quantites/detail",
+      id: row.id,
+    });
   };
   const handleDelete = (row) => {
     let index = tableList.findIndex((item) => item.id === row.id);

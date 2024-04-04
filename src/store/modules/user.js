@@ -5,7 +5,20 @@ import { cloneDeep } from "lodash";
 import { useStorage } from "@vueuse/core";
 import { resetRouter } from "@/router";
 export let tableList = useStorage("menu");
-let menuStorege = JSON.parse(tableList.value);
+let menuStorege;
+try {
+  menuStorege = JSON.parse(tableList.value);
+} catch (error) {
+  menuStorege = [
+    {
+      path: "/home/menu",
+      label: "菜单管理",
+      role: "admin",
+      icon: "sadad",
+    },
+  ];
+}
+
 const filter = (store, routeTree) => {
   return routeTree.filter((item) => {
     if (item.children?.length > 0) {
@@ -46,8 +59,12 @@ const user = {
           })
           .map((item) => item.path);
         let menu = filter(userMenu, cloneDeep(importRoutes.value));
-        // console.log("userMenu: ", userMenu);
-        console.log("menu: ", menu);
+        console.log(
+          "cloneDeep(importRoutes.value): ",
+          cloneDeep(importRoutes.value)
+        );
+        console.log("userMenu: ", userMenu);
+        // console.log("menu: ", menu);
         commit("SET_MENU", menu);
         setTimeout(() => {
           reslove(menu);

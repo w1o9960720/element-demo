@@ -61,6 +61,7 @@ export default ({
       type: "success",
     });
   };
+
   const handlesearch = (page, size) => {
     console.log("page: ", page, size);
     // page.page = page;
@@ -69,13 +70,17 @@ export default ({
   const handleEdit = (type) => {
     if (type === "query") {
       tableData.value = List.value.filter(
-        (item) => item.brand === formData.brand && item.level === activeName.value
+        (item) =>
+          item.brand === formData.brand && item.level === activeName.value
       );
       console.log("tableData.value: ", tableData.value);
     } else {
       formData.brand = "";
       formData.time = "";
     }
+  };
+  const handlebrand = () => {
+    handleEdit("query");
   };
   return {
     handleEdit,
@@ -88,5 +93,6 @@ export default ({
     handleEidt,
     handlesearch,
     queryData,
+    handlebrand,
   };
 };

@@ -24,12 +24,10 @@ export default (router) => {
             children: res,
           });
           flag = true;
-          // next({
-          //   path: `/${router.currentRoute.value.fullPath}`,
-          //   replace: true,
-          // });
-          router.replace(router.currentRoute.value.fullPath)
-          // console.log("获取菜单", res);
+          router.addRoute({ path: "/about", component: layout });
+          console.log("router: ", router.options.routes);
+          router.replace(router.currentRoute.value.fullPath);
+          console.log("获取菜单", res);
         });
       }
 

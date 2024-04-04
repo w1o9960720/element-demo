@@ -28,7 +28,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="品牌" prop="brand">
-                <el-select v-model="formData.brand" filterable>
+                <el-select v-model="formData.brand" filterable @change="handlebrand">
                   <el-option
                     v-for="(item, index) in addressList"
                     :key="index"
@@ -250,6 +250,7 @@ const {
   handlesearch,
   handleEdit,
   queryData,
+  handlebrand
 } = init({
   tableData,
   activeName,

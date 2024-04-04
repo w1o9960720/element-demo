@@ -42,7 +42,6 @@ import { useStore } from "vuex";
 const store = useStore();
 const menuArray = computed(() => store.getters.menu);
 const router = useRouter();
-
 const handlemenu = (item) => {
   router.push({
     path: item.path,

@@ -4,8 +4,16 @@ import home from "@/pages/home/index.vue";
 import { ref } from "vue";
 // 批量导入路由
 const modules = import.meta.globEager("./modules/**/*.js");
+const staticmodules = import.meta.globEager("./staticMoudules/**/*.js");
+
 export let importRoutes = ref(
   Object.values(modules)
+    .map((item) => item.default)
+    .flat()
+    .filter((v) => v)
+);
+export let staticRoutes = ref(
+  Object.values(staticmodules)
     .map((item) => item.default)
     .flat()
     .filter((v) => v)
@@ -37,6 +45,8 @@ const routes = [
         component: home,
         meta: { title: "首页" },
       },
+      ...importRoutes.value,
+      ...staticRoutes.value,
     ],
     meta: {
       title: "首页",
