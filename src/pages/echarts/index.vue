@@ -42,7 +42,7 @@
     <div class="echarts">
       <lineCharts
         :option="option"
-        :style="{ width: '100% ', height: '60vh' }"
+        :style="{ width: '100% ', height: '160vh' }"
       ></lineCharts>
     </div>
   </div>

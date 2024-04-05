@@ -113,7 +113,9 @@ menuTree = toTree(treeArray);
 
 <style lang="scss" scoped>
 .el-header {
-  background: darkseagreen;
+  // background: darkseagreen;
+  height: 44px;
+  padding: 0;
 }
 .hide-enter-active {
   animation: scsle-in 0.2s;

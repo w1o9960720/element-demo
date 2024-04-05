@@ -1,6 +1,10 @@
 <template>
   <div class="h">
-    <div class="header">
+    <div
+      class="header anmation"
+      :class="{ activeClass: y > 30 }"
+      :style="instance"
+    >
       <div class="left" @click="handlelogo">logo</div>
       <div class="down">
         <div>sdff</div>
@@ -34,10 +38,29 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
+import { computed, reactive, ref, watch } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-
+import { useWindowScroll } from "@vueuse/core";
+const yold = ref(0);
+const oldscroll = ref(0);
+const { x, y } = useWindowScroll();
+const instance = computed(() => {
+  return { transform: `translate( 0px,${yold.value}px)` };
+});
+watch(y, (newvalue, oldvalue) => {
+  if (newvalue > 44) {
+    if (newvalue > oldscroll.value) {
+      yold.value = 0;
+    } else {
+      yold.value = -44;
+    }
+    oldscroll.value = newvalue;
+  } else {
+    yold.value = 0;
+    oldscroll.value = newvalue;
+  }
+});
 const store = useStore();
 const router = useRouter();
 const handlelogo = () => {
@@ -62,7 +85,7 @@ const handleout = async () => {
 
 <style lang="scss" scoped>
 .h {
-  // background: slategrey;
+  background: bisque;
   margin-bottom: 8px;
   width: 100%;
   .header {
@@ -84,7 +107,7 @@ const handleout = async () => {
         padding: 4px;
         flex-direction: column;
         position: absolute;
-        top: 37px;
+        top: 23px;
         left: 0;
         height: 300px;
         width: 100%;
@@ -122,6 +145,18 @@ const handleout = async () => {
     }
     .right {
     }
+  }
+  .anmation {
+    transition: all 0.5s;
+  }
+  .activeClass {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 44px;
+    z-index: 45;
+    background: bisque;
   }
 }
 </style>
