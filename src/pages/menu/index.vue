@@ -7,7 +7,7 @@
       :rules="rules"
       label-position="left"
     >
-      <!-- <div class="filterForm">
+      <div class="filterForm">
         <el-row :gutter="24">
           <el-col :span="6">
             <el-form-item label="菜单名" prop="level">
@@ -15,11 +15,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="路径名" prop="load">
-              <el-date-picker
-                v-model="formData.load"
-                type="datetime"
-                placeholder="选择时间"
+            <el-form-item label="品诺" prop="card">
+              <el-autocomplete
+                v-model="formData.card"
+                :fetch-suggestions="querySearchAsync"
+                placeholder="请输入"
+                @select="handleSelect"
               />
             </el-form-item>
           </el-col>
@@ -29,7 +30,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-      </div> -->
+      </div>
       <div class="btn" style="margin: 18px 0px">
         <el-button @click="handleadd" type="primary">新增</el-button>
       </div>
@@ -85,6 +86,7 @@ import { keyBy, groupBy } from "lodash";
 import init from "./usehook.js";
 import Pagenation from "@/components/Pagination/index.vue";
 import initForm from "./useForm.js";
+import { watch } from "vue";
 
 // var array = [
 //   { dir: "left", code: 97 },
@@ -108,6 +110,8 @@ const {
   handleDetail,
   handleDelete,
   handlesearch,
+  handleSelect,
+  querySearchAsync,
 } = init({
   visible,
   visible1,

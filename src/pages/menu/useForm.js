@@ -1,4 +1,4 @@
-import { reactive, ref } from "vue";
+import { reactive, ref, watch } from "vue";
 
 export default () => {
   const form = ref(null);
@@ -10,7 +10,7 @@ export default () => {
   const item = ref({});
   const formData = reactive({
     name: "",
-    time: "",
+    card: "",
     level: "",
   });
   const page = reactive({
@@ -20,9 +20,8 @@ export default () => {
   const rules = reactive({
     name: [{ required: true, message: "请填写货主名", trigger: "blur" }],
     address: [{ required: true, message: "请填写地址", trigger: "blur" }],
-    time: [{ required: true, message: "请填写时间", trigger: "blur" }],
+    card: [{ required: true, message: "请填写时间", trigger: "blur" }],
   });
-
   return {
     form,
     visible,

@@ -112,26 +112,35 @@ menuTree = toTree(treeArray);
 
 
 <style lang="scss" scoped>
-.el-header {
-  // background: darkseagreen;
-  height: 44px;
-  padding: 0;
-}
-.hide-enter-active {
-  animation: scsle-in 0.2s;
-}
-
-.hide-leave-active {
-  animation: scsle-in 0.2s reverse;
-}
-@keyframes scsle-in {
-  0% {
-    transform: translate(-100%);
-    opacity: 0;
+.common-layout {
+  height: 100vh;
+  .el-header {
+    // background: darkseagreen;
+    // height: 44px;
+    padding: 0;
   }
-  100% {
-    transform: translate(0%);
-    opacity: 1;
+  .el-aside {
+    height: 100vh;
+  }
+  .el-main {
+    height: 100vh;
+  }
+  .hide-enter-active {
+    animation: scsle-in 0.2s;
+  }
+
+  .hide-leave-active {
+    animation: scsle-in 0.2s reverse;
+  }
+  @keyframes scsle-in {
+    0% {
+      transform: translate(-100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translate(0%);
+      opacity: 1;
+    }
   }
 }
 </style>

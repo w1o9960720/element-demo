@@ -2,8 +2,8 @@
   <div class="h">
     <div
       class="header anmation"
-      :class="{ activeClass: y > 30 }"
-      :style="instance"
+      :class="{ activeClass: scrollTop > 30 }"
+      :style="instanceStyle"
     >
       <div class="left" @click="handlelogo">logo</div>
       <div class="down">
@@ -38,29 +38,30 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref, watch } from "vue";
+import { computed, onMounted, onUnmounted, reactive, ref, watch } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import { useWindowScroll } from "@vueuse/core";
 const yold = ref(0);
+const scrollTop = ref(0);
 const oldscroll = ref(0);
-const { x, y } = useWindowScroll();
-const instance = computed(() => {
+const instanceStyle = computed(() => {
   return { transform: `translate( 0px,${yold.value}px)` };
 });
-watch(y, (newvalue, oldvalue) => {
-  if (newvalue > 44) {
-    if (newvalue > oldscroll.value) {
+const computedInstance = () => {
+  scrollTop.value =
+    document.body.scrollTop || document.documentElement.scrollTop;
+  if (scrollTop.value > 44) {
+    if (scrollTop.value > oldscroll.value) {
       yold.value = 0;
     } else {
       yold.value = -44;
     }
-    oldscroll.value = newvalue;
+    oldscroll.value = scrollTop.value;
   } else {
     yold.value = 0;
-    oldscroll.value = newvalue;
+    oldscroll.value = scrollTop.value;
   }
-});
+};
 const store = useStore();
 const router = useRouter();
 const handlelogo = () => {
@@ -79,6 +80,12 @@ const handleout = async () => {
 //   });
 //   window.open(routeUrl.href, "_blank");
 // };
+onMounted(() => {
+  window.addEventListener("scroll", computedInstance);
+});
+onUnmounted(() => {
+  window.removeEventListener("scroll", computedInstance);
+});
 </script>
 
 

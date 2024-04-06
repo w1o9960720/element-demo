@@ -47,6 +47,30 @@ export default ({
     // page.page = page;
     // page.size = size;
   };
+  const handleSelect = (e) => {
+    console.log("e: ", e);
+    console.log("formData.card ", formData.card);
+  };
+  const querySearchAsync = (qurey, cb) => {
+    console.log("qurey: ", qurey);
+    let option = [
+      { value: "vue", link: "https://github.com/vuejs/vue" },
+      { value: "element", link: "https://github.com/ElemeFE/element" },
+      { value: "cooking", link: "https://github.com/ElemeFE/cooking" },
+      { value: "mint-ui", link: "https://github.com/ElemeFE/mint-ui" },
+      { value: "vuex", link: "https://github.com/vuejs/vuex" },
+      { value: "vue-router", link: "https://github.com/vuejs/vue-router" },
+      { value: "babel", link: "https://github.com/babel/babel" },
+    ];
+    let res = qurey
+      ? option.filter((item) => {
+          return item.value.toLowerCase().indexOf(qurey.toLowerCase()) === 0;
+        })
+      : option;
+    setTimeout(() => {
+      cb(res);
+    }, 200);
+  };
   return {
     handlecomfims,
     handlecomfimss,
@@ -54,6 +78,8 @@ export default ({
     handleDelete,
     handlefocus,
     handleDetail,
+    handleSelect,
+    querySearchAsync,
     handleEidt,
     handlesearch,
   };
