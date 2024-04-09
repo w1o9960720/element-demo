@@ -34,7 +34,7 @@
       <div class="btn" style="margin: 18px 0px">
         <el-button @click="handleadd" type="primary">新增</el-button>
       </div>
-      <div class="table">
+      <div id="printBox" class="table">
         <el-table
           height="400px"
           size="mini"
@@ -67,9 +67,9 @@
       </div>
     </el-form>
     <div class="footer">
-      <!-- <el-button size="large" @click="handleclick" type="primary"
-        >保存</el-button
-      > -->
+      <el-button size="large" @click="handleclick" type="primary"
+        >打印</el-button
+      >
     </div>
     <Dialog v-model="visible" @confim="handlecomfims"></Dialog>
     <editDialog ref="forme" @confirm="handlecomfimss"></editDialog>
@@ -87,7 +87,17 @@ import init from "./usehook.js";
 import Pagenation from "@/components/Pagination/index.vue";
 import initForm from "./useForm.js";
 import { watch } from "vue";
-
+import printJs from "print-js";
+const handleclick = () => {
+  setTimeout(function () {
+    printJs({
+      printable: "printBox",
+      type: "html",
+      scanStyles: false,
+      targetStyles: ["*"],
+    });
+  }, 500);
+};
 // var array = [
 //   { dir: "left", code: 97 },
 //   { dir: "right", code: 100 },
@@ -98,6 +108,29 @@ import { watch } from "vue";
 // ];
 // console.log('keyBy(array, "dir"): ', keyBy(array, "code"));
 // console.log('keyBy(array, "dir"): ', groupBy(array, "dir"));
+
+// const test = () => {
+//   console.log(1);
+//   let p = new Promise((res, rej) => {
+//     res();
+//   }).then(() => {
+//     console.log(4);
+//   });
+//   setTimeout(() => {
+//     console.log(5);
+//   }, 200);
+//   setTimeout(() => {
+//     console.log(6);
+//   },100);
+//   let p2 = new Promise((res, rej) => {
+//     console.log(9);
+//     setTimeout(() => {
+//       res();
+//     }, 500);
+//   }).then(() => {
+//     console.log(6);
+//   });
+// };
 
 const { form, forme, visible, visible1, total, item, rules, page, formData } =
   initForm();
@@ -123,6 +156,7 @@ const {
 });
 
 const arraySpanMethod = ({ row, column, rowIndex, columnIndex }) => {};
+test()
 </script>
 
 
