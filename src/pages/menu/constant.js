@@ -63,6 +63,10 @@ export const columnList = [
     prop: "role",
   },
   {
+    label: "数量",
+    prop: "num",
+  },
+  {
     label: "icon图标",
     prop: "icon",
   },

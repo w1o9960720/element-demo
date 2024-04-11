@@ -54,7 +54,7 @@
       <div class="btn" style="margin-bottom: 8px">
         <el-button @click="handleadd" type="primary">新增</el-button>
       </div>
-      <div class="table">
+      <div class="table" id="table-data">
         <el-table
           height="450px"
           :data="tableList"
@@ -79,6 +79,9 @@
               <el-button @click="handleDelete(row)" type="danger" size="small"
                 >删除</el-button
               >
+              <el-button @click="exportTable()" type="danger" size="small"
+                >下载</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -97,6 +100,8 @@
 </template>
 
 <script setup>
+import fileSaver from "file-saver";
+
 import { columnList, tableList, addressList } from "./constant.js";
 import Dialog from "./components/dialog.vue";
 import editDialog from "./components/editDialog.vue";
@@ -106,6 +111,7 @@ import init from "./usehook.js";
 import Pagenation from "@/components/Pagination/index.vue";
 import initForm from "./useForm.js";
 import { useRouter } from "vue-router";
+
 const router = useRouter();
 // var array = [
 //   { dir: "left", code: 97 },
@@ -117,7 +123,25 @@ const router = useRouter();
 // ];
 // console.log('keyBy(array, "dir"): ', keyBy(array, "code"));
 // console.log('keyBy(array, "dir"): ', groupBy(array, "dir"));
-
+const exportTable = () => {
+  let box = xlsx.utils.table_to_book(document.querySelector("#table-data"));
+  let out = xlsx.write(box, {
+    bookType: "xlsx",
+    bookSST: true,
+    type: "array",
+  });
+  try {
+    fileSaver.saveAs(
+      new Blob([out], {
+        type: "application/octet-stream",
+      }),
+      "sheet.xlsx"
+    );
+  } catch (e) {
+    // 错误处理方式
+  }
+  return out;
+};
 const { form, forme, visible, visible1, total, item, rules, page, formData } =
   initForm();
 const {
