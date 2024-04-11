@@ -156,7 +156,6 @@ const {
 });
 
 const arraySpanMethod = ({ row, column, rowIndex, columnIndex }) => {};
-test()
 </script>
 
 
