@@ -12,6 +12,7 @@ export let importRoutes = ref(
     .flat()
     .filter((v) => v)
 );
+
 export let staticRoutes = ref(
   Object.values(staticmodules)
     .map((item) => item.default)

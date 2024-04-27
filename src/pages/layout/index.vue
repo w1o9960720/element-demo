@@ -1,6 +1,6 @@
 <template>
   <div class="common-layout">
-    <el-container>
+    <el-container v-if="isshow()">
       <el-header>
         <Header></Header>
       </el-header>
@@ -23,6 +23,9 @@
         </el-main>
       </el-container>
     </el-container>
+    <div v-else>
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -33,6 +36,10 @@ import Aside from "../../layout/aside.vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
+const arr = ["/tiaozhuan"];
+const isshow = () => {
+  return !arr.includes(route.path);
+};
 
 let menuTree = reactive([]);
 const treeArray = [

@@ -7,4 +7,13 @@ export default [
     },
     component: () => import("@/pages/quantites/detail/index.vue"),
   },
+  {
+    path: "/tiaozhuan",
+    name: "跳转",
+    meta: {
+      title: "跳转",
+    },
+    component: () => import("@/pages/tiaozhuan/tiaozhuan.vue"),
+    children: [],
+  },
 ];
