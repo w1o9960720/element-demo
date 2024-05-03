@@ -26,7 +26,7 @@ const p = new Promise((resolve, reject) => {
     });
 });
 
-const [data]=Promise.all([p])
+const [data]= await Promise.all([p])
 </script>
 
 
