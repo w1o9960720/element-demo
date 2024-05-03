@@ -15,10 +15,62 @@
       </span>
     </template> -->
   </el-tree>
+
+  <el-autocomplete
+    v-model="form.address"
+    :size="size"
+    placeholder="请输入关键词搜索"
+    :disabled="!edit || i.disabled"
+    :trigger-on-focus="false"
+    style="width: 275px"
+    :fetch-suggestions="handleChangeAddr"
+    @select="handleSelectAddr"
+  >
+    <template #default="{ item }">
+      <span>{{ item.name }}</span>
+    </template>
+  </el-autocomplete>
 </template>
 
 
 <script>
+/**
+ * el-autocomplete组件
+ */
+const handleChangeAddr = async (val, cb) => {
+  if (val) {
+    // const { provinceName, cityName } = this.form;
+    const data = {
+      keywords: val || "",
+    };
+    // if (cityName || provinceName) {
+    //   data.city = cityName || provinceName;
+    //   data.citylimit = true;
+    // }
+    const res = await getAddressPoi(data);
+    cb(res || []);
+  } else {
+    cb([]);
+  }
+};
+
+/**
+ * el-select组件
+ */
+const handleChangeCity = (val) => {
+  const provinceRef = this.$refs.provinceRef?.[0] || this.$refs.provinceRef;
+  const pathLabels = provinceRef?.getCheckedNodes?.()?.[0]?.pathLabels || [];
+  const [provinceName, cityName, countyName] = pathLabels;
+  const [provinceCode, cityCode, countyCode] = val;
+  console.log("pathLabels", pathLabels);
+  this.form.address = null;
+  this.form.provinceCode = provinceCode;
+  this.form.provinceName = provinceName;
+  this.form.cityCode = cityCode;
+  this.form.cityName = cityName;
+  this.form.countyCode = countyCode;
+  this.form.countyName = countyName;
+};
 /**
  * el-tree组件
  */
@@ -85,7 +137,6 @@ const p = new Promise((resolve, reject) => {
 /**
  * 覆盖下一张图片
  */
-
 function handleExceed(files) {
   upload.value.clearFiles();
   const file = files[0];
