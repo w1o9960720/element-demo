@@ -4,7 +4,7 @@ const router = useRouter();
 
 const handleclick = () => {
   const routeUrl = router.resolve({
-    path: "/tiaozhuan",
+    path: "/home/quantites/detail",
     query: { id: "row.id" },
   });
   console.log("routeUrl: ", routeUrl.href);
@@ -15,7 +15,7 @@ const handleclick = () => {
 
 <template>
   <router-view></router-view>
-  <!-- <el-button @click="handleclick">跳转</el-button> -->
+  <el-button @click="handleclick">跳转</el-button>
 </template>
 
 <style scoped>

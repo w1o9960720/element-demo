@@ -98,6 +98,7 @@ const handleclick = () => {
     });
   }, 500);
 };
+
 // var array = [
 //   { dir: "left", code: 97 },
 //   { dir: "right", code: 100 },

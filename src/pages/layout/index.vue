@@ -36,7 +36,7 @@ import Aside from "../../layout/aside.vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
-const arr = ["/tiaozhuan"];
+const arr = ["/tiaozhuan","/home/quantites/detail"];
 const isshow = () => {
   return !arr.includes(route.path);
 };
