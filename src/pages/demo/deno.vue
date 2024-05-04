@@ -246,8 +246,15 @@ const handSave = async (type) => {
   try {
     let list = [];
     const everyFill = list.every((item) => {
-      const keys = ["area","minTemperature","maxTemperature","availableArea","floorHeight"];
-      return keys.every((key) => item[key])});
+      const keys = [
+        "area",
+        "minTemperature",
+        "maxTemperature",
+        "availableArea",
+        "floorHeight",
+      ];
+      return keys.every((key) => item[key]);
+    });
     if (!everyFill) {
       this.$message.warning("请完善温层信息");
       return;
@@ -257,6 +264,104 @@ const handSave = async (type) => {
     this.$message.warning("请完善必填项");
   }
 };
+/**
+ * new map()
+ */
+const Dict = {
+  Warehouse: "WAREHOUSE",
+  Transportation: "STORE_TRANSIT",
+  Shop: "STORE",
+  Factory: "FACTORY",
+  Diff: "diff",
+};
+const getOptions = (map) =>
+  Array.from(map, ([value, label]) => ({
+    label,
+    value,
+  }));
+const operationType = (type) => {
+  const options = new Map([
+    ["IN_WAREHOUSE", "入库"],
+    ["OUT_WAREHOUSE", "出库"],
+    ["RETURN_WAREHOUSE", "回库"],
+    ["RETURN_FACTORY", "回厂"],
+  ]);
+  switch (type) {
+    case Dict.Transportation:
+      options.delete("IN_WAREHOUSE");
+      break;
+    case Dict.Shop:
+      options.delete("IN_WAREHOUSE");
+      options.delete("RETURN_FACTORY");
+      options.set("OUT_WAREHOUSE", "入店");
+      break;
+    case Dict.Diff:
+      options.delete("IN_WAREHOUSE");
+      break;
+    default:
+      break;
+  }
+  return getOptions(options);
+};
+
+/**
+ * 使用变量防止重复请求
+ */
+
+let loading = false;
+const confirmHandler = async (data) => {
+  if (loading) {
+    return;
+  }
+  loading = true;
+  try {
+    await upsertMsg({
+      ...data,
+    });
+    loading = false;
+    ElMessage({
+      type: "success",
+      message: data.id ? "编辑成功" : "新增成功",
+    });
+    initTable();
+  } finally {
+    loading = false;
+  }
+};
+/**
+ * es6写法
+ */
+const confirmHandler1 = (doClose) => {
+    const formEl = formRef.value.elForm;
+    if (!formEl) return;
+    formEl.validate((valid, noValidObj) => {
+      if (!valid) {
+        const errorArr = Object.keys(noValidObj).filter(
+          (key) => Array.isArray(noValidObj[key]) && noValidObj[key][0]?.field,
+        );
+        formEl.scrollToField(errorArr[0]);
+        return false;
+      }
+      const [provinceCode, cityCode, countyCode] = form.province;//解构
+      const [provinceName, cityName, countyName] = getNames(form.province);
+      const { province, ...restparams } = form;//剩余参数
+      const data = { //对象字面量增强
+        ...restparams,
+        provinceCode,
+        cityCode: cityCode || '',
+        countyCode: countyCode || '',
+        provinceName,
+        cityName: cityName || '',
+        countyName: countyName || '',
+      };
+      if (!data.id) {
+        create(data);
+      } else {
+        update(data);
+      }
+      doClose();
+    });
+  };
 </script>
 
 
