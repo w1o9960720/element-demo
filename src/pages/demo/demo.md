@@ -1,4 +1,4 @@
-## 修改对象中的一个值 
+## 修改对象中某一个key的值 
 let res = {
   enfUrl: "sdfs",
   sadas: "eqe",
@@ -116,6 +116,27 @@ const p = new Promise((resolve, reject) => {
     });
 });
 const [data] = await Promise.all([p]);
+
+##  使用map()实现Promise.all并发请求
+
+  const baseInfoValidateFns = this.$refs.baseInfo.map((i) => {
+    return new Promise((resolve, reject) => {
+      const formRef = i?.$refs?.form;
+      if (formRef) {
+        return formRef.validate((valid) => {
+          if (valid) {
+            resolve();
+          } else {
+            reject('请完善必填项');
+          }
+        });
+      } else {
+        reject('请完善必填项');
+      }
+    });
+  });
+  const [data] = Promise.all([baseInfoValidateFns]);
+
 
 ## upload组件覆盖下一张图片
 function handleExceed(files) {
