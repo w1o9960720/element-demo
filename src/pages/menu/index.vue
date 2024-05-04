@@ -98,7 +98,23 @@ const handleclick = () => {
     });
   }, 500);
 };
-
+let res = {
+  enfUrl: "sdfs",
+  sadas: "eqe",
+  sdfsfUrl: "erwr",
+};
+const keys = Object.keys(res);
+keys.forEach((key) => {
+  const temp = res[key];
+  if (key.endsWith("Url")) {
+    if (temp) {
+      res[key] = JSON.parse(temp);
+    } else {
+      res[key] = [];
+    }
+  }
+});
+console.log("res: ", res);
 // var array = [
 //   { dir: "left", code: 97 },
 //   { dir: "right", code: 100 },
