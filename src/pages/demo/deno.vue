@@ -152,7 +152,7 @@ const columns = computed(() => {
   ];
 });
 /**
- * 去除表单空字符串
+ * 去除表单空字符
  */
 const getSearchData = () =>
   Object.keys(form.value).reduce(
