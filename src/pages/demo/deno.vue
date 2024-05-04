@@ -134,6 +134,7 @@ const p = new Promise((resolve, reject) => {
       reject();
     });
 });
+const [data] = await Promise.all([p]);
 /**
  * 覆盖下一张图片
  */
@@ -142,8 +143,46 @@ function handleExceed(files) {
   const file = files[0];
   upload.value.handleStart(file);
 }
+/**
+ * 根据数组对象值转对象
+ */
+const arr = [
+  {
+    bk: "qq",
+    fgs: "qwe",
+  },
+  {
+    bk: "qq",
+    fgs: "2qeq",
+  },
+  {
+    bk: "ewqe",
+    fgs: "das",
+  },
+];
+const filterArr = (arr) => {
+  let data = {};
+  arr.forEach((item) => {
+    if (!data[item.bk]) {
+      data[item.bk] = [item];
+    } else {
+      data[item.bk].push(item);
+    }
+  });
+  return Object.keys(data).map((key) => {
+    return {
+      itemName: key,
+      checked: false,
+      isShow: false,
+      children: data[key],
+    };
+  });
+};
+console.log("filterArr(arr): ", filterArr(arr));
 
-const [data] = await Promise.all([p]);
+/**
+ * 根据数组对象值转对象
+ */
 </script>
 
 
