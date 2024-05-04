@@ -70,10 +70,44 @@
       <el-button size="large" @click="handleclick" type="primary"
         >打印</el-button
       >
+      <el-button size="large" @click="handlesave" type="primary"
+        >保存</el-button
+      >
     </div>
     <Dialog v-model="visible" @confim="handlecomfims"></Dialog>
     <editDialog ref="forme" @confirm="handlecomfimss"></editDialog>
     <Detail v-model="visible1" :data="item"></Detail>
+
+    <el-form ref="ruleForm" :model="froms">
+      <el-table :data="froms.turnoverRule">
+        <el-table-column label="限定规则" width="360px">
+          <template v-slot:default="scope">
+            <el-form-item
+              :prop="'turnoverRule.' + scope.$index + '.limitRule'"
+              :rules="[{ validator: validateNumber, trigger: 'blur' }]"
+            >
+              <el-input
+                v-model.trim="scope.row.limitRule"
+                placeholder="请填写0-1之间的小数，只支持填写到小数点后3位"
+              />
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column label="重量" width="360px">
+          <template v-slot:default="scope">
+            <el-form-item
+              :prop="'turnoverRule.' + scope.$index + '.weight'"
+              :rules="[{ validator: validateNumber, trigger: 'blur' }]"
+            >
+              <el-input
+                v-model.trim="scope.row.weight"
+                placeholder="请填写重量"
+              />
+            </el-form-item>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-form>
   </div>
 </template>
 
@@ -86,8 +120,27 @@ import { keyBy, groupBy } from "lodash";
 import init from "./usehook.js";
 import Pagenation from "@/components/Pagination/index.vue";
 import initForm from "./useForm.js";
-import { watch } from "vue";
+import { reactive, watch, ref } from "vue";
 import printJs from "print-js";
+const froms = reactive({
+  turnoverRule: [{}],
+});
+const ruleForm = ref(null);
+const validateNumber = (rule, value, callback) => {
+  if (value === "" || value === null || value === undefined) {
+    return callback(new Error("不能为空"));
+  }
+  if (/^0\.\d{0,2}[1-9]$/.test(value)) {
+    return callback();
+  }
+  return callback(new Error(" "));
+};
+const handlesave = () => {
+  console.log("ruleForm: ", ruleForm.value);
+  ruleForm?.value?.validate((value) => {
+    console.log("value: ", value);
+  });
+};
 const handleclick = () => {
   setTimeout(function () {
     printJs({
@@ -98,23 +151,7 @@ const handleclick = () => {
     });
   }, 500);
 };
-let res = {
-  enfUrl: "sdfs",
-  sadas: "eqe",
-  sdfsfUrl: "erwr",
-};
-const keys = Object.keys(res);
-keys.forEach((key) => {
-  const temp = res[key];
-  if (key.endsWith("Url")) {
-    if (temp) {
-      res[key] = JSON.parse(temp);
-    } else {
-      res[key] = [];
-    }
-  }
-});
-console.log("res: ", res);
+
 // var array = [
 //   { dir: "left", code: 97 },
 //   { dir: "right", code: 100 },

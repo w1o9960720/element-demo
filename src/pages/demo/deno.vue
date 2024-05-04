@@ -30,6 +30,46 @@
       <span>{{ item.name }}</span>
     </template>
   </el-autocomplete>
+
+  <el-form ref="ruleForm" :model="froms">
+    <el-row>
+      <el-col>
+        <el-form-item
+          :prop="limitRules"
+          :rules="[{ require, trigger: 'blur' }]"
+        >
+          <el-input v-model.trim="froms.limitRules" placeholder="请填写" />
+        </el-form-item>
+      </el-col>
+      <el-col>
+        <el-input v-model.trim="froms.limit" placeholder="请填写" />
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-table :data="froms.turnoverRule">
+        <!-- 有验证 用el-form-item -->
+        <el-table-column label="限定规则" width="360px">
+          <template v-slot:default="scope">
+            <el-form-item
+              :prop="'turnoverRule.' + scope.$index + '.limitRule'"
+              :rules="[{ validator: validateNumber, trigger: 'blur' }]"
+            >
+              <el-input
+                v-model.trim="scope.row.limitRule"
+                placeholder="请填写0-1之间的小数，只支持填写到小数点后3位"
+              />
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <!-- 无验证 不用el-form-item-->
+        <el-table-column label="批属性字段" min-width="160px">
+          <template v-slot:default="scope">
+            <el-input v-model.trim="scope.row.fieldCode" placeholder="请填写" />
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-row>
+  </el-form>
 </template>
 
 
@@ -332,36 +372,60 @@ const confirmHandler = async (data) => {
  * es6写法
  */
 const confirmHandler1 = (doClose) => {
-    const formEl = formRef.value.elForm;
-    if (!formEl) return;
-    formEl.validate((valid, noValidObj) => {
-      if (!valid) {
-        const errorArr = Object.keys(noValidObj).filter(
-          (key) => Array.isArray(noValidObj[key]) && noValidObj[key][0]?.field,
-        );
-        formEl.scrollToField(errorArr[0]);
-        return false;
-      }
-      const [provinceCode, cityCode, countyCode] = form.province;//解构
-      const [provinceName, cityName, countyName] = getNames(form.province);
-      const { province, ...restparams } = form;//剩余参数
-      const data = { //对象字面量增强
-        ...restparams,
-        provinceCode,
-        cityCode: cityCode || '',
-        countyCode: countyCode || '',
-        provinceName,
-        cityName: cityName || '',
-        countyName: countyName || '',
-      };
-      if (!data.id) {
-        create(data);
-      } else {
-        update(data);
-      }
-      doClose();
-    });
-  };
+  const formEl = formRef.value.elForm;
+  if (!formEl) return;
+  formEl.validate((valid, noValidObj) => {
+    if (!valid) {
+      const errorArr = Object.keys(noValidObj).filter(
+        (key) => Array.isArray(noValidObj[key]) && noValidObj[key][0]?.field
+      );
+      formEl.scrollToField(errorArr[0]);
+      return false;
+    }
+    const [provinceCode, cityCode, countyCode] = form.province; //解构
+    const [provinceName, cityName, countyName] = getNames(form.province);
+    const { province, ...restparams } = form; //剩余参数
+    const data = {
+      //对象字面量增强
+      ...restparams,
+      provinceCode,
+      cityCode: cityCode || "",
+      countyCode: countyCode || "",
+      provinceName,
+      cityName: cityName || "",
+      countyName: countyName || "",
+    };
+    if (!data.id) {
+      create(data);
+    } else {
+      update(data);
+    }
+    doClose();
+  });
+};
+
+/**
+ * 表单验证
+ */
+const froms = reactive({
+  turnoverRule: [{}],
+});
+const ruleForm = ref(null);
+const validateNumber = (rule, value, callback) => {
+  if (value === "" || value === null || value === undefined) {
+    return callback(new Error("不能为空"));
+  }
+  if (/^0\.\d{0,2}[1-9]$/.test(value)) {
+    return callback();
+  }
+  return callback(new Error(" "));
+};
+const handlesave = () => {
+  console.log("ruleForm: ", ruleForm.value);
+  ruleForm?.value?.validate((value) => {
+    console.log("value: ", value);
+  });
+};
 </script>
 
 
