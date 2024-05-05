@@ -66,19 +66,30 @@
         <Pagenation @search="handlesearch" :total="total"></Pagenation>
       </div>
     </el-form>
-    <div class="footer">
+    <!-- <div class="footer">
       <el-button size="large" @click="handleclick" type="primary"
         >打印</el-button
       >
       <el-button size="large" @click="handlesave" type="primary"
         >保存</el-button
       >
-    </div>
+    </div> -->
     <Dialog v-model="visible" @confim="handlecomfims"></Dialog>
     <editDialog ref="forme" @confirm="handlecomfimss"></editDialog>
     <Detail v-model="visible1" :data="item"></Detail>
 
-    <el-form ref="ruleForm" :model="froms">
+    <el-tabs v-model="tabIndex" @tab-click="ruleTypeChanged">
+      <el-tab-pane
+        v-for="item in TabNameList"
+        :key="item.name"
+        :label="item.label"
+        :name="item.name"
+      >
+        <Test ref="refs" :label="item.label"></Test>
+      </el-tab-pane>
+    </el-tabs>
+
+    <!-- <el-form ref="ruleForm" :model="froms">
       <el-table :data="froms.turnoverRule">
         <el-table-column label="限定规则" width="360px">
           <template v-slot:default="scope">
@@ -107,7 +118,7 @@
           </template>
         </el-table-column>
       </el-table>
-    </el-form>
+    </el-form> -->
   </div>
 </template>
 
@@ -120,27 +131,52 @@ import { keyBy, groupBy } from "lodash";
 import init from "./usehook.js";
 import Pagenation from "@/components/Pagination/index.vue";
 import initForm from "./useForm.js";
-import { reactive, watch, ref } from "vue";
+import { reactive, watch, ref, onMounted } from "vue";
 import printJs from "print-js";
-const froms = reactive({
-  turnoverRule: [{}],
+import Test from "./components/test.vue";
+let refs = reactive([]);
+const TabNameList = reactive([
+  {
+    label: "上架规则",
+    name: "LISTING_RULES",
+  },
+  {
+    label: "分配规则",
+    name: "DISTRIBUTION_RULES",
+  },
+  {
+    label: "补货规则",
+    name: "REPLENISHMENT_RULES",
+  },
+]);
+const tabIndex = ref("LISTING_RULES");
+onMounted(() => {
+  console.log("refs: ", refs);
 });
-const ruleForm = ref(null);
-const validateNumber = (rule, value, callback) => {
-  if (value === "" || value === null || value === undefined) {
-    return callback(new Error("不能为空"));
-  }
-  if (/^0\.\d{0,2}[1-9]$/.test(value)) {
-    return callback();
-  }
-  return callback(new Error(" "));
+const ruleTypeChanged = (event) => {
+  refs[event.index].getInfo();
 };
-const handlesave = () => {
-  console.log("ruleForm: ", ruleForm.value);
-  ruleForm?.value?.validate((value) => {
-    console.log("value: ", value);
-  });
-};
+
+// const froms = reactive({
+//   turnoverRule: [{}],
+// });
+// const ruleForm = ref(null);
+// const validateNumber = (rule, value, callback) => {
+//   if (value === "" || value === null || value === undefined) {
+//     return callback(new Error("不能为空"));
+//   }
+//   if (/^0\.\d{0,2}[1-9]$/.test(value)) {
+//     return callback();
+//   }
+//   return callback(new Error(" "));
+// };
+// const handlesave = () => {
+//   console.log("ruleForm: ", ruleForm.value);
+//   ruleForm?.value?.validate((value) => {
+//     console.log("value: ", value);
+//   });
+// };
+
 const handleclick = () => {
   setTimeout(function () {
     printJs({

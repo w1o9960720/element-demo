@@ -384,7 +384,7 @@ const confirmHandler1 = (doClose) => {
     }
     const [provinceCode, cityCode, countyCode] = form.province; //解构
     const [provinceName, cityName, countyName] = getNames(form.province);
-    const { province, ...restparams } = form; //剩余参数
+    const { province, ...restparams } = form; //剩余参数、解构
     const data = {
       //对象字面量增强
       ...restparams,
