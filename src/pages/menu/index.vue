@@ -85,7 +85,7 @@
         :label="item.label"
         :name="item.name"
       >
-        <Test ref="refs" :label="item.label"></Test>
+        <Test ref="refs"  :label="item.label"></Test>
       </el-tab-pane>
     </el-tabs>
 
