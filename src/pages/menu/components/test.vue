@@ -25,7 +25,7 @@
       </el-row>
     </el-form>
     <div class="btn" @click="handleclick">
-      <el-button type="primary">新增</el-button>
+      <el-button type="primary">新增一行</el-button>
     </div>
     <div class="table">
       <el-table
@@ -39,9 +39,10 @@
             <el-input
               v-if="row.isshow"
               :ref="(el) => (refs[$index] = el)"
-              @blur="handleblur(row)"
               v-model="row.name"
-            ></el-input>
+              @blur="handleblur(row)"
+            >
+            </el-input>
             <span @click="handleshow(row, $index)" v-else>{{ row.name }}</span>
           </template>
         </el-table-column>
@@ -53,37 +54,51 @@
 </template>
 
 <script setup>
-import { nextTick, reactive } from "vue";
+import { fa } from "element-plus/es/locales.mjs";
+import { nextTick, reactive, ref } from "vue";
 const props = defineProps({
   label: {
     type: String,
     default: "",
   },
 });
-const handleclick = () => {};
+const handleclick = () => {
+  tableList.value.push({
+    name: null,
+    age: null,
+    level: null,
+    isshow: true,
+  });
+  console.log("tableList.value: ", tableList.value);
+};
 const refs = reactive([]);
-const tableList = reactive([
+const tableList = ref([
   {
+    id: "1",
     name: "哈哈",
     age: 12,
     level: "高级",
   },
   {
+    id: "2",
     name: "哈哈",
     age: 12,
     level: "高级",
   },
   {
+    id: "1",
     name: "哈哈",
     age: 12,
     level: "高级",
   },
   {
+    id: "1",
     name: "哈哈",
     age: 12,
     level: "高级",
   },
   {
+    id: "1",
     name: "哈哈",
     age: 12,
     level: "高级",
@@ -103,7 +118,9 @@ const handleshow = async (row, $index) => {
   refs[$index]?.focus();
 };
 const handleblur = async (row) => {
-  row.isshow = false;
+  if (row.id) {
+    row.isshow = false;
+  }
 };
 defineExpose({
   getInfo,

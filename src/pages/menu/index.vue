@@ -80,12 +80,12 @@
 
     <el-tabs v-model="tabIndex" @tab-click="ruleTypeChanged">
       <el-tab-pane
-        v-for="item in TabNameList"
+        v-for="(item, index) in TabNameList"
         :key="item.name"
         :label="item.label"
         :name="item.name"
       >
-        <Test ref="refs"  :label="item.label"></Test>
+        <Test :ref="(el) => (refs[index] = el)" :label="item.label"></Test>
       </el-tab-pane>
     </el-tabs>
 
