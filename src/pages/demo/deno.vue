@@ -426,6 +426,32 @@ const handlesave = () => {
     console.log("value: ", value);
   });
 };
+/**
+ * 
+ */
+const fns = () => {
+  const cloneTableData = cloneDeep(this.tableData);
+  if (this.checkedPassData.length) {
+    this.checkedPassData.forEach((i) => {
+      const useI = i;
+      const findIdx = cloneTableData.findIndex(
+        (k) => k.staffCode === useI.staffCode
+      );
+      if (findIdx > -1) {
+        useI.id = cloneTableData[findIdx].id;
+        cloneTableData.splice(findIdx, 1, useI);
+      } else {
+        cloneTableData.push(useI);
+      }
+    });
+    this.tableData = cloneTableData;
+    this.handleSetTableData();
+    this.$message({
+      message: "导入成功",
+      type: "success",
+    });
+  }
+};
 </script>
 
 
