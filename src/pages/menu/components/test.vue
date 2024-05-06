@@ -43,7 +43,11 @@
               @blur="handleblur(row)"
             >
             </el-input>
-            <span @click="handleshow(row, $index)" v-else>{{ row.name }}</span>
+            <div v-else>
+              <span @click="handleshow(row, $index)">{{
+                row.name || "-"
+              }}</span>
+            </div>
           </template>
         </el-table-column>
         <el-table-column label="年龄" prop="age"> </el-table-column>
@@ -113,14 +117,13 @@ const getInfo = () => {
   console.log(props.label);
 };
 const handleshow = async (row, $index) => {
+  console.log("row: ", row);
   row.isshow = true;
   await nextTick();
   refs[$index]?.focus();
 };
 const handleblur = async (row) => {
-  if (row.id) {
-    row.isshow = false;
-  }
+  row.isshow = false;
 };
 defineExpose({
   getInfo,
