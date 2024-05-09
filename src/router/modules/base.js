@@ -100,6 +100,15 @@ export default [
     children: [],
   },
   {
+    path: "/antvx6",
+    name: "antvx6",
+    meta: {
+      title: "绘图",
+    },
+    component: () => import("@/pages/antvx6/antvx6.vue"),
+    children: [],
+  },
+  {
     path: "/home/test",
     name: "测试",
     meta: {
