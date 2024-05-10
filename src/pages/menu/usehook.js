@@ -10,7 +10,6 @@ export default ({
   tableList,
 }) => {
   const handlecomfims = (val) => {
-    console.log("val: ", val);
   };
   const handlecomfimss = (val) => {
     const { id } = val;
@@ -43,16 +42,12 @@ export default ({
     });
   };
   const handlesearch = (page, size) => {
-    console.log("page: ", page, size);
     // page.page = page;
     // page.size = size;
   };
   const handleSelect = (e) => {
-    console.log("e: ", e);
-    console.log("formData.card ", formData.card);
   };
   const querySearchAsync = (qurey, cb) => {
-    console.log("qurey: ", qurey);
     let option = [
       { value: "vue", link: "https://github.com/vuejs/vue" },
       { value: "element", link: "https://github.com/ElemeFE/element" },

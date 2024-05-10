@@ -1,355 +1,560 @@
 <template>
-  <div class="dashboard-container">
-    <p>选择节点</p>
-    <div class="antvBox">
-      <div class="menu-list">
-        <div v-for="item in moduleList" :key="item.id">
-          <img :src="item.image" alt="" />
-          <p>{{ item.name }}</p>
-        </div>
-      </div>
-      <div class="canvas-card">
-        <div id="container" />
-      </div>
-    </div>
+  <div id="container">
+    <div id="stencil"></div>
+    <div id="graph-container"></div>
   </div>
+  <el-button @click="save">导出</el-button>
 </template>
  
 <script setup>
 import { reactive, onMounted, ref } from "vue";
-import { Graph } from "@antv/x6";
-const moduleList = reactive([
-  {
-    id: 1,
-    name: "节点1",
-  },
-  {
-    id: 8,
-    name: "节点2",
-  },
-  {
-    id: 2,
-    name: "节点3",
-  },
-  {
-    id: "node1",
-    shape: "rect",
-    x: 40,
-    y: 40,
-    width: 100,
-    height: 40,
-    label: "hello",
-    attrs: {
-      body: {
-        stroke: "#8f8f8f",
-        strokeWidth: 1,
-        fill: "#fff",
-        rx: 6,
-        ry: 6,
-      },
-    },
-  },
-]);
-const nodeAddEvent = () => {
-  const container = document.getElementById("container");
-  const changePortsVisible = (visible) => {
-    const ports = container.querySelectorAll(".x6-port-body");
-    for (let i = 0, len = ports.length; i < len; i = i + 1) {
-      ports[i].style.visibility = visible ? "visible" : "hidden";
-    }
-  };
-  graph.value.on("node:mouseenter", () => {
-    console.log(1);
-    changePortsVisible(true);
-  });
-  graph.value.on("node:mouseleave", () => {
-    changePortsVisible(false);
-  });
-};
+import { Graph, Shape, Node } from "@antv/x6";
+import { Stencil } from "@antv/x6-plugin-stencil";
+import { Transform } from "@antv/x6-plugin-transform";
+import { Selection } from "@antv/x6-plugin-selection";
+import { Snapline } from "@antv/x6-plugin-snapline";
+import { Keyboard } from "@antv/x6-plugin-keyboard";
+import { Clipboard } from "@antv/x6-plugin-clipboard";
+import { History } from "@antv/x6-plugin-history";
+
 const graph = ref();
+const stencil = ref();
+
+const commonAttrs = {
+  body: {
+    fill: "#fff",
+    stroke: "#8f8f8f",
+    strokeWidth: 1,
+  },
+  label: {
+    refX: 0.5,
+    refY: "100%",
+    refY2: 4,
+    textAnchor: "middle",
+    textVerticalAnchor: "top",
+  },
+};
+const save = () => {
+  console.log(graph.value.toJSON(), "graph");
+  console.log(graph.value.getNodes(), "node");
+};
+const data = {
+  nodes: [
+    {
+      id: "node1",
+      shape: "rect",
+      x: 40,
+      y: 40,
+      width: 100,
+      height: 40,
+      label: "hello",
+      attrs: {
+        // body 是选择器名称，选中的是 rect 元素
+        body: {
+          stroke: "#8f8f8f",
+          strokeWidth: 1,
+          fill: "#fff",
+          rx: 6,
+          ry: 6,
+        },
+      },
+    },
+    {
+      id: "node2",
+      shape: "rect",
+      x: 160,
+      y: 180,
+      width: 100,
+      height: 40,
+      label: "world",
+      attrs: {
+        body: {
+          stroke: "#8f8f8f",
+          strokeWidth: 1,
+          fill: "#fff",
+          rx: 6,
+          ry: 6,
+        },
+      },
+    },
+  ],
+  edges: [
+    {
+      shape: "edge",
+      source: "node1",
+      target: "node2",
+      label: "x6",
+      attrs: {
+        // line 是选择器名称，选中的边的 path 元素
+        line: {
+          stroke: "#8f8f8f",
+          strokeWidth: 1,
+        },
+      },
+    },
+  ],
+};
 const initGraph = () => {
-  const container = document.getElementById("container");
   graph.value = new Graph({
-    container: container, // 画布容器
-    width: container.offsetWidth, // 画布宽
-    height: container.offsetHeight, // 画布高
-    background: false, // 背景（透明）
-    snapline: true, // 对齐线
-    // 配置连线规则
-    connecting: {
-      snap: true, // 自动吸附
-      allowBlank: false, // 是否允许连接到画布空白位置的点
-      allowMulti: true, // 是否允许在相同的起始节点和终止之间创建多条边
-      allowLoop: true, // 是否允许创建循环连线，即边的起始节点和终止节点为同一节点
-      highlight: true, // 拖动边时，是否高亮显示所有可用的节点
-      highlighting: {
-        magnetAdsorbed: {
-          name: "stroke",
-          args: {
-            attrs: {
-              fill: "#5F95FF",
-              stroke: "#5F95FF",
-            },
-          },
-        },
-      },
-      router: {
-        // 对路径添加额外的点
-        name: "orth",
-      },
-      connector: {
-        // 边渲染到画布后的样式
-        name: "rounded",
-        args: {
-          radius: 8,
-        },
-      },
-    },
-    panning: {
-      enabled: false,
-    },
+    container: document.getElementById("graph-container"),
+    width: 900,
+    height: 700,
+    grid: true,
     mousewheel: {
-      enabled: true, // 支持滚动放大缩小
+      enabled: true,
       zoomAtMousePosition: true,
       modifiers: "ctrl",
       minScale: 0.5,
       maxScale: 3,
     },
-    grid: {
-      type: "dot",
-      size: 20, // 网格大小 10px
-      visible: true, // 渲染网格背景
-      args: {
-        color: "#a0a0a0", // 网格线/点颜色
-        thickness: 2, // 网格线宽度/网格点大小
+    connecting: {
+      router: "manhattan",
+      connector: {
+        name: "rounded",
+        args: {
+          radius: 8,
+        },
+      },
+      anchor: "center",
+      connectionPoint: "anchor",
+      allowBlank: false,
+      snap: {
+        radius: 20,
+      },
+      createEdge() {
+        return new Shape.Edge({
+          attrs: {
+            line: {
+              stroke: "#A2B1C3",
+              strokeWidth: 2,
+              targetMarker: {
+                name: "block",
+                width: 12,
+                height: 8,
+              },
+            },
+          },
+          zIndex: 0,
+        });
+      },
+      validateConnection({ targetMagnet }) {
+        return !!targetMagnet;
+      },
+    },
+    highlighting: {
+      magnetAdsorbed: {
+        name: "stroke",
+        args: {
+          attrs: {
+            fill: "#5F95FF",
+            stroke: "#5F95FF",
+          },
+        },
       },
     },
   });
-  nodeAddEvent();
 };
-//添加节点到画布
-const addHandleNode = (x, y, id, image, name) => {
-  graph.value.addNode({
-    id: id,
-    shape: "image", // 指定使用何种图形，默认值为 'rect'
-    x: x,
-    y: y,
-    width: 60,
-    height: 60,
-    imageUrl: image,
-    attrs: {
-      body: {
-        stroke: "#ffa940",
-        fill: "#ffd591",
-      },
-      label: {
-        textWrap: {
-          width: 90,
-          text: name,
-        },
-        fill: "black",
-        fontSize: 12,
-        refX: 0.5,
-        refY: "100%",
-        refY2: 4,
-        textAnchor: "middle",
-        textVerticalAnchor: "top",
-      },
-    },
-    ports: {
-      groups: {
-        group1: {
-          position: [30, 30],
-        },
-      },
-      items: [
-        {
-          group: "group1",
-          id: "port1",
-          attrs: {
-            circle: {
-              r: 6,
-              magnet: true,
-              stroke: "#ffffff",
-              strokeWidth: 2,
-              fill: "#5F95FF",
+const initAddNode = () => {
+  const ports = {
+    groups: {
+      top: {
+        position: "top",
+        attrs: {
+          circle: {
+            r: 4,
+            magnet: true,
+            stroke: "#5F95FF",
+            strokeWidth: 1,
+            fill: "#fff",
+            style: {
+              visibility: "hidden",
             },
           },
         },
-      ],
+      },
+      right: {
+        position: "right",
+        attrs: {
+          circle: {
+            r: 4,
+            magnet: true,
+            stroke: "#5F95FF",
+            strokeWidth: 1,
+            fill: "#fff",
+            style: {
+              visibility: "hidden",
+            },
+          },
+        },
+      },
+      bottom: {
+        position: "bottom",
+        attrs: {
+          circle: {
+            r: 4,
+            magnet: true,
+            stroke: "#5F95FF",
+            strokeWidth: 1,
+            fill: "#fff",
+            style: {
+              visibility: "hidden",
+            },
+          },
+        },
+      },
+      left: {
+        position: "left",
+        attrs: {
+          circle: {
+            r: 4,
+            magnet: true,
+            stroke: "#5F95FF",
+            strokeWidth: 1,
+            fill: "#fff",
+            style: {
+              visibility: "hidden",
+            },
+          },
+        },
+      },
     },
-    zIndex: 10,
-  });
-};
-// 拖动后松开鼠标触发事件
-const handleDragEnd = (e, item) => {
-  console.log(e, item); // 可以获取到最后拖动后松开鼠标时的坐标和拖动的节点相关信息
-  this.addHandleNode(
-    e.pageX - 500,
-    e.pageY - 200,
-    new Date().getTime(),
-    item.image,
-    item.name
+    items: [
+      {
+        group: "top",
+      },
+      {
+        group: "right",
+      },
+      {
+        group: "bottom",
+      },
+      {
+        group: "left",
+      },
+    ],
+  };
+  Graph.registerNode(
+    "custom-rect",
+    {
+      inherit: "rect",
+      width: 66,
+      height: 36,
+      attrs: {
+        body: {
+          strokeWidth: 1,
+          stroke: "#5F95FF",
+          fill: "#EFF4FF",
+        },
+        text: {
+          fontSize: 12,
+          fill: "#262626",
+        },
+      },
+      ports: { ...ports },
+    },
+    true
+  );
+
+  Graph.registerNode(
+    "custom-polygon",
+    {
+      inherit: "polygon",
+      width: 66,
+      height: 36,
+      attrs: {
+        body: {
+          strokeWidth: 1,
+          stroke: "#5F95FF",
+          fill: "#EFF4FF",
+        },
+        text: {
+          fontSize: 12,
+          fill: "#262626",
+        },
+      },
+      ports: {
+        ...ports,
+        items: [
+          {
+            group: "top",
+          },
+          {
+            group: "bottom",
+          },
+        ],
+      },
+    },
+    true
+  );
+
+  Graph.registerNode(
+    "custom-circle",
+    {
+      inherit: "circle",
+      width: 45,
+      height: 45,
+      attrs: {
+        body: {
+          strokeWidth: 1,
+          stroke: "#5F95FF",
+          fill: "#EFF4FF",
+        },
+        text: {
+          fontSize: 12,
+          fill: "#262626",
+        },
+      },
+      ports: { ...ports },
+    },
+    true
+  );
+
+  Graph.registerNode(
+    "custom-image",
+    {
+      inherit: "rect",
+      width: 52,
+      height: 52,
+      markup: [
+        {
+          tagName: "rect",
+          selector: "body",
+        },
+        {
+          tagName: "image",
+        },
+        {
+          tagName: "text",
+          selector: "label",
+        },
+      ],
+      attrs: {
+        body: {
+          stroke: "#5F95FF",
+          fill: "#5F95FF",
+        },
+        image: {
+          width: 26,
+          height: 26,
+          refX: 13,
+          refY: 16,
+        },
+        label: {
+          refX: 3,
+          refY: 2,
+          textAnchor: "left",
+          textVerticalAnchor: "top",
+          fontSize: 12,
+          fill: "#fff",
+        },
+      },
+      ports: { ...ports },
+    },
+    true
   );
 };
-
-const save = () => {
-  console.log(graph.value.toJSON(), "graph");
-  console.log(graph.value.getNodes(), "node");
+const initUse = () => {
+  graph.value
+    .use(
+      new Transform({
+        resizing: true,
+        rotating: true,
+      })
+    )
+    .use(
+      new Selection({
+        rubberband: true,
+        showNodeSelectionBox: true,
+      })
+    )
+    .use(new Snapline())
+    .use(new Keyboard())
+    .use(new Clipboard())
+    .use(new History())
+    .use(
+      new Snapline({
+        enabled: true,
+      })
+    );
+};
+const initStencil = () => {
+  stencil.value = new Stencil({
+    title: "工具",
+    target: graph.value,
+    stencilGraphWidth: 300,
+    stencilGraphHeight: 300,
+    collapsable: true,
+    groups: [
+      {
+        title: "基础流程图",
+        name: "group1",
+      },
+      {
+        title: "系统设计图",
+        name: "group2",
+        graphHeight: 250,
+        layoutOptions: {
+          rowHeight: 70,
+        },
+      },
+    ],
+    layoutOptions: {
+      columns: 2,
+      columnWidth: 80,
+      rowHeight: 55,
+    },
+  });
+  document.getElementById("stencil").appendChild(stencil.value.container);
+};
+const create = () => {
+  const r1 = graph.value.createNode({
+    shape: "custom-rect",
+    label: "开始",
+    attrs: {
+      body: {
+        rx: 20,
+        ry: 26,
+      },
+    },
+  });
+  const r2 = graph.value.createNode({
+    shape: "custom-rect",
+    label: "过程",
+  });
+  const r3 = graph.value.createNode({
+    shape: "custom-rect",
+    attrs: {
+      body: {
+        rx: 6,
+        ry: 6,
+      },
+    },
+    label: "可选过程",
+  });
+  const r4 = graph.value.createNode({
+    shape: "custom-polygon",
+    attrs: {
+      body: {
+        refPoints: "0,10 10,0 20,10 10,20",
+      },
+    },
+    label: "决策",
+  });
+  const r5 = graph.value.createNode({
+    shape: "custom-polygon",
+    attrs: {
+      body: {
+        refPoints: "10,0 40,0 30,20 0,20",
+      },
+    },
+    label: "数据",
+  });
+  const r6 = graph.value.createNode({
+    shape: "custom-circle",
+    label: "连接",
+  });
+  stencil.value.load([r1, r2, r3, r4, r5, r6], "group1");
+  const imageShapes = [
+    {
+      label: "Client",
+      image:
+        "https://gw.alipayobjects.com/zos/bmw-prod/687b6cb9-4b97-42a6-96d0-34b3099133ac.svg",
+    },
+    {
+      label: "Http",
+      image:
+        "https://gw.alipayobjects.com/zos/bmw-prod/dc1ced06-417d-466f-927b-b4a4d3265791.svg",
+    },
+    {
+      label: "Api",
+      image:
+        "https://gw.alipayobjects.com/zos/bmw-prod/c55d7ae1-8d20-4585-bd8f-ca23653a4489.svg",
+    },
+    {
+      label: "Sql",
+      image:
+        "https://gw.alipayobjects.com/zos/bmw-prod/6eb71764-18ed-4149-b868-53ad1542c405.svg",
+    },
+    {
+      label: "Clound",
+      image:
+        "https://gw.alipayobjects.com/zos/bmw-prod/c36fe7cb-dc24-4854-aeb5-88d8dc36d52e.svg",
+    },
+    {
+      label: "Mq",
+      image:
+        "https://gw.alipayobjects.com/zos/bmw-prod/2010ac9f-40e7-49d4-8c4a-4fcf2f83033b.svg",
+    },
+  ];
+  const imageNodes = imageShapes.map((item) =>
+    graph.value.createNode({
+      shape: "custom-image",
+      label: item.label,
+      attrs: {
+        image: {
+          "xlink:href": item.image,
+        },
+      },
+    })
+  );
+  stencil.value.load(imageNodes, "group2");
 };
 onMounted(() => {
   initGraph();
-  // 节点绑定点击事件
-  graph.value.on("node:click", ({ e, x, y, node, view }) => {
-    console.log("点击！！！", node);
-    // 判断是否有选中过节点
-    if (this.curSelectNode) {
-      // 移除选中状态
-      this.curSelectNode.removeTools();
-      // 判断两次选中节点是否相同
-      if (this.curSelectNode !== node) {
-        node.addTools([
-          {
-            name: "boundary",
-            args: {
-              attrs: {
-                fill: "#16B8AA",
-                stroke: "#2F80EB",
-                strokeWidth: 1,
-                fillOpacity: 0.1,
-              },
-            },
-          },
-          {
-            name: "button-remove",
-            args: {
-              x: "100%",
-              y: 0,
-              offset: {
-                x: 0,
-                y: 0,
-              },
-            },
-          },
-        ]);
-        this.curSelectNode = node;
-      } else {
-        this.curSelectNode = null;
-      }
-    } else {
-      this.curSelectNode = node;
-      node.addTools([
-        {
-          name: "boundary",
-          args: {
-            attrs: {
-              fill: "#16B8AA",
-              stroke: "#2F80EB",
-              strokeWidth: 1,
-              fillOpacity: 0.1,
-            },
-          },
-        },
-        {
-          name: "button-remove",
-          args: {
-            x: "100%",
-            y: 0,
-            offset: {
-              x: 0,
-              y: 0,
-            },
-          },
-        },
-      ]);
-    }
-  });
-  // 连线绑定悬浮事件
-  graph.value.on("cell:mouseenter", ({ cell }) => {
-    if (cell.shape == "edge") {
-      cell.addTools([
-        {
-          name: "button-remove",
-          args: {
-            x: "100%",
-            y: 0,
-            offset: {
-              x: 0,
-              y: 0,
-            },
-          },
-        },
-      ]);
-      cell.setAttrs({
-        line: {
-          stroke: "#409EFF",
-        },
-      });
-      cell.zIndex = 99; // 保证当前悬停的线在最上层，不会被遮挡
-    }
-  });
-  graph.value.on("cell:mouseleave", ({ cell }) => {
-    if (cell.shape === "edge") {
-      cell.removeTools();
-      cell.setAttrs({
-        line: {
-          stroke: "black",
-        },
-      });
-      cell.zIndex = 1; // 保证未悬停的线在下层，不会遮挡悬停的线
-    }
-  });
+  initStencil();
+  initAddNode();
+  initUse();
+  create();
+
+  graph.value.fromJSON(data); // 渲染元素
+  graph.value.centerContent(); // 居中显示
 });
 </script>
-<style lang="scss" scoped>
-.dashboard-container {
-  .antvBox {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    color: black;
-    padding-top: 20px;
-    .menu-list {
-      height: 100%;
-      width: 300px;
-      padding: 0 10px;
-      box-sizing: border-box;
-      display: flex;
-      justify-content: space-between;
-      align-content: flex-start;
-      flex-wrap: wrap;
-      > div {
-        margin-bottom: 10px;
-        border-radius: 5px;
-        padding: 0 10px;
-        box-sizing: border-box;
-        cursor: pointer;
-        color: black;
-        width: 105px;
-        display: flex;
-        flex-wrap: wrap;
-
-        justify-content: center;
-        img {
-          height: 50px;
-          width: 50px;
-        }
-        P {
-          width: 90px;
-          text-align: center;
-        }
-      }
-    }
-    .canvas-card {
-      width: 1700px;
-      height: 750px;
-      box-sizing: border-box;
-      > div {
-        width: 1400px;
-        height: 750px;
-        border: 2px dashed #2149ce;
-      }
-    }
-  }
+<style scoped>
+#container {
+  display: flex;
+  border: 1px solid #dfe3e8;
+}
+#stencil {
+  width: 180px;
+  height: 100%;
+  position: relative;
+  border-right: 1px solid #dfe3e8;
+}
+#graph-container {
+  width: calc(100% - 180px);
+  height: 100%;
+}
+.x6-widget-stencil {
+  background-color: #fff;
+}
+.x6-widget-stencil-title {
+  background-color: #fff;
+}
+.x6-widget-stencil-group-title {
+  background-color: #fff !important;
+}
+.x6-widget-transform {
+  margin: -1px 0 0 -1px;
+  padding: 0px;
+  border: 1px solid #239edd;
+}
+.x6-widget-transform > div {
+  border: 1px solid #239edd;
+}
+.x6-widget-transform > div:hover {
+  background-color: #3dafe4;
+}
+.x6-widget-transform-active-handle {
+  background-color: #3dafe4;
+}
+.x6-widget-transform-resize {
+  border-radius: 0;
+}
+.x6-widget-selection-inner {
+  border: 1px solid #239edd;
+}
+.x6-widget-selection-box {
+  opacity: 0;
 }
 </style>

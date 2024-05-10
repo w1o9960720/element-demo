@@ -151,7 +151,6 @@ const TabNameList = reactive([
 ]);
 const tabIndex = ref("LISTING_RULES");
 onMounted(() => {
-  console.log("refs: ", refs);
 });
 const ruleTypeChanged = (event) => {
   refs[event.index].getInfo();
