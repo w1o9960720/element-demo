@@ -117,7 +117,6 @@ const getInfo = () => {
   console.log(props.label);
 };
 const handleshow = async (row, $index) => {
-  console.log("row: ", row);
   row.isshow = true;
   await nextTick();
   refs[$index]?.focus();

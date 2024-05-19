@@ -18,7 +18,7 @@
         <el-row :gutter="4">
           <el-col :span="12">
             <el-form-item label="车辆名：" prop="name">{{
-              formData.name
+              formData.label
             }}</el-form-item>
           </el-col>
           <el-col :span="12">
@@ -72,7 +72,6 @@
   </el-dialog>
 </template>
 <script setup>
-import { Dayjs } from "dayjs";
 import { reactive, computed, toRefs, watch } from "vue";
 import dayjs from "dayjs";
 const forma = {
@@ -108,7 +107,7 @@ const props = defineProps({
 });
 const { data } = toRefs(props);
 const emit = defineEmits(["update:modelValue"]);
-const initData = () => {
+const initData = (data) => {
   if (data) {
     Object.assign(formData, data.value);
   }
@@ -118,7 +117,7 @@ const handleconfim = () => {
 };
 watch(visible, (val) => {
   if (val) {
-    initData();
+    initData(data);
   }
 });
 </script>
