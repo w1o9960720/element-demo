@@ -50,10 +50,11 @@
           </el-col>
         </el-row>
       </div>
+      <div class="btn" style="margin-bottom: 8px"></div>
       <div class="btn" style="margin-bottom: 8px">
-      </div>
-      <div class="btn" style="margin-bottom: 8px">
-        <el-button @click="handleadd" type="primary">新增</el-button>
+        <el-button class="tans" @click="handleadd" type="primary"
+          >新增</el-button
+        >
       </div>
       <div class="table">
         <el-table
@@ -68,6 +69,9 @@
             v-bind="item"
           >
             <template v-if="item.prop === 'color'" #default="{ row }">
+              <el-tag type="success">{{ row.color }}</el-tag>
+            </template>
+            <template v-if="item.prop === 'color'" #time="{ row }">
               <el-tag type="success">{{ row.color }}</el-tag>
             </template>
             <template v-else-if="item.fixed === 'right'" #default="{ row }">
@@ -86,6 +90,14 @@
         <Pagenation @search="handlesearch" :total="total"></Pagenation>
       </div>
     </el-form>
+    <div class="list">
+      <ul @click="handletest">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+      </ul>
+    </div>
     <div class="footer">
       <!-- <el-button size="large" @click="handleclick" type="primary"
         >保存</el-button
@@ -104,20 +116,20 @@ import editDialog from "./components/editDialog.vue";
 import Detail from "./components/detail.vue";
 import { keyBy, groupBy } from "lodash";
 import init from "./usehook.js";
+import { ref } from "vue";
 import Pagenation from "@/components/Pagination/index.vue";
 import initForm from "./useForm.js";
-
-// var array = [
-//   { dir: "left", code: 97 },
-//   { dir: "right", code: 100 },
-//   { dir: "left", code: 97 },
-//   { dir: "right", code: 60 },
-//   { dir: "left", code: 97 },
-//   { dir: "right", code: 60 },
-// ];
-// console.log('keyBy(array, "dir"): ', keyBy(array, "code"));
-// console.log('keyBy(array, "dir"): ', groupBy(array, "dir"));
-
+const isshow = ref(false);
+const handletest = (e) => {
+  console.log("e.currentTarget: ", e.currentTarget); //事件源
+  console.log("e.target: ", e.target); //事件目标
+};
+const handlemouseleave = () => {
+  isshow.value = false;
+};
+const handlemouseover = () => {
+  isshow.value = true;
+};
 const { form, forme, visible, visible1, total, item, rules, page, formData } =
   initForm();
 const {
@@ -145,6 +157,14 @@ const arraySpanMethod = ({ row, column, rowIndex, columnIndex }) => {};
 
 
 <style lang="scss" scoped>
+.tans {
+  width: 50px;
+  transition: all 1s;
+}
+.tans:hover {
+  width: 100px;
+}
+
 .form {
   max-width: 1280px;
   margin: 0 auto;
