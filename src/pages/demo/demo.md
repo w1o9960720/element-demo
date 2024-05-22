@@ -337,3 +337,24 @@ const test1 = (params) => {
 };
 let params = true;
 // console.log("test1(): ", test1(params));
+
+## 数组之间去重
+
+const fns = () => {
+  const cloneTableData = cloneDeep(this.tableData);
+  if (this.checkedPassData.length) {
+    this.checkedPassData.forEach((i) => {
+      const useI = i;
+      const findIdx = cloneTableData.findIndex(
+        (k) => k.staffCode === useI.staffCode
+      );
+      if (findIdx > -1) {
+        useI.id = cloneTableData[findIdx].id;
+        cloneTableData.splice(findIdx, 1, useI);
+      } else {
+        cloneTableData.push(useI);
+      }
+    });
+    this.tableData = cloneTableData;
+  }
+};
