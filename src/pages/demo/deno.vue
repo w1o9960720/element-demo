@@ -73,7 +73,8 @@
 </template>
 
 
-<script>
+<script setup>
+import { reactive, computed } from "vue";
 /**
  * el-autocomplete组件
  */
@@ -427,7 +428,7 @@ const handlesave = () => {
   });
 };
 /**
- * 
+ *
  */
 const fns = () => {
   const cloneTableData = cloneDeep(this.tableData);
@@ -452,6 +453,52 @@ const fns = () => {
     });
   }
 };
+/**
+ * 扁平数组转树形结构数组
+ */
+const arrs = [
+  { id: 4, pid: 3 },
+  { id: "aa", pid: "a" },
+  { id: 1, pid: null },
+  { id: 3, pid: 2 },
+  { id: "a", pid: "a0" },
+  { id: 2, pid: 1 },
+  { id: "a0", pid: null },
+];
+const handleTree = (arr) => {
+  return arr.reduce((o, i) => {
+    i = Object.assign((o[i.id] ??= {}), i);
+    ((o[i.pid ?? ""] ??= {}).children ??= []).push(i);
+    return o;
+  }, {})[""]?.children;
+};
+const tree = (arr, pid) => {
+  const first = arr.filter((item) => item.pid === pid);
+  first.forEach((item) => {
+    const children = tree(arr, item.id);
+    if (children.length > 0) {
+      item.children = children;
+    }
+  });
+  return first || [];
+};
+// console.log("handleTree: ", handleTree(arrs));
+// console.log("tree: ", tree(arr, null));
+
+/**
+ * 树形结构数组转扁平数组
+ */
+let list = [];
+const treetoarr = (arr, list) => {
+  arr.forEach((item) => {
+    list.push(item);
+    if (item.children) {
+      treetoarr(item.children, list);
+    }
+  });
+};
+treetoarr(tree(arr, null), list);
+console.log("treetoarr: ", list);
 </script>
 
 
