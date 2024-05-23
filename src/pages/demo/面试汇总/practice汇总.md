@@ -1,4 +1,4 @@
-## 修改对象中某一个key的值 
+# 1. 修改对象中某一个key的值 
 let res = {
   enfUrl: "sdfs",
   sadas: "eqe",
@@ -16,7 +16,7 @@ Object.keys(res).forEach((key) => {
 });
 console.log("res: ", res);
 
-## 遍历key成为标准键值对 
+# 2. 遍历key成为标准键值对 
 
 const fn = (obj) => {
   const keys = Object.keys(obj);
@@ -38,7 +38,7 @@ const fn = (obj) => {
 
 
 
- ##  根据数组对象值转对象(分类)
+ # 3. 根据数组对象值转对象(分类)
  const arr = [
   {
     bk: "qq",
@@ -74,7 +74,7 @@ const filterArr = (arr) => {
 console.log("filterArr(arr): ", filterArr(arr));
 
 
-##  if-else-if
+# 4. if-else-if
 
 const columns = computed(() => {
   if (h) {
@@ -94,7 +94,7 @@ const columns = computed(() => {
   ];
 });
 
-## 去除表单空字符串
+# 5. 去除表单空字符串
 
 const getSearchData = () =>
   Object.keys(form.value).reduce(
@@ -105,7 +105,7 @@ const getSearchData = () =>
     {}
   );
 
-## Promise.all并发请求
+# 6. Promise.all并发请求
 
 const p = new Promise((resolve, reject) => {
   http(params)
@@ -118,14 +118,14 @@ const p = new Promise((resolve, reject) => {
 });
 const [data] = await Promise.all([p]);
 
-## upload组件覆盖下一张图片
+# 7. upload组件覆盖下一张图片
 function handleExceed(files) {
   upload.value.clearFiles();
   const file = files[0];
   upload.value.handleStart(file);
 }
 
-## 利用map 实现更新列表内某项字段
+# 8. 利用map 实现更新列表内某项字段
 
 this.goods = this.goods.map((item, index) => {
   // 当货品ID，已添加货品序号，才确认为同一条数据
@@ -144,7 +144,7 @@ this.goods = this.goods.map((item, index) => {
   return item;
 });
 
-## 利用evevry 实现列表是否为空
+# 9. 利用evevry 实现列表是否为空
 
 const handSave = async (type) => {
   try {
@@ -162,7 +162,7 @@ const handSave = async (type) => {
   }
 };
 
-## 使用map()实现Promise.all并发请求
+# 10. 使用map()实现Promise.all并发请求
 
 const baseInfoValidateFns = this.$refs.baseInfo.map((i) => {
   return new Promise((resolve, reject) => {
@@ -183,7 +183,7 @@ const baseInfoValidateFns = this.$refs.baseInfo.map((i) => {
 const [data] = Promise.all([baseInfoValidateFns]);
 
 
-## 使用变量防止重复请求
+# 11. 使用变量防止重复请求
 
 let loading = false;
 const confirmHandler = async (data) => {
@@ -206,7 +206,7 @@ const confirmHandler = async (data) => {
   }
 };
 
-## new map()
+# 12. new map()
 
 const Dict = {
   Warehouse: "WAREHOUSE",
@@ -246,7 +246,7 @@ const operationType = (type) => {
 };
 
 
-## es6写法
+# 13. es6写法
 
 const confirmHandler1 = (doClose) => {
   const formEl = formRef.value.elForm;
@@ -281,7 +281,7 @@ const confirmHandler1 = (doClose) => {
 };
 
 
- ## 扁平数组转树形结构数组
+ # 14. 扁平数组转树形结构数组
 
 const arrs = [
   { id: 4, pid: 3 },
@@ -314,7 +314,7 @@ const tree = (arr, pid) => {
 // console.log("tree: ", tree(arr, null));
 
 
-## 树形结构数组转扁平数组
+# 15. 树形结构数组转扁平数组
 
 let list = [];
 const treetoarr = (arr, list) => {
@@ -328,7 +328,7 @@ const treetoarr = (arr, list) => {
 treetoarr(tree(arr, null), list);
 console.log("treetoarr: ", list);
 
-## Promise.reslove()三种入参
+# 16. Promise.reslove()三种入参
 
 const test1 = (params) => {
   return Promise.resolve(params).then((res) => {
@@ -338,7 +338,7 @@ const test1 = (params) => {
 let params = true;
 // console.log("test1(): ", test1(params));
 
-## 数组之间去重
+# 17. 数组之间去重
 
 const fns = () => {
   const cloneTableData = cloneDeep(this.tableData);
