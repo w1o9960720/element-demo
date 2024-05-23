@@ -396,3 +396,139 @@ const fns = () => {
   }
 };
 ```
+
+# 18. elementui 用法
+
+## el-tree 组件
+
+```js
+  <el-tree
+    ref="treeRef"
+    class="filter-tree"
+    :data="data"
+    :props="defaultProps"
+    default-expand-all
+    :filter-node-method="filterNode"
+    @node-click="checkDeptId"
+  >
+    <!-- <template #default="{ node, data }">
+      <span class="custom-tree-node">
+        <span>{{ node.label }}</span>
+        <i v-if="data.isLock" class="yun-iconfont icon-lock" />
+      </span>
+    </template> -->
+  </el-tree>
+
+  defaultProps: {
+    children: "children",
+    label: "name",
+  },
+
+  const filterNode = (value, data) => {
+    if (!value) return true;
+    return data.name.indexOf(value) !== -1;
+  };
+
+  const checkDeptId = (row) => {
+    state.deptId = row.id;
+  };
+
+```
+
+## el-autocomplete 组件
+
+```js
+
+  <el-autocomplete
+    v-model="form.address"
+    :size="size"
+    placeholder="请输入关键词搜索"
+    :disabled="!edit || i.disabled"
+    :trigger-on-focus="false"
+    style="width: 275px"
+    :fetch-suggestions="handleChangeAddr"
+    @select="handleSelectAddr">
+
+    <template #default="{ item }">
+      <span>{{ item.name }}</span>
+    </template>
+  </el-autocomplete>
+
+  const handleChangeAddr = async (val, cb) => {
+  if (val) {
+    const data = {
+      keywords: val || "",
+    };
+    const res = await getAddressPoi(data);
+    cb(res || []);
+  } else {
+    cb([]);
+  }
+};
+```
+
+## el-form(el-row el-col el-table)
+
+```js
+
+  <el-form ref="ruleForm" :model="froms">
+    <el-row>
+      <el-col>
+        <el-form-item
+          :prop="limitRules"
+          :rules="[{ require, trigger: 'blur' }]"
+        >
+          <el-input v-model.trim="froms.limitRules" placeholder="请填写" />
+        </el-form-item>
+      </el-col>
+      <el-col>
+        <el-input v-model.trim="froms.limit" placeholder="请填写" />
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-table :data="froms.turnoverRule">
+        <!-- 有验证 用el-form-item -->
+        <el-table-column label="限定规则" width="360px">
+          <template v-slot:default="scope">
+            <el-form-item
+              :prop="'turnoverRule.' + scope.$index + '.limitRule'"
+              :rules="[{ validator: validateNumber, trigger: 'blur' }]"
+            >
+              <el-input
+                v-model.trim="scope.row.limitRule"
+                placeholder="请填写0-1之间的小数，只支持填写到小数点后3位"
+              />
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <!-- 无验证 不用el-form-item-->
+        <el-table-column label="批属性字段" min-width="160px">
+          <template v-slot:default="scope">
+            <el-input v-model.trim="scope.row.fieldCode" placeholder="请填写" />
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-row>
+  </el-form>
+```
+
+## el-tree 组件
+
+### 收集 label 和 value
+
+```js
+const handleChangeCity = (val) => {
+  const provinceRef = this.$refs.provinceRef?.[0] || this.$refs.provinceRef;
+  const pathLabels = provinceRef?.getCheckedNodes?.()?.[0]?.pathLabels || [];
+  const [provinceName, cityName, countyName] = pathLabels;
+  const [provinceCode, cityCode, countyCode] = val;
+  console.log("pathLabels", pathLabels);
+  this.form.address = null;
+  this.form.provinceCode = provinceCode;
+  this.form.provinceName = provinceName;
+  this.form.cityCode = cityCode;
+  this.form.cityName = cityName;
+  this.form.countyCode = countyCode;
+  this.form.countyName = countyName;
+};
+```
