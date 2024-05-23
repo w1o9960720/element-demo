@@ -1,18 +1,16 @@
 # 结合场景来解答问题
-1. 这个API设计的目的和作用
+
+1. 这个 API 设计的目的和作用
 2. 原理实现
 3. 应用场景
 
 # 1. Vue 生命周期
-| 钩子函数                | 作用  
 
-
-
-
-
+| 钩子函数 | 作用
 
 # 2. Vue 父子组件生命周期执行顺序
->Vue 父子组件生命周期钩子的执行顺序遵循：从外到内丶然后从内到外。
+
+> Vue 父子组件生命周期钩子的执行顺序遵循：从外到内丶然后从内到外。
 
 ## 组件加载渲染过程
 
@@ -29,10 +27,6 @@
 ## 销毁过程
 
 `父组件beforeDestory` -> `子组件beforeDestory` -> `子destoryed` -> `父组件destoryed`
-
-
-
-
 
 # 3. 组件通信
 
@@ -56,7 +50,7 @@
 
 ## eventBus
 
-**就是创建一个事件中心，相当于中转站，可以用它来传递事件和接受事件。项目小的时候  用这个比较合适**
+**就是创建一个事件中心，相当于中转站，可以用它来传递事件和接受事件。项目小的时候 用这个比较合适**
 
 使用方法
 
@@ -94,19 +88,20 @@ export default {
 缺点：
 
 - 由于是使用一个 Vue 实例，所以容易出现重复触发的情景，例如：
-  - 多人开放时，A、B两个人定义了同一个事件名
+  - 多人开放时，A、B 两个人定义了同一个事件名
   - 两个页面都定义了同一个事件名，并且没有用 $off 销毁（常出现在路由切换时）
   - 在 for 出来的组件里注册
 - 项目一大用这种方式管理事件会十分混乱，这时候建议用 Vuex
 
-## vuex: 
+## vuex:
 
 **主要有两种数据会使用 vuex 进行管理**
 
-- 组件之间全局共享数据 
+- 组件之间全局共享数据
 - 通过后端异步请求的数据
 
 - 优点：
+
   - 解决了多层组件之间繁琐的事件传
   - 解决了多组件依赖同一状态的问题
   - 单向数据流
@@ -131,7 +126,7 @@ inject 选项应该是：一个字符串数组 或 一个对象，对象的 key 
 缺点：
 
 - 用这种方式传递的属性是非响应式的，所以尽可能来传递一些静态属性
-- 引用官网的话是 它将你的应用以目前的组件方式耦合了起来，使重构变得更加困难，我对这句话的理解是用了provide/inject 你就要遵循它的组件组织方式，在项目的重构时如果要破坏这个组织方式会有额外的开发成本，其实 event-bus 也有这种问题
+- 引用官网的话是 它将你的应用以目前的组件方式耦合了起来，使重构变得更加困难，我对这句话的理解是用了 provide/inject 你就要遵循它的组件组织方式，在项目的重构时如果要破坏这个组织方式会有额外的开发成本，其实 event-bus 也有这种问题
 
 ## slot
 
@@ -140,9 +135,9 @@ inject 选项应该是：一个字符串数组 或 一个对象，对象的 key 
 ```js
 <navigator-link url='/profile'>
 	<!-- 添加一个 Font Awesome 图标 -->
-  <span class="fa fa-user"></span> 
+  <span class="fa fa-user"></span>
 	Your Profile
-</navigator-link>  
+</navigator-link>
 ```
 
 > 父组件模版的所有东西都会在父级作用域内编译；子组件模版的所有东西都会在子级作用域内编译
@@ -175,10 +170,8 @@ inject 选项应该是：一个字符串数组 或 一个对象，对象的 key 
 - 用这种方法写出的组件十分难维护，因为你并不知道数据的来源是哪里，有悖于单向数据流的原则
 - this.$children 拿到的是一个数组，你并不能很准确的找到你要找的子组件的位置，尤其是子组件多的时候
 
-
-
-
 # 4. extend 能做什么
+
 作用是拓展组件生成一个构造器，通常会与 `$mount` 一起使用。
 
 ## 使用场景：
@@ -234,12 +227,8 @@ new todoItem({
 </html>
 ```
 
-
-
-
-
-
 # 5. mixin 和 mixins 区别
+
 **类似小程序的 behaviors，用于组件间代码共享的特性**
 
 ## mixin
@@ -249,17 +238,13 @@ new todoItem({
 
 ## mixins
 
-- 应用场景：应该是我们最常使用的拓展组件的方式了。如果多个组件中有相同的业务逻辑，就可以将这些逻辑剥离出来，通过 mixins 混入代码，比如 上拉下拉加载数据  这种逻辑等等。
+- 应用场景：应该是我们最常使用的拓展组件的方式了。如果多个组件中有相同的业务逻辑，就可以将这些逻辑剥离出来，通过 mixins 混入代码，比如 上拉下拉加载数据 这种逻辑等等。
 - 另外需要注意的是同名钩子函数（craeted, mounted...）将混为一个数组，mixins 混入的钩子函数会先于 组件内的钩子函数 执行，并且在遇到同名选项的时候也会有选择性的进行合并，
 - 对象数据（data）在内部会进行递归合并，并在发生冲突时以组件数据优先。
-- 值为对象的选项（method丶component和directives）将混合为同一个对象，两个对象键名冲突时，取组件对象的键值对
-
-
-
-
-
+- 值为对象的选项（method 丶 component 和 directives）将混合为同一个对象，两个对象键名冲突时，取组件对象的键值对
 
 # 6. computed 和 watch 区别
+
 ## computed
 
 - 是计算属性，依赖其他属性计算值，并且 computed 的值有缓存，只有当计算机值变化才会返回内容。
@@ -268,6 +253,7 @@ new todoItem({
   - 适用于一些重复使用数据或复杂及废时的运算。我们可以把它放入 computed 中进行计算，然后会在 computed 中缓存起来，下次直接获取了
   - 如果我们需要的数据依赖于其它的数据的话，完美可以把该数据设计为 computed 中
   - 购物车结算商品的时候
+
 ```js
 <template>
     <div class="hello">
@@ -294,6 +280,7 @@ export default {
 }
 </script>
 ```
+
 **computed 设计的初衷是：为了使模版中的逻辑运算更简单。它有两大优势：**
 
 - 使模版中的逻辑更清晰，方便代码管理
@@ -309,7 +296,7 @@ export default {
 
 **区别是：**
 
-- computed 是基于响应式依赖来进行缓存的。只有在响应式依赖发生改变它们才会重新求值，也就是说，当 msg 属性值没有发生改变时，多次访问  reverseMsg 计算属性会立即返回之前缓存的计算结果，而不会再次执行 computed 中的函数。但是 methods 方法中是每次调用，都会执行函数，methods 它不是响应式的。
+- computed 是基于响应式依赖来进行缓存的。只有在响应式依赖发生改变它们才会重新求值，也就是说，当 msg 属性值没有发生改变时，多次访问 reverseMsg 计算属性会立即返回之前缓存的计算结果，而不会再次执行 computed 中的函数。但是 methods 方法中是每次调用，都会执行函数，methods 它不是响应式的。
 - computed 中的成员可以只定义一个函数作为只读属性，也可以定义成 get/set 变成可读写属性，但是 methods 中的成员没有这样的
 
 ## watch
@@ -406,6 +393,7 @@ watch 里面有一个属性为 deep，含义是：是否深度监听某个对象
 </body>
 </html>
 ```
+
 如上测试代码，如果我们不把 deep: true 添加的话，当我们在输入框中输入值的时候，改变 obj.age 值后，obj 对象中的 handler 函数是不会被执行到的。受 JS 的限制，Vue 不能检测到对象属性的添加或删除的。它只能监听到 obj 这个对象的变化，比如说对 obj 赋值操作会被监听到。比如在 mouted 事件钩子函数中对我们的 obj 进行重新赋值操作
 
 ```js
@@ -468,27 +456,23 @@ mounted() {
 
 **共同点：都支持对象的写法**
 
-
-
-
-
-
 # 6. keep-alive 组件有什么用
+
 - 如果你需要在组件切换的时候，保存一些组件的状态防止多次渲染，就可以使用 keep-alive 组件包裹需要保存的组件。
 - 对于 keep-alive 组件来说，它拥有两个独立的生命周期钩子函数，分别为 `activated` 和 `deactivated`。用 keep-alive 包裹的组件在切换时不会进行销毁，而是缓存到内存中并执行 deactivated 钩子函数，命中缓存渲染后会执行 activated 钩子函数。
 - 使用场景：有时候需要将整个路由页面一切缓存，也就是将 `<router-view>` 进行缓存
   - 商品列表页点击商品跳转商品详情，返回后任显示原有信息
   - 订单列表跳转到的订单详情，然后返回
 
-**keep-alive的生命周期**
+**keep-alive 的生命周期**
 
-当引入 keep-alive 的时候，页面第一次进入，钩子的触发顺序为 `created`  >  `mounted`  >  `activated`，退出后触发 `deactived`。再次进入（前进或后退）时，只会触发 `activated`。
+当引入 keep-alive 的时候，页面第一次进入，钩子的触发顺序为 `created` > `mounted` > `activated`，退出后触发 `deactived`。再次进入（前进或后退）时，只会触发 `activated`。
 
-事件挂载的方法等，只执行一次的放在 `mounted`，组件每次进去执行的方法放在 `activated`  
+事件挂载的方法等，只执行一次的放在 `mounted`，组件每次进去执行的方法放在 `activated`
 
-**vue 缓存页面keep-alive 的坑（数据不刷新，只缓存第一次进入的页面数据），强制刷新缓存的页面的方法**
+**vue 缓存页面 keep-alive 的坑（数据不刷新，只缓存第一次进入的页面数据），强制刷新缓存的页面的方法**
 
-需求：A 进入 B，根据不同 ID 刷新 B 页面数据，B 进入 C，如果  C 有操作数据，则返回 B 后刷新 B 数据，否则 B 页面不刷新。
+需求：A 进入 B，根据不同 ID 刷新 B 页面数据，B 进入 C，如果 C 有操作数据，则返回 B 后刷新 B 数据，否则 B 页面不刷新。
 
 <img src="https://image-static.segmentfault.com/278/771/2787710213-9c6eb1dac235161f_fix732">
 
@@ -501,7 +485,7 @@ beforRoutLeave(to, from, next) {
 	to.meta.isrefer = true; // 刷新 B 的数据
   to.meta.type = false;
   next();
-}	
+}
 ```
 
 B 页面
@@ -533,12 +517,12 @@ C 页面与上面不变
 
 App.vue
 
-````js
+```js
 <keep-alive>
 	<router-riew v-if="$route.meta.keeplive"><router-view>
 </keep-alive>
 <router-view v-if="!$route.meta.keeplive"></router-view>
-````
+```
 
 **解决方案二（利用 provide 和 inject）推荐使用**
 
@@ -548,7 +532,7 @@ app.vue
 <keep-alive v-if="isRouterAlive">
   <router-view v-if="$route.meta.keeplive"></router-riew>
 <keep-alive>
-<router-view v-if="!$route.meta.keeplive"></router-view>    
+<router-view v-if="!$route.meta.keeplive"></router-view>
 ```
 
 Data 里面加个初始值
@@ -586,7 +570,7 @@ reload () {
 
 ```js
 // 与 data 同级加个
-inject: ["reload"]
+inject: ["reload"];
 ```
 
 修改 beforeRouterEnter
@@ -600,11 +584,7 @@ beforeRouteEnter(to, from, next) {
 }
 ```
 
-
-
-
-
-# 7. v-show 与 v-if 区别    
+# 7. v-show 与 v-if 区别
 
 **共同点：都能控制元素的显示和隐藏**  
 **不同点：**
@@ -620,26 +600,21 @@ beforeRouteEnter(to, from, next) {
   - `v-show` 是在任何条件都被编译，然后被缓存，而且 DOM 元素始终被保留
 - **性能消耗**
   - `v-if` 有更高的切换消耗，不适合做频繁的切换
-  - `v-show` 有更高的初始渲染消耗，适合做频繁的切换    
+  - `v-show` 有更高的初始渲染消耗，适合做频繁的切换
 - **使用场景**
   - 如果需要频繁的切换，则使用 `v-show` 比较好
-  - 如果在运行时条件很少改变，则使用 `v-if` 较好 
-
-
-
-
-
+  - 如果在运行时条件很少改变，则使用 `v-if` 较好
 
 # 8. 组件中 data 什么时候可以使用对象
+
 - 组件复用时所有组件实例都会共享 `data`，如果 `data` 是对象的话，就会造成一个组件修改`data`以后会影响到其他所有组件，所以需要将 `data` 写成函数，每次用到就调用一次函数获得新的数据。
 - 当我们使用 `new Vue()`的方式的时候，无论我们将 data 设置为对象还是函数都是可以的，因为 `new Vue()` 的方式是生成一个根组件，该组件不会复用，也就不会共享 data 的情况了。
 
-
-
-
 # 9. v-for 与 v-if 的优先级
-* 当 Vue 处理指令时，`v-for` 比 `v-if`具更高的优先级
-* 永远不要把 `v-if` 和 `v-for` 同时用在同一个元素上，如果实在需要，则在外套层 `template`，在这一层进行 `v-if` 判断，然后再内部进行 `v-for` 循环，避免每次只有 `v-if`只渲染很少一部分元素，也要遍历同级的所有元素
+
+- 当 Vue 处理指令时，`v-for` 比 `v-if`具更高的优先级
+- 永远不要把 `v-if` 和 `v-for` 同时用在同一个元素上，如果实在需要，则在外套层 `template`，在这一层进行 `v-if` 判断，然后再内部进行 `v-for` 循环，避免每次只有 `v-if`只渲染很少一部分元素，也要遍历同级的所有元素
+
 ```js
 <!DOCTYPE html>
 <html lang="en">
@@ -673,8 +648,8 @@ beforeRouteEnter(to, from, next) {
     // 将会进行如下运算
     // this.users.map(function(user) {
     //    if(user.isActive) {
-    //       return user.name; 
-    //    }    
+    //       return user.name;
+    //    }
     // })
 </script>
 </html>
@@ -692,56 +667,52 @@ computed: {
 }
 ```
 
-
-
-
-
-
 # 10. Vue 子组件调用父组件方法总结
+
 ## this.$emit('fn')
 
-  ```js
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    </head>
-    <body>
-        
-        <div id="app">
-            <div>
-                <child @fatherMethod="fatherMethod"></child>
-            </div>
-        </div>
+```js
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
 
-        <script>
+      <div id="app">
+          <div>
+              <child @fatherMethod="fatherMethod"></child>
+          </div>
+      </div>
 
-            Vue.component('child', {
-                template: `<div @click="activeBtn">点击我</div>`,
-                methods: {
-                    activeBtn() {
-                        console.log(11);
-                        this.$emit('fatherMethod');
-                    }
-                }          
-            })
-            var app = new Vue({
-                el: "#app",
-                methods: {
-                    fatherMethod() {
-                        console.log('父组件');
-                    }
-                }
-            })
+      <script>
 
-        </script>
-        
-    </body>
-    </html> 
-  ```
+          Vue.component('child', {
+              template: `<div @click="activeBtn">点击我</div>`,
+              methods: {
+                  activeBtn() {
+                      console.log(11);
+                      this.$emit('fatherMethod');
+                  }
+              }
+          })
+          var app = new Vue({
+              el: "#app",
+              methods: {
+                  fatherMethod() {
+                      console.log('父组件');
+                  }
+              }
+          })
+
+      </script>
+
+  </body>
+  </html>
+```
 
 ## this.$parent.fn()
 
@@ -755,7 +726,7 @@ computed: {
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 <body>
-    
+
     <div id="app">
         <div>
             <child></child>
@@ -770,7 +741,7 @@ computed: {
                 activeBtn() {
                     this.$parent.fatherMethod();
                 }
-            }          
+            }
         })
         var app = new Vue({
             el: "#app",
@@ -782,66 +753,64 @@ computed: {
         })
 
     </script>
-    
+
 </body>
 </html>
 ```
-## 父组件把方法通过props传入子组件中，在子组件里面调用这个方法
 
-  ```js
-  <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    </head>
-    <body>
-        
-        <div id="app">
-            <div>
-                <child :acson="fatherMethod"></child>
-            </div>
-        </div>
+## 父组件把方法通过 props 传入子组件中，在子组件里面调用这个方法
 
-        <script>
+```js
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
 
-            Vue.component('child', {
-                template: `<div @click="activeBtn">点击我</div>`,
-                props: {
-                    acson: {
-                        type: Function,
-                        default: null
-                    }  
-                },
-                methods: {
-                    activeBtn() {
-                        this.acson();
-                    }
-                }          
-            })
-            var app = new Vue({
-                el: "#app",
-                methods: {
-                    fatherMethod() {
-                        console.log('父组件');
-                    }
-                }
-            })
+      <div id="app">
+          <div>
+              <child :acson="fatherMethod"></child>
+          </div>
+      </div>
 
-        </script>
-        
-    </body>
-    </html>
+      <script>
 
-  ```
+          Vue.component('child', {
+              template: `<div @click="activeBtn">点击我</div>`,
+              props: {
+                  acson: {
+                      type: Function,
+                      default: null
+                  }
+              },
+              methods: {
+                  activeBtn() {
+                      this.acson();
+                  }
+              }
+          })
+          var app = new Vue({
+              el: "#app",
+              methods: {
+                  fatherMethod() {
+                      console.log('父组件');
+                  }
+              }
+          })
 
+      </script>
 
+  </body>
+  </html>
 
-
+```
 
 # 11. 自己封装的组件如何使用 v-model
+
 ```js
 <!-- parent -->
 <template>
@@ -890,11 +859,8 @@ export default {
 </script>
 ```
 
-
-
-
-
 # 12. Vue 响应式原理
+
 <img src="https://cn.vuejs.org/images/data.png">
 
 ## 总结一下：
@@ -902,28 +868,29 @@ export default {
 - 任何一个 `Vue Component` 都有一个与之对应的 `Watcher` 实例
 - `Vue` 的 `data` 上的属性会被添加 `getter` 和 `setter` 属性
 - 当`Vue Componnet` `render`函数被执行的时候，`data`上会被触碰（touch），即被读，`getter`方法会被调用，此时 Vue 会去记录此 `Vue Componnent` 所依赖的所有 `data`。（这一过程被称为依赖收集）
-- `data` 被改动时候（主要是用户操作），即被写，`setter`方法会被调用，此时 Vue 会去通知所有依赖于此data的 组件去调用
+- `data` 被改动时候（主要是用户操作），即被写，`setter`方法会被调用，此时 Vue 会去通知所有依赖于此 data 的 组件去调用
 
-**Vue 不支持 IE8 以下版本的浏览器，因为浏览器是基于 Object.defineProperty 来实现数据响应的，而Object.defienProperty 是 ES5 中无法 shim 的特性，这也是为什么 Vue 不支持 IE8 以及更低版本浏览器的原因；Vue 通过 Object.defineProperty 的 getter/setter 对收集的依赖进行监听，在监听被访问和修改时通知变化，进而更新视图数据。**
+**Vue 不支持 IE8 以下版本的浏览器，因为浏览器是基于 Object.defineProperty 来实现数据响应的，而 Object.defienProperty 是 ES5 中无法 shim 的特性，这也是为什么 Vue 不支持 IE8 以及更低版本浏览器的原因；Vue 通过 Object.defineProperty 的 getter/setter 对收集的依赖进行监听，在监听被访问和修改时通知变化，进而更新视图数据。**
 
-### Vue数据响应式变化涉及Observer丶Watcher丶Dep
-**1. 首选进行Vue的init初始化操作**
-- initData这里面做了两件事，一是将_data上面的数据代理到vm上，二是通过执行observe(data, true/asRootData)将所有data变成可观察的，即对data定义的每个属性进行getter/setter操作，这里就是Vue实现响应式的基础
-- 这里**new Observer(value)** 就是实现响应式的核心方法之一了，通过它将data转变可以变成观察的，而这里正是我们开头说的，用了**Object.definedProperty**实现了data的**getter/setter**操作，通过**Watcher**来观察数据的变化，进行更新到视图中。
+### Vue 数据响应式变化涉及 Observer 丶 Watcher 丶 Dep
+
+**1. 首选进行 Vue 的 init 初始化操作**
+
+- initData 这里面做了两件事，一是将\_data 上面的数据代理到 vm 上，二是通过执行 observe(data, true/asRootData)将所有 data 变成可观察的，即对 data 定义的每个属性进行 getter/setter 操作，这里就是 Vue 实现响应式的基础
+- 这里**new Observer(value)** 就是实现响应式的核心方法之一了，通过它将 data 转变可以变成观察的，而这里正是我们开头说的，用了**Object.definedProperty**实现了 data 的**getter/setter**操作，通过**Watcher**来观察数据的变化，进行更新到视图中。
 
 **2. Observer**
-- Observer类是将每个目标对象（即data）的键值对转换成getter/setter形式，用于进行依赖收集以及调度更新
+
+- Observer 类是将每个目标对象（即 data）的键值对转换成 getter/setter 形式，用于进行依赖收集以及调度更新
 
 https://juejin.cn/post/6844903561327820808
 ？？？？
 
 
 
+# 13. Vue 中的 key 和 React 中的 key
 
-
-
-# 13. Vue 中的 key 和 React 中的key
-## Vue 中的 key 
+## Vue 中的 key
 
 ### 作用：
 
@@ -933,32 +900,33 @@ https://juejin.cn/post/6844903561327820808
 
 ### 特点：
 
-- **准确：** 如果不加 key，那么 Vue 会选择复用节点（Vue的就地更新策略），导致之前节点的状态被保留下来，会产生一系列的 bug
-- **快速：** key 的唯一性可以被 Map 数据结构充分利用，相比于遍历查找的时间复杂度O(n)，Map的时间复杂度仅仅为O(1)。
-  
-    ```objc
-    function createKeyOldIdx(children, beginIndex, endIndex) {
-        let i, key;
-        const map = {};
-        for(i = beginIndex, i <= endIndex, ++i) {
-            key = children[i].key;
-            if(isDef(key)) {
-                map[key] = i；  
-            }
-        }
-        return map;
-    }
-    ```
+- **准确：** 如果不加 key，那么 Vue 会选择复用节点（Vue 的就地更新策略），导致之前节点的状态被保留下来，会产生一系列的 bug
+- **快速：** key 的唯一性可以被 Map 数据结构充分利用，相比于遍历查找的时间复杂度 O(n)，Map 的时间复杂度仅仅为 O(1)。
+
+  ```objc
+  function createKeyOldIdx(children, beginIndex, endIndex) {
+      let i, key;
+      const map = {};
+      for(i = beginIndex, i <= endIndex, ++i) {
+          key = children[i].key;
+          if(isDef(key)) {
+              map[key] = i；
+          }
+      }
+      return map;
+  }
+  ```
 
 ### 应用场景：
 
 - **列表组件**
-  
+
   ```js
   <div v-for="item in items" :key="item.id">
       <!-- 内容 -->
   </div>
   ```
+
 - **允许用户在不同的登录方式之间切换**
   ```js
   <template v-if="loginType === 'username'">
@@ -975,7 +943,7 @@ https://juejin.cn/post/6844903561327820808
 
 ### 定义：
 
-**属性，它是一种特殊的属性，它的出现不适给开发者用的，而是给 React 自己使用的，有了 key 属性后，就可以与组件建立了一种对应关系，简单来说，react 利用 key 来识别组件，它是一种身份识别，就像每个人有一个身份证来辨识一样。每个key对应一个组件，相同的key，React认为是同一个组件，这样后续相同的 key 对应组件都不会被创建。**
+**属性，它是一种特殊的属性，它的出现不适给开发者用的，而是给 React 自己使用的，有了 key 属性后，就可以与组件建立了一种对应关系，简单来说，react 利用 key 来识别组件，它是一种身份识别，就像每个人有一个身份证来辨识一样。每个 key 对应一个组件，相同的 key，React 认为是同一个组件，这样后续相同的 key 对应组件都不会被创建。**
 
 ### 作用：
 
@@ -984,82 +952,85 @@ https://juejin.cn/post/6844903561327820808
 - key 值相同的，如果两个元素是相同的 key，且满足第一点元素类型相同，若元素属性有所变化，则 React 值更新组件对应的属性，这样的情况下，性能开销相对较小
 - key 值不同，在 render 函数执行的时候，新旧两个虚拟 DOM 会进行对比，如果两个元素有不同的 key，那么前后两次渲染中就会被认为是不同的元素，这时候旧的那个元素会被不挂载，新的元素会被挂载
 
-
-
-
 # 14. $nextTick 的使用和作用
+
 ## 原理：
 
 **在下一次 DOM 更新循环之后执行延迟回调，在修改数据之后立即使用这个方法，获取更新后的 DOM。**
 
-**`$nextTick`原理：** 为什么要使用`$nextTick`?这是由于 Vue 是异步执行 dom 更新的，一旦观察到数据变化，Vue 就会开启一个队列，然后把在同一个事件循环（event loop）当中观察到数据变化的 watcher 推送进这个队列。如果这个 watcher 被触发多次，只会被推送到队列一次。这种缓冲行为可以有效的去掉重复数据造成的不必要的计算和 dom 操作。而下一个事件循环开始时，Vue 会进行必要的 dom 更新，并清空队列（$nextTick方法就相当于在 dom 更新 和 清空队列后 额外插入的执行步骤）
+**`$nextTick`原理：** 为什么要使用`$nextTick`?这是由于 Vue 是异步执行 dom 更新的，一旦观察到数据变化，Vue 就会开启一个队列，然后把在同一个事件循环（event loop）当中观察到数据变化的 watcher 推送进这个队列。如果这个 watcher 被触发多次，只会被推送到队列一次。这种缓冲行为可以有效的去掉重复数据造成的不必要的计算和 dom 操作。而下一个事件循环开始时，Vue 会进行必要的 dom 更新，并清空队列（$nextTick 方法就相当于在 dom 更新 和 清空队列后 额外插入的执行步骤）
 
 ## 应用场景：需要在视图更新之后，基于新的视图进行操作。
 
 **需要注意得是，在 created 和 mouted 阶段，如果操作渲染后的视图，也要使用`$nextTick`方法**
 
-- 点击按钮显示原本以v-show = false隐藏起来的输入框，并获得焦点 
-    ```js
-    <div id="app">
-        <input type="text" v-show = "showit" id="keywords">
-    
-        <button @click="click">click</button>
-    </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/vue"></
-    <script>
-        new Vue({
-            el: '#app',
-            data: {
-                showit: false
-            },
-            methods: {
-                showsou() {
-                    this.showit = true;
-                    // document.getElementById('keywords').focus();
-    
-                    this.$nextTick(function() {
-                        document.getElementById('keywords').focus();
-                    })
-                },
-                click() {
-                    this.showsou();
-                }
-            }
-        });
-    </script>
-    ```
+- 点击按钮显示原本以 v-show = false 隐藏起来的输入框，并获得焦点
+
+  ```js
+  <div id="app">
+      <input type="text" v-show = "showit" id="keywords">
+
+      <button @click="click">click</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue"></
+  <script>
+      new Vue({
+          el: '#app',
+          data: {
+              showit: false
+          },
+          methods: {
+              showsou() {
+                  this.showit = true;
+                  // document.getElementById('keywords').focus();
+
+                  this.$nextTick(function() {
+                      document.getElementById('keywords').focus();
+                  })
+              },
+              click() {
+                  this.showsou();
+              }
+          }
+      });
+  </script>
+  ```
+
 - 点击获取元素的宽度
-    ```js  
-    <div id="app">
-        <p ref="myWidth" v-if="showMe">{{message}}</p>
-        <button @click="getMyWidth">click</button>
-    </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <script>
-        new Vue({
-            el: '#app',
-            data: {
-                showMe: false,
-                message: ""
-            },
-            methods: {
-                getMyWidth() {
-                    this.showMe = true;
-                    // this.message = this.$refs.myWidth.offsetWidth;
-    
-                    this.$nextTick(() => {
-                        this.message = this.$refs.myWidth.offsetWidth;
-                    })
-                }
-            }
-        });
-    </script>
-    ```
+
+  ```js
+  <div id="app">
+      <p ref="myWidth" v-if="showMe">{{message}}</p>
+      <button @click="getMyWidth">click</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script>
+      new Vue({
+          el: '#app',
+          data: {
+              showMe: false,
+              message: ""
+          },
+          methods: {
+              getMyWidth() {
+                  this.showMe = true;
+                  // this.message = this.$refs.myWidth.offsetWidth;
+
+                  this.$nextTick(() => {
+                      this.message = this.$refs.myWidth.offsetWidth;
+                  })
+              }
+          }
+      });
+  </script>
+  ```
+
 - 使用 swiper 插件通过 ajax 请求图片后的滑动问题
 
 ## 源码分析
+
 ```js
 let timerFunc;
 let callbacks = []; // 回调函数队列
@@ -1067,92 +1038,95 @@ let pending = false; // 异步锁
 
 // 执行回调函数
 function flushCallbacks() {
-    // 重置异步锁
-    pending = false;
-    // 防止出现nextTick包含nextTick时出现的问题，在执行回调函数队列时，提前复制备份，清空回调函数队列
-    const copies = callbacks.slice(0);
-    callbacks.length = 0;
-    // 执行回调函数队列
-    for(let i = 0; i < copies.length; i++) {
-        copies[i]();
-    }
+  // 重置异步锁
+  pending = false;
+  // 防止出现nextTick包含nextTick时出现的问题，在执行回调函数队列时，提前复制备份，清空回调函数队列
+  const copies = callbacks.slice(0);
+  callbacks.length = 0;
+  // 执行回调函数队列
+  for (let i = 0; i < copies.length; i++) {
+    copies[i]();
+  }
 }
 
 // 判断1：是否支持原生Promise
-if (typeof Promise !== 'undefiend' && isNative(Promise)) {
-    const p = Promise.resolve();
-    timerFunc = () => {
-        p.then(flushCallbacks);
-        if(isIOS) setTimeout(noop);
-    }
-    isUsingMicroTask = true;
-// 判断2：是否原生支持MutationObserver 
-}else if(!isIE && MutationObserver !== 'undefiend' && (
-    isNative(MutationObserver) || 
-    MutationObserver.toString() === '[object MutationObserverConstructor]'
-)) {
-    let counter = 1;
-    const observer = new MutationObserve(flushCallbacks);
-    const textNode = document.createTextNode(String(counter));
-    observer.observe(textNode, {
-        characterData: true
-    })
-    timerFunc = () => {
-        counter = (counter + 1) % 2;
-        textNode.data = String(counetr);
-    }
-    isUsingMicroTask = true;
-// 判断3：是否原生支持setImmediate
-}else if(typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
-    timerFunc = () => {
-        setImmediate(flushCallbacks);
-    }
-// 判断4：上面都不行，直接使用setTimeout
-}else {
-    timerFunc = () => {
-        setTimeout(flushCallbacks, 0);
-    }
+if (typeof Promise !== "undefiend" && isNative(Promise)) {
+  const p = Promise.resolve();
+  timerFunc = () => {
+    p.then(flushCallbacks);
+    if (isIOS) setTimeout(noop);
+  };
+  isUsingMicroTask = true;
+  // 判断2：是否原生支持MutationObserver
+} else if (
+  !isIE &&
+  MutationObserver !== "undefiend" &&
+  (isNative(MutationObserver) ||
+    MutationObserver.toString() === "[object MutationObserverConstructor]")
+) {
+  let counter = 1;
+  const observer = new MutationObserve(flushCallbacks);
+  const textNode = document.createTextNode(String(counter));
+  observer.observe(textNode, {
+    characterData: true,
+  });
+  timerFunc = () => {
+    counter = (counter + 1) % 2;
+    textNode.data = String(counetr);
+  };
+  isUsingMicroTask = true;
+  // 判断3：是否原生支持setImmediate
+} else if (typeof setImmediate !== "undefined" && isNative(setImmediate)) {
+  timerFunc = () => {
+    setImmediate(flushCallbacks);
+  };
+  // 判断4：上面都不行，直接使用setTimeout
+} else {
+  timerFunc = () => {
+    setTimeout(flushCallbacks, 0);
+  };
 }
 // 微任务  Promise MutationObserver
 // 宏任务  setImmediate setImmediate
 
-
 // 我们调用的nextTick函数
 export function nextTick(cb?: Function, ctx?: Object) {
-    let _resolve;
-    // 将回调函数推入异步队列
-    callback.push(() => {
-        if(cb) {
-            try {
-                cb.call(ctx);
-            } catch(e) {
-                handleError(e, ctx, 'nextTick');
-            }
-        }else if(_resolve) {
-            _resolve(ctx);
-        }
-    })
-    // 如果异步锁未锁上，锁上异步锁，调用异步函数；
-    // 准备等同步函数执行完后，就开始执行回调队列
-    if(!pending) {
-        pending = true;
-        timerFunc();
+  let _resolve;
+  // 将回调函数推入异步队列
+  callback.push(() => {
+    if (cb) {
+      try {
+        cb.call(ctx);
+      } catch (e) {
+        handleError(e, ctx, "nextTick");
+      }
+    } else if (_resolve) {
+      _resolve(ctx);
     }
-    // 如果没有提供回调，并且支持Promise，返回一个Promise
-    if(!cb && typeof Promise !== 'undefined') {
-        return new Promise(resolve => {
-            _resolve = resolve;
-        })
-    }
+  });
+  // 如果异步锁未锁上，锁上异步锁，调用异步函数；
+  // 准备等同步函数执行完后，就开始执行回调队列
+  if (!pending) {
+    pending = true;
+    timerFunc();
+  }
+  // 如果没有提供回调，并且支持Promise，返回一个Promise
+  if (!cb && typeof Promise !== "undefined") {
+    return new Promise((resolve) => {
+      _resolve = resolve;
+    });
+  }
 }
 ```
-- 把回调函数放在callbacks等待执行
+
+- 把回调函数放在 callbacks 等待执行
 - 将执行函数放到微任务或者宏任务中
-- 事件循环到了微任务或者宏任务，执行函数依次执行callbacks中的回调
+- 事件循环到了微任务或者宏任务，执行函数依次执行 callbacks 中的回调
 
 `this.$nextTick`是微任务
 
-## 实现一个简易版本的nextTick
+## 实现一个简易版本的 nextTick
+
 ```js
 // 通过nextTick接收回调函数，通过setTimeout来异步执行回调函数
 // 通过这种方式，可以在下一个tick中 执行回调函数，即在UI重新渲染后执行回调函数
@@ -1161,42 +1135,38 @@ let callbacks = [];
 let pending = false;
 
 function nextTick(cb) {
-    callbacks.push(cb);
-    if(!pending) {
-        pending = true;
-        setTimeout(flushCallback, 0);
-    }
+  callbacks.push(cb);
+  if (!pending) {
+    pending = true;
+    setTimeout(flushCallback, 0);
+  }
 }
 function flushCallbacks() {
-    pending = false;
-    let copies = callbacks.slice();
-    callbacks.length = 0;
-    copies.forEach(copy => {
-        copy(); 
-    })
+  pending = false;
+  let copies = callbacks.slice();
+  callbacks.length = 0;
+  copies.forEach((copy) => {
+    copy();
+  });
 }
 
 // 测试
-nextTick(function() {
-    console.log(1);
-})
+nextTick(function () {
+  console.log(1);
+});
 console.log(2);
 // 2
 // 1
-
 ```
 
-
-
-
-
 # 15. Vue 的组件为什么要用 export defalut?
+
 **Vue 的模块机制是通过 `webpack` 实现的模块化，因此可以使用 import 来引入模块,，例如:**
 
 ```js
-import Vue from 'vue'
-import App from './App'
-import router from './router'
+import Vue from "vue";
+import App from "./App";
+import router from "./router";
 ```
 
 **你还可以在 build/webpack.base.conf.js 文件中修改相关配置：**
@@ -1210,63 +1180,69 @@ resolve: {
     }
 }
 ```
+
 意思是，你的模块可以省略`.js`丶`.vue`丶`json` 后缀，webpack 会在之后自动加上
 
-export 用来导出模块，Vue 的单文件组件通常需要导出一个对象，这个对象是 Vue 实例的选项对象，以便在其它地方可以使用import引入。而 new Vue() 相当于一个构造函数，在入口文件 `main.js` 构造根组件的同时，如果根组件还包含其它子组件，那么 Vue 会通过引入的选项对象构造其对应的 Vue 实例，最终形成一棵组件树。
+export 用来导出模块，Vue 的单文件组件通常需要导出一个对象，这个对象是 Vue 实例的选项对象，以便在其它地方可以使用 import 引入。而 new Vue() 相当于一个构造函数，在入口文件 `main.js` 构造根组件的同时，如果根组件还包含其它子组件，那么 Vue 会通过引入的选项对象构造其对应的 Vue 实例，最终形成一棵组件树。
 
 ## export 和 export defalut 的区别在于：
 
 - `export` 可以导出多个命名模块，例如：
+
 ```js
 // demo1.js
-export const str = 'hello word';
+export const str = "hello word";
 
 export function f(a) {
-    return a + 1;
+  return a + 1;
 }
 ```
+
 对应的引入格式：
+
 ```js
 // demo2.js
-import { str, f } from 'demo1'
+import { str, f } from "demo1";
 ```
 
 - `export default` 只能导出一个默认模块，这个模块可以匿名，例如：
+
 ```js
 // demo1.js
 export default {
-    a: 'hello',
-    b: 'world'
-}
+  a: "hello",
+  b: "world",
+};
 ```
+
 对应的引入方式
+
 ```js
-import obj from 'demo1'
+import obj from "demo1";
 ```
+
 引入的方式可以给这个模块取任意名字，例如'obj'，且不需要用大括号括起来
 
 ## 总结：
+
 - `export` 命令对外接口是有名称的且 `import` 命令从模块导入的变量名与被导入模块对外接口的名称相同，而 `export default` 命令对外输出的变量名可以是任意的，这时 `import` 命令后面，不使用大括号
 - `export default` 命令用于指定的默认输出。显然，一个模块只能有一个默认输出，因此 `export default` 命令只能使用一次。所以，`import` 命令后面才不用加大括号，因为只可能唯一对应 `export default` 命令。
 
+# 16. Vuex 原理
 
+## Vuex 是什么？怎么使用？ 那种功能场景下使用它 ？
 
-
-
-
-# 16. Vuex原理
-## Vuex是什么？怎么使用？ 那种功能场景下使用它 ？
 **Vuex 是专门为 VueJs 应用程序设计的状态管理工具。它是集中式存储管理应用的所有组件的状态，并以相应的规则保证以一种可预测的方式发生变化。**
 
 - Vuex 框架中状态管理。
 - 在 main.js 引入 store.js, 新建一个目录 store.js
 - 场景：单页面应用中 组件之间的状态 音乐播放 登录状态 加入购物车
 
-
 ## Vuex 有哪种属性
-State丶Getter丶Mutation丶Action丶Module
 
-**1）State** 
+State 丶 Getter 丶 Mutation 丶 Action 丶 Module
+
+**1）State**
 
 state 是存储的单一状态，是存储的基本数据。
 
@@ -1274,24 +1250,23 @@ state 是存储的单一状态，是存储的基本数据。
 
 getter 是 store 的计算属性，对 state 的加工，是派生出来的数据。就像 computed 计算属性一样，getter 返回的值会根据它的依赖被缓存起来，且只有当它的依赖值发生变化才被重新计算。
 
-**3）Mutation** 
+**3）Mutation**
 
-mutation 提交更改数据，使用 store.commit 方法更改 state 存储的状态。（mutation是同步函数）
+mutation 提交更改数据，使用 store.commit 方法更改 state 存储的状态。（mutation 是同步函数）
 
 **4）Action**
 
-action像一个装饰器，提交 mutation，而不是直接变更状态（action可以包含任何异步操作）
-
+action 像一个装饰器，提交 mutation，而不是直接变更状态（action 可以包含任何异步操作）
 
 **5）Modules**
 
-Module是 store 分割的模块，每个模块拥有自己的state丶getter丶mutations丶actions
+Module 是 store 分割的模块，每个模块拥有自己的 state 丶 getter 丶 mutations 丶 actions
 
 **6）辅助函数**
 
-Vuex提供了 mapState丶MapGetter丶MapActions丶mapMutation等辅助函数给开发vm中处理store
+Vuex 提供了 mapState 丶 MapGetter 丶 MapActions 丶 mapMutation 等辅助函数给开发 vm 中处理 store
 
-**Vuex 会有一定的门槛和复杂性，它的主要使用场景是大型单页面应用场景，如果你的项目不是很复杂，用一个bus也可以实现数据的共享，但是它在数据管理，维护，还只是一个简单的组件，而 Vuex 可以更优雅高效的完成状态管理，所以，是否属于 Vuex 取决于你的团队和技术储备**
+**Vuex 会有一定的门槛和复杂性，它的主要使用场景是大型单页面应用场景，如果你的项目不是很复杂，用一个 bus 也可以实现数据的共享，但是它在数据管理，维护，还只是一个简单的组件，而 Vuex 可以更优雅高效的完成状态管理，所以，是否属于 Vuex 取决于你的团队和技术储备**
 
 ## Vuex 的特点
 
@@ -1304,7 +1279,7 @@ Vuex提供了 mapState丶MapGetter丶MapActions丶mapMutation等辅助函数给�
 - 当组件内部通过 this.$store.state 属性来调用公共状态中的 state，进行页面的渲染
 - 当组件需要修改数据的时候，必须遵循单向数据流。组件里在 methods 中拓展 mapActions，调用 store 里的 actions 里的方法
 - actions 中的每个方法都会接收一个对象，这个对象里面有个 commit 方法，用来触发 mutation 里面的方法
-- mutation 里面的方法用来修改 state 中的数据，mutation 里面的方法都会接收2个参数
+- mutation 里面的方法用来修改 state 中的数据，mutation 里面的方法都会接收 2 个参数
 
 ## 疑问：
 
@@ -1315,14 +1290,14 @@ Vuex提供了 mapState丶MapGetter丶MapActions丶mapMutation等辅助函数给�
 
   分析源码知道 vuex 是利用 vue 的 mixin 混入机制，在 beforeCraete 钩子前混入 vuexlnit 方法，vuexlint 方法实现了 store 注入 vue 组件实例，并注册了 vuex store 的引用属性 `$store`
 
-**store注入过程**
+**store 注入过程**
 <img src="https://pic4.zhimg.com/v2-a8b969f8771a1fc13b7cedfdfe86f0e7_b.jpg">
 
 ### Vuex 的 state 和 getter 是如何映射到各个组件实例中响应式更新状态呢？
 
 - store 实现的源码在 src/store.js
 - 找到 resetStoreVM 核心方法
-- 可以看出 Vuex 的 state 状态是响应式，是借助 Vue 的 data 是响应式，将 state 存入 Vue 实例组件的 data中；Vuex 的 getters 是借助 Vue 的计算属性 computed 实现数据实时监听
+- 可以看出 Vuex 的 state 状态是响应式，是借助 Vue 的 data 是响应式，将 state 存入 Vue 实例组件的 data 中；Vuex 的 getters 是借助 Vue 的计算属性 computed 实现数据实时监听
 - computed 计算属性监听 data 数据变更主要经历几个过程
   <img src="https://pic3.zhimg.com/v2-2730644102b66eef140110b814a90496_b.jpg">
 
@@ -1337,7 +1312,7 @@ Vuex提供了 mapState丶MapGetter丶MapActions丶mapMutation等辅助函数给�
 
 Vuex 的数据在每次页面刷新时丢失，是否可以在页面刷新前再将数据存储到 sessionstorage 中呢，是可以的。beforeunload 事件可以在页面刷新前触发，但是在每个页面中监听 beforeunload 事件感觉也不太合适，那么最好的监听该事件的地方就在 app.vue 中。
 
-- 在 app.vue 的 created 方法中读取 sessionstorage 中的数据存储在 store 中，此时用vuex.store的replaceState 方法，替换 store 的根状态
+- 在 app.vue 的 created 方法中读取 sessionstorage 中的数据存储在 store 中，此时用 vuex.store 的 replaceState 方法，替换 store 的根状态
 
 - 在 beforeunload 方法中将 store.state 存储到 sessionstorage 中。
 
@@ -1345,25 +1320,29 @@ Vuex 的数据在每次页面刷新时丢失，是否可以在页面刷新前再
 
 ```js
 export default {
-  name: 'App',
-  created () {
+  name: "App",
+  created() {
     //在页面加载时读取sessionStorage里的状态信息
-    if (sessionStorage.getItem("store") ) {
-        this.$store.replaceState(Object.assign({}, this.$store.state,JSON.parse(sessionStorage.getItem("store"))))
-    } 
+    if (sessionStorage.getItem("store")) {
+      this.$store.replaceState(
+        Object.assign(
+          {},
+          this.$store.state,
+          JSON.parse(sessionStorage.getItem("store"))
+        )
+      );
+    }
 
     //在页面刷新时将vuex里的信息保存到sessionStorage里
-    window.addEventListener("beforeunload",()=>{
-        sessionStorage.setItem("store",JSON.stringify(this.$store.state))
-    })
-  }
-}
+    window.addEventListener("beforeunload", () => {
+      sessionStorage.setItem("store", JSON.stringify(this.$store.state));
+    });
+  },
+};
 ```
 
-
-
-
 # 17. 路由原理
+
 路由这个概念最先是后端出现的。在以前用模板引擎开发页面时，经常会看到这样
 
 ```js
@@ -1371,31 +1350,34 @@ http://www.xxx.com/login
 ```
 
 大致流程可以看成这样：
+
 - 浏览器发出请求
-- 浏览器监听到80端口（或443）有请求过来，并解析路径
-- 根据服务器的路由配置，返回相应信息（可以是html字符串，也可以是json数据和图片等）
+- 浏览器监听到 80 端口（或 443）有请求过来，并解析路径
+- 根据服务器的路由配置，返回相应信息（可以是 html 字符串，也可以是 json 数据和图片等）
 - 浏览器根据数据包的 Content-Type 来决定如何解析数据
 
 简单来说路由就是用来跟后端进行交互的一种方式，通过不同的路径，来请求不同的资源，请求不同的页面是路由的其中一种功能。
 
-## hash模式
-随着 ajax 的流行，异步数据请求交互在不刷新浏览器的情况下进行。而异步交互体验的跟高级版本就是SPA --- 单页应用。单页应用不仅仅是在页面交互无刷新的，连页面跳转都是无刷新的，为了实现单页应用，所以就有了前端路由。
+## hash 模式
 
-类似服务器路由，前端路由实现起来其实也很简单，就是匹配不同的 URL 路径，进行解析，然后动态的渲染区域html 内容。但是这样存在一个问题，就是 url 每次变化的时候，都会造成页面的刷新。那解决问题的思路在改变 url 的情况下，保证页面的不刷新。在 2014 年之前，大家是通过 hash 来实现路由的， url hash就是类似于：
+随着 ajax 的流行，异步数据请求交互在不刷新浏览器的情况下进行。而异步交互体验的跟高级版本就是 SPA --- 单页应用。单页应用不仅仅是在页面交互无刷新的，连页面跳转都是无刷新的，为了实现单页应用，所以就有了前端路由。
+
+类似服务器路由，前端路由实现起来其实也很简单，就是匹配不同的 URL 路径，进行解析，然后动态的渲染区域 html 内容。但是这样存在一个问题，就是 url 每次变化的时候，都会造成页面的刷新。那解决问题的思路在改变 url 的情况下，保证页面的不刷新。在 2014 年之前，大家是通过 hash 来实现路由的， url hash 就是类似于：
+
 ```js
 http://www.xxx.com/#.login
 ```
+
 **这种#。后面 hash 值的变化，并不会导致浏览器向服务器发出请求，浏览器不发出请求，也就不会刷新页面。另外每次 hash 值的变化，还会触发 hashchange 这个事情，通过这个事情我们就可以知道 hash 值发生了哪些变化。然后我们便可以监听 hashchange 来实现更新页面部分内容的操作：**
 
 ```js
-function matchAndUpdate() {
-
-}
-window.addEventListener("hashchange", matchAndUpdate)
+function matchAndUpdate() {}
+window.addEventListener("hashchange", matchAndUpdate);
 ```
 
-## history模式
-14年之后，因为 HTML5 标准发布。多了两个API `pushState` 和 `replaceState`，通过这两个 API 可以改变 url 地址且不会发送请求。同时还有 `popstate`事件。通过这些就能用另一种方式来实现前端路由，。用了 HTML5 但原理都是跟 hash 实现相同的的实现，单页路由的 url 就不会多出一个 #,变得更加美观。但因为没有 # 号，所以当用户刷新页面之类的操作时，浏览器还是会想浏览器服务器发送请求。为了避免出现这种情况，所以这个实现需要服务器的支持，需要把路由都重定向到根页面。
+## history 模式
+
+14 年之后，因为 HTML5 标准发布。多了两个 API `pushState` 和 `replaceState`，通过这两个 API 可以改变 url 地址且不会发送请求。同时还有 `popstate`事件。通过这些就能用另一种方式来实现前端路由，。用了 HTML5 但原理都是跟 hash 实现相同的的实现，单页路由的 url 就不会多出一个 #,变得更加美观。但因为没有 # 号，所以当用户刷新页面之类的操作时，浏览器还是会想浏览器服务器发送请求。为了避免出现这种情况，所以这个实现需要服务器的支持，需要把路由都重定向到根页面。
 
 ```js
 funtion matchAndUpdate() {
@@ -1406,20 +1388,21 @@ window.addEventListener("popstate", matchAndUpdate)
 ```
 
 ## vue-router 是什么？它有哪些组件？
-vue 用来写路由的一个插件。router-link丶router-view
 
+vue 用来写路由的一个插件。router-link 丶 router-view
 
 ## active-class 是哪些组件的属性？
-vue-router模块的router-link组件   children数组定义子路由
 
+vue-router 模块的 router-link 组件 children 数组定义子路由
 
-## 怎么定义vue-router的动态路由？怎么获取传过来的值？
-在router目录下的index.js文件 对path属性加上/:id
+## 怎么定义 vue-router 的动态路由？怎么获取传过来的值？
 
-使用router对象的params.id
+在 router 目录下的 index.js 文件 对 path 属性加上/:id
 
+使用 router 对象的 params.id
 
-## vue-router有哪些导航钩子？
+## vue-router 有哪些导航钩子？
+
 三种
 
 第一种：是全局导航钩子：router.beforeEach(to, from, next) 作用：跳转之前进行判断拦截
@@ -1428,75 +1411,77 @@ vue-router模块的router-link组件   children数组定义子路由
 
 第三种：单独路由独享组件
 
-
-
 ## `$route`和`$router`的区别
-`$router`是VueRouter的实例，在script标签中想要导航到不同的URL，使用$router.push方法。返回上一个历史history用$router.to(-1)
 
-$route为当前router跳转对象 里面可以获取当前路由的name丶path丶query丶params等
+`$router`是 VueRouter 的实例，在 script 标签中想要导航到不同的 URL，使用$router.push方法。返回上一个历史history用$router.to(-1)
 
+$route 为当前 router 跳转对象 里面可以获取当前路由的 name 丶 path 丶 query 丶 params 等
 
+## vue-router 的两种模式
 
+> 前端路由实现本质就是监听 URL 的变化，然后匹配路由规则，显示相应的页面，并且无须刷新页面
 
-## vue-router的两种模式
-> 前端路由实现本质就是监听URL的变化，然后匹配路由规则，显示相应的页面，并且无须刷新页面
+#### Hash 模式
 
-#### Hash模式 
-`www.test.com/#/`，就是Hash URL，当`#`后面的哈希值发生变化时，可以通过`hashchange`事件来监听URL的变化，从而进行跳转页面，并且无论哈希值如何变化，服务端收到的URL请求永远是`www.test.com`
+`www.test.com/#/`，就是 Hash URL，当`#`后面的哈希值发生变化时，可以通过`hashchange`事件来监听 URL 的变化，从而进行跳转页面，并且无论哈希值如何变化，服务端收到的 URL 请求永远是`www.test.com`
+
 ```js
-window.addEventListener('hashchange', () => {
-    // ...具体逻辑
-})
+window.addEventListener("hashchange", () => {
+  // ...具体逻辑
+});
 ```
-Hash模式相对于说更简单，并且兼容性也更好
-#### History模式
-History模式是HTML5新推出的功能，主要使用`history.pushState`和`history.replace`改变URL  
-通过History模式改变URL同样不会引起页面的刷新，只会更新浏览器的历史记录
+
+Hash 模式相对于说更简单，并且兼容性也更好
+
+#### History 模式
+
+History 模式是 HTML5 新推出的功能，主要使用`history.pushState`和`history.replace`改变 URL  
+通过 History 模式改变 URL 同样不会引起页面的刷新，只会更新浏览器的历史记录
+
 ```js
 // 新增历史记录
-history.pushState(stateObject, title, URL)
+history.pushState(stateObject, title, URL);
 // 替换当前历史记录
-history.replaceState(stateObject, title, URL)
+history.replaceState(stateObject, title, URL);
 ```
+
 当用户做出浏览器动作时，比如点击后退按钮时会触发`popState`事件
+
 ```js
-window.addEventListener('popState', e => {
-    console.log(e.state);
-})
+window.addEventListener("popState", (e) => {
+  console.log(e.state);
+});
 ```
+
 #### 两种模式对比
-- Hash模式只可以更改`#`后面的内容，History模式可以通过API设置任意的同源URL
-- History模式可以通过API添加任意类型的数据到历史记录中，Hash模式只能更改哈希值，也就是字符串
-- Hash模式无须后端配置，并且兼容性好。History模式在用户手动输入地址或者刷新页面的时候会发起URL请求，后端需要配置`index.html`页面用于匹配不到静态资源的时候    
 
+- Hash 模式只可以更改`#`后面的内容，History 模式可以通过 API 设置任意的同源 URL
+- History 模式可以通过 API 添加任意类型的数据到历史记录中，Hash 模式只能更改哈希值，也就是字符串
+- Hash 模式无须后端配置，并且兼容性好。History 模式在用户手动输入地址或者刷新页面的时候会发起 URL 请求，后端需要配置`index.html`页面用于匹配不到静态资源的时候
 
+## vue-router 实现路由懒加载（动态加载路由）
 
-
-## vue-router实现路由懒加载（动态加载路由）
 三种方式
 
-- 第一种：vue异步组件技术 === 异步加载，vue-router配置路由，使用vue的异步组件技术，可以实现按需加载，但是这种情况下一个组件生成一个JS文件
+- 第一种：vue 异步组件技术 === 异步加载，vue-router 配置路由，使用 vue 的异步组件技术，可以实现按需加载，但是这种情况下一个组件生成一个 JS 文件
 
-- 路由懒加载（使用import）
+- 路由懒加载（使用 import）
 
-- webpack提供的require(), vue-router配置路由，使用webpack的require.ensure技术，也可以按需加载。这种情况下，多个路由指定相同的chunkName，会合并打包成一个JS文件
-
-
-
-
+- webpack 提供的 require(), vue-router 配置路由，使用 webpack 的 require.ensure 技术，也可以按需加载。这种情况下，多个路由指定相同的 chunkName，会合并打包成一个 JS 文件
 
 ## 路由守卫
 
 - 分类
+
   - 全局守卫：是指路由实例上直接操作的钩子函数，特点是所有路由配置的组件都会触发，直白点就是触发路由就会触发这些钩子函数
-     - router.beforeEach(to, from, next)   （全局前置守卫）
-     - router.beforeResolve(to, from, next)  （全局解析守卫）
-     - router.afterEach(to, from)  （全局后置守卫）
-     - 注：beforeEach 和 afterEach 都是 vue-router 实例对象的属性，每次跳转前 beforeEach 和 afterEach 都会执行的
-     
+    - router.beforeEach(to, from, next) （全局前置守卫）
+    - router.beforeResolve(to, from, next) （全局解析守卫）
+    - router.afterEach(to, from) （全局后置守卫）
+    - 注：beforeEach 和 afterEach 都是 vue-router 实例对象的属性，每次跳转前 beforeEach 和 afterEach 都会执行的
   - 路由独享守卫：是指在单个路由配置的时候也可以设置的钩子函数
-    - beforeEnter(to, from, next) 
-    
+
+    - beforeEnter(to, from, next)
+
       ```js
       {
         path: '/',
@@ -1505,32 +1490,29 @@ window.addEventListener('popState', e => {
         beforeEnter: (to, from, next) => {
           console.log('即将进入 Login');
           next();
-        }  
+        }
       }
       ```
-    
-      
+
   - 组件内守卫: 是指在组件内执行的钩子函数，类似于组件内的生命周期，相当于为配置路由的组件添加的生命周期钩子函数
     - beforeRouterEnter(to, from, next)
     - beforeRouterUpfate(to, from, next)
     - beforeRouterLeave(to, from, next)
+
 - 应用场景
   - 只有当用户已经登录并拥有某些权限时才能进入某些路由
-  - 一个由多个表单组成的向导，例如注册流程，用户只有在当前路由的组件中填写了满足的信息才可以导航到下一个路由  
+  - 一个由多个表单组成的向导，例如注册流程，用户只有在当前路由的组件中填写了满足的信息才可以导航到下一个路由
   - 当用户未执行保存操作而试图离开导航时提醒用户
   - 应用场景：在用户离开当前界面时询问
   - 应用场景：验证用户登录过期
 
+## vue 路由传参的形式
 
-
-
-
-
-## vue路由传参的形式
 - 页面刷新数据不会丢失
+
   ```js
   <div class="exmaine" @click="insurance(2)">查看详情</div>
-  
+
   methods: {
       insurance(id): {
           this.$router.push({
@@ -1538,18 +1520,20 @@ window.addEventListener('popState', e => {
           })
       }
   }
-  
+
   // 对应的路由配置
   {
       path: "/particulars/:id",
       name: "particulars",
       component: particulars
   }
-  
+
   // 另外页面获取参数如下
   this.$route.params.id
   ```
-- 页面刷新数据会丢失（可以在路由的path里加参数，加上参数以后刷新页面数据就不会丢了）
+
+- 页面刷新数据会丢失（可以在路由的 path 里加参数，加上参数以后刷新页面数据就不会丢了）
+
   ```js
   // 通过路由属性中的name来确定匹配的路由 通过params来传递参数
   methods: {
@@ -1562,18 +1546,20 @@ window.addEventListener('popState', e => {
           })
       }
   }
-  
+
   // 对应路由配置：注意这里不能使用:/id来传递参数了 因为组件中已经使用params来携带参数了
   {
       path: "/particulars",
       name: "particulars",
       component: particulars
   }
-  
+
   // 子组件中主要获取参数
   this.$route.params.id
   ```
-- 使用path来匹配路由，然后通过query来传递参数
+
+- 使用 path 来匹配路由，然后通过 query 来传递参数
+
   ```js
   methods: {
       insurance(id) {
@@ -1585,25 +1571,22 @@ window.addEventListener('popState', e => {
           })
       }
   }
-  
+
   {
       path: "/particulars",
       name: "particulars",
       components: "particulars"
   }
-  
+
   this.$route.query.id
   ```
+
 - 应用场景
-  - 点击父组件   
-
-
-
-
-
+  - 点击父组件
 
 # 18. Vue SSR
-SSR：服务端将 Vue 组件渲染为HTML字符串，并将 html 字符串直接发送到浏览器，最后将这些静态资源标记“激活”为客户端上完全可以可交互的应用程序。
+
+SSR：服务端将 Vue 组件渲染为 HTML 字符串，并将 html 字符串直接发送到浏览器，最后将这些静态资源标记“激活”为客户端上完全可以可交互的应用程序。
 
 ## 优点：
 
@@ -1612,30 +1595,24 @@ SSR：服务端将 Vue 组件渲染为HTML字符串，并将 html 字符串直�
 
 ## 缺点：
 
-- 开发条件受限（服务端只执行 beforeCreated 和 created 生命周期函数，并且没有window丶DOM和BOM等）
+- 开发条件受限（服务端只执行 beforeCreated 和 created 生命周期函数，并且没有 window 丶 DOM 和 BOM 等）
 - 涉及构建设置和部署的更多要求，需要处于 node server 的运行环境
 - 更多的服务端负载
 
+优点：（SPA 缺点）
 
+1. 首屏渲染速度慢 来回次数多 内容到达时间长
+2. SEO 不友好 搜索引擎爬虫不友好
 
-优点：（SPA缺点）
+VUe 模板 解析 html 查库等异步操作
 
-1. 首屏渲染速度慢 来回次数多  内容到达时间长 
-2. SEO不友好 搜索引擎爬虫不友好
-
-
-VUe模板 解析html  查库等异步操作
-
-
-1. 开发条件受限  不执行Mounted生命周期的钩子函数 第三方库不能使用
-2. 构建部署要求多 nodejs渲染
+1. 开发条件受限 不执行 Mounted 生命周期的钩子函数 第三方库不能使用
+2. 构建部署要求多 nodejs 渲染
 3. 服务端负载变大
 
+预渲染 几个广告页面 没有动态页面 非常在于 SEO 静态 应用程序
 
-预渲染 几个广告页面  没有动态页面 非常在于SEO 静态 应用程序 
-
-传统的web渲染技术 asp.net php jsp
-
+传统的 web 渲染技术 asp.net php jsp
 
 cli3
 渲染器 vue-server-render
@@ -1644,50 +1621,41 @@ ssr>npm i vue-server-render express -D
 
 入口：app.js
 服务端入口：entry-server.js
-客户端入口：entry-client.js 
+客户端入口：entry-client.js
 
-打包脚本 跨平台 
-
-
-
-
+打包脚本 跨平台
 
 # 19. MVVM
+
 ## 什么是 MVVM？
-- MVVM 是 Model-View-ViewModel 的缩写，MVVM是一种设计思想。Model 层代表数据模型，也可以在Model 中定义数据修改和操作的业务逻辑；View 代表 UI 组件，它负责将数据模型转化成 UI 展示出来，ViewModel 是一个同步View和Model的对象。
-- 在 MVVM 架构下，View 和 Model 之间并没有直接的联系，而是通过 ViewModel 进行交互，Model和ViewModel 之间的交互是双向的，因此View数据的变化会同步到 Model 中，而 Model 数据的变化也会立即反应到 View 上。
+
+- MVVM 是 Model-View-ViewModel 的缩写，MVVM 是一种设计思想。Model 层代表数据模型，也可以在 Model 中定义数据修改和操作的业务逻辑；View 代表 UI 组件，它负责将数据模型转化成 UI 展示出来，ViewModel 是一个同步 View 和 Model 的对象。
+- 在 MVVM 架构下，View 和 Model 之间并没有直接的联系，而是通过 ViewModel 进行交互，Model 和 ViewModel 之间的交互是双向的，因此 View 数据的变化会同步到 Model 中，而 Model 数据的变化也会立即反应到 View 上。
 - ViewModel 通过双向数据绑定把 View 层和 Model 层连接了起来，而 View 和 Model 之间的同步工作完全是自动的，无需人为干涉，因此开发者只需要关注业务逻辑，不需要手动操作 DOM，不需要关注数据状态的同步问题，复杂的数据状态维护完全有 MVVM 来统一管理。
 
-
 ## MVVM 和 MVC 区别？
-- MVC和MVVM其实区别不大。都是一种设计思想。主要是 MVC 中的 Controller 演变成 MVVM 中的viewModel。
-- MVVM 主要是解决了 MVC 中大量的 DOM 操作使页面性能降低，加载速度变慢，影响用户体验。和当 Model 频繁发生变化，开发者需要主动更新到 View。   
 
-
-
-
-
+- MVC 和 MVVM 其实区别不大。都是一种设计思想。主要是 MVC 中的 Controller 演变成 MVVM 中的 viewModel。
+- MVVM 主要是解决了 MVC 中大量的 DOM 操作使页面性能降低，加载速度变慢，影响用户体验。和当 Model 频繁发生变化，开发者需要主动更新到 View。
 
 # 20. Vue 优点
-**Vue两大特点：响应式编程丶组件化**
+
+**Vue 两大特点：响应式编程丶组件化**
 
 - **轻量级框架：** 只关注视图层，是一个构建数据的视图集合，大小只有几十 KB
 - **简单易学：** 国人开发，中文文档，不存在语言障碍，易于理解和学习
 - **双向数据绑定：** 保留了 angular 的特点，在数据操作方面更加简单
-- **组件化：** 
+- **组件化：**
   - 保留了 react 的优点，实现了 html 的封装和重用，在构建单页面应用方面有着独特的优势。
   - 优点是：提高开发效率丶方便重复使用丶简化调试步骤丶提高整个项目的可维护性丶便于协同开发。
 - **视图丶数据丶结构分离：** 使数据的更改更为简单，不需要进行逻辑代码的修改，只需要操作数据就能完成相关操作
-- **虚拟DOM:** dom 操作是非常耗费性能的，不再使用原生的 dom 操作结点，极大解放 dom 操作，更具体操作还是dom，只不过换了一种方式
-- **运行速度赶快：** 
+- **虚拟 DOM:** dom 操作是非常耗费性能的，不再使用原生的 dom 操作结点，极大解放 dom 操作，更具体操作还是 dom，只不过换了一种方式
+- **运行速度赶快：**
   - 相比较与 react 而言，同样是操作虚拟 DOM，就性能而言，Vue 存在很大的优势
   - Vue 是单页面应用，使页面局部刷新，不用每次跳转页面都要请求所有数据 和 dom，这样大大加快了访问速度和提高用户体验。而且它第三方 UI 库很多，节省开发时间。
 
-
-
-
-
 # 21. Vue 常用修饰符
+
 - **`.prevent`:** 提交事件不再重载页面
 - **`.stop`:** 阻止单击冒泡事件
 - **`.capture`:** 事件监听 事件发生的时候会调用
@@ -1695,8 +1663,10 @@ ssr>npm i vue-server-render express -D
 - **`.number`:** 将用户的输入转为成数值类型
 - **`.once`:** 只会触发一次
 
-## v-on可以监听多个方法吗？???
+## v-on 可以监听多个方法吗？???
+
 可以???
+
 ```js
 <!DOCTYPE html>
 <html lang="en">
@@ -1722,19 +1692,15 @@ ssr>npm i vue-server-render express -D
                     console.log(3);
                 }
            },
-       }) 
+       })
     </script>
 
 </body>
 </html>
 ```
 
-
-
-
-
-
 # 22. Vue 事件中如何使用 event 对象？
+
 - 如果是函数的形式的，直接给个形参
 
   ```js
@@ -1769,29 +1735,21 @@ ssr>npm i vue-server-render express -D
   });
   ```
 
-  
-
-
-
-
 # 23. Vue 中如何编写可复用的组件？
+
 - 高内聚，低耦合
 - 单一职责
 - 组件分类
-  - 通用组件（可复用组件）    
+  - 通用组件（可复用组件）
   - 业务组件 （一次性组件）
-- 可复用组件尽量减少对外部条件的依赖，所有与 Vuex 相关的操作都不应该在可复用组件中出现 
+- 可复用组件尽量减少对外部条件的依赖，所有与 Vuex 相关的操作都不应该在可复用组件中出现
 - 组件应当避免对父组件的依赖，不要通过 this.$parent 来操作父组件的示例，父组件也不要通过 this.$children 来引用子组件的示例，而是通过子组件的接口与之交互
 
 ？？?
 https://www.jianshu.com/p/79a37137e45d
 
-
-
-
-
-
 # 24. Vue 插槽
+
 ## 使用场景：
 
 - 父组件向子组件传递 DOM 节点
@@ -1801,6 +1759,7 @@ https://www.jianshu.com/p/79a37137e45d
 
 - 特点：不用设置 name 属性
 - 源码实现
+
   ```js
   <!DOCTYPE html>
   <html lang="en">
@@ -1811,7 +1770,7 @@ https://www.jianshu.com/p/79a37137e45d
       <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   </head>
   <body>
-  
+
       <div id="app">
           <h1>我是父组件的标题</h1>
           <my-home>
@@ -1819,9 +1778,9 @@ https://www.jianshu.com/p/79a37137e45d
               <p>这是更多的初始内容</p>
           </my-home>
       </div>
-  
+
       <script>
-  
+
           Vue.component('my-home', {
               data: function() {
                   return {
@@ -1833,9 +1792,9 @@ https://www.jianshu.com/p/79a37137e45d
           new Vue({
               el: "#app"
           })
-  
+
       </script>
-      
+
   </body>
   </html>
   ```
@@ -1843,8 +1802,9 @@ https://www.jianshu.com/p/79a37137e45d
 ## 具名插槽
 
 - 特点：有 name 属性，具名属性可以在一个组件
-中出现多次，出现在不同的位置
-- 源码实现 
+  中出现多次，出现在不同的位置
+- 源码实现
+
 ```js
 <!DOCTYPE html>
   <html lang="en">
@@ -1864,7 +1824,7 @@ https://www.jianshu.com/p/79a37137e45d
               <p slot="footer">这里有一些联系信息</p>
           </app-layout>
       </div>
-      
+
       <script>
 
           // 具名插槽
@@ -1895,8 +1855,9 @@ https://www.jianshu.com/p/79a37137e45d
 ## 作用域插槽
 
 - 特点：在 slot 上绑定数据，可从子组件获取数据的可复用的插槽
-- 应用场景：封装一个列表组件（或者类似列表的组件）因为在真正使用场景下，子组件的数据都是来自父组件的，作为组件内部应该保持纯净，就像 element-ui 里的 table 组件，肯定不会定义一些数据在组件内部，然后传递给你，table 组件的数据都是来自调用者，然后 table 会把每一行的 row，在开发者需要时，传递出去 
+- 应用场景：封装一个列表组件（或者类似列表的组件）因为在真正使用场景下，子组件的数据都是来自父组件的，作为组件内部应该保持纯净，就像 element-ui 里的 table 组件，肯定不会定义一些数据在组件内部，然后传递给你，table 组件的数据都是来自调用者，然后 table 会把每一行的 row，在开发者需要时，传递出去
 - 源码实现：
+
 ```js
 <!DOCTYPE html>
   <html lang="en">
@@ -1940,77 +1901,78 @@ https://www.jianshu.com/p/79a37137e45d
     </html>
 ```
 
-  ```
- <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    </head>
-    <body>
+```
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
 
-        <div id="app">
-            <todo-list :todos="todos">
-                <template slot-scope="slotProps">
-                    <span v-if="slotProps.todo.isComplete">✓</span>
-                    <span>{{ slotProps.todo.text }}</span>
-                </template>
-            </todo-list>
-        </div>
+      <div id="app">
+          <todo-list :todos="todos">
+              <template slot-scope="slotProps">
+                  <span v-if="slotProps.todo.isComplete">✓</span>
+                  <span>{{ slotProps.todo.text }}</span>
+              </template>
+          </todo-list>
+      </div>
 
-        <script>
+      <script>
 
-            Vue.component('todoList', {
-                props: {
-                    todos: {
-                        type: Array 
-                    }
-                },
-                template: `<ul>
-                            <li v-for="todo in todos" :key="todo.id">
-                                <slot :todo="todo"></slot>
-                            </li>
-                        </ul>`
-            })
+          Vue.component('todoList', {
+              props: {
+                  todos: {
+                      type: Array
+                  }
+              },
+              template: `<ul>
+                          <li v-for="todo in todos" :key="todo.id">
+                              <slot :todo="todo"></slot>
+                          </li>
+                      </ul>`
+          })
 
-            new Vue({
-                el: "#app",
-                data() {
-                    return {
-                        todos: [
-                            {
-                                id: 0,
-                                text: 'haha0',
-                                isComplete: false
-                            },
-                            {
-                                text: 'haha1',
-                                id: 1,
-                                isComplete: true
-                            },
-                            {
-                                text: 'haha2',
-                                id: 2,
-                                isComplete: false
-                            },
-                            {
-                                text: 'haha3',
-                                id: 3,
-                                isComplete: false
-                            }
-                        ]
-                    }
-                }
-            })
+          new Vue({
+              el: "#app",
+              data() {
+                  return {
+                      todos: [
+                          {
+                              id: 0,
+                              text: 'haha0',
+                              isComplete: false
+                          },
+                          {
+                              text: 'haha1',
+                              id: 1,
+                              isComplete: true
+                          },
+                          {
+                              text: 'haha2',
+                              id: 2,
+                              isComplete: false
+                          },
+                          {
+                              text: 'haha3',
+                              id: 3,
+                              isComplete: false
+                          }
+                      ]
+                  }
+              }
+          })
 
-        </script>
+      </script>
 
-        
-    </body>
-    </html>
-  ```
+
+  </body>
+  </html>
+```
+
 ## 动态插槽名
 
 ```js
@@ -2051,18 +2013,14 @@ https://www.jianshu.com/p/79a37137e45d
 
       </script>
 
-      
+
   </body>
   </html>
 ```
 
-
-
-
-
-
 # 25. 说说你对 SPA 单页面的理解，它的优缺点是什么？
-**SPA（single-page application）单页面仅在Web页面初始化时加载相应的 HTML丶JavaScript 和 CSS。一旦页面加载完成，单页面不会因为用户的操作而进行页面的重新加载或跳转；取而代之的是利用路由机制实现 HTML 内容的变换，UI 和 用户的交互，避免页面的重新加载。**
+
+**SPA（single-page application）单页面仅在 Web 页面初始化时加载相应的 HTML 丶 JavaScript 和 CSS。一旦页面加载完成，单页面不会因为用户的操作而进行页面的重新加载或跳转；取而代之的是利用路由机制实现 HTML 内容的变换，UI 和 用户的交互，避免页面的重新加载。**
 
 ## 优点：
 
@@ -2072,28 +2030,15 @@ https://www.jianshu.com/p/79a37137e45d
 
 ## 缺点：
 
-- **初始加载耗时多：** 为实现单页面Web应用功能及显示效果。需要在加载页面的时候将JavaScript丶CSS统一加，部分页面按需加载
+- **初始加载耗时多：** 为实现单页面 Web 应用功能及显示效果。需要在加载页面的时候将 JavaScript 丶 CSS 统一加，部分页面按需加载
 - **前进后退路由管理：** 由于单页面应用在一个页面中显示所有的内容，所以不能使用浏览器的前进后退功能，所有的页面切换需要自己建立堆栈管理
-- **SEO难度较大：** 由于所有的内容都在一个页面中动态替换显示，所以在SEO上其有天然的弱势
-
-
-
-
-
-
-
-
-
-
+- **SEO 难度较大：** 由于所有的内容都在一个页面中动态替换显示，所以在 SEO 上其有天然的弱势
 
 # 26. Vue.js 中的 ajax 请求代码应该写在组件的 methods 中还是 vuex 的 action 中
-如果请求来的数据不是被其他组件公用，仅仅在请求的组件内使用，就不要放入vuex的state里面
 
-如果被其他地方复用，这个很大概率上是需要的，如果是需要的请将放入action里面，方便使用
+如果请求来的数据不是被其他组件公用，仅仅在请求的组件内使用，就不要放入 vuex 的 state 里面
 
-
-
-
+如果被其他地方复用，这个很大概率上是需要的，如果是需要的请将放入 action 里面，方便使用
 
 # 27. Vue 单元测试
 
@@ -2124,17 +2069,13 @@ https://www.jianshu.com/p/79a37137e45d
 - 数据尽量模拟现实，越靠进现实越好
 - 充分考虑数据的边界条件
 - 对重点丶复杂丶核心代码，重点测试
-- 利用AOP，减少测试代码数量，避免无用功能
+- 利用 AOP，减少测试代码数量，避免无用功能
 - 测试丶功能开发相结合，有利于设计和代码重构
 
 ## 常用的测试工具：
 
-- Mocha：JavaScript的测试框架，类似于 Java 中 Junit
+- Mocha：JavaScript 的测试框架，类似于 Java 中 Junit
 - Chai：单元测试的验证框架
-
-  
-
-
 
 # 28. 如何设计一个通用组件？
 
@@ -2149,42 +2090,28 @@ https://www.jianshu.com/p/79a37137e45d
 
 - 如何做到易用，所谓中口难调，你觉得好用，其他人未必这样觉得。
 
-
-
-
-
-
-
 # 29. Vue 如何防止引入外部 CSS 导致的全局污染
 
 在它的 style 上加入 scope 属性
 
 值得注意的是， Vue 的 scope 属性会导致该 style 不能覆盖 import 进来的 CSS 样式文件
 
-
-
-
-
 # 30. 单页面和多页面的区别?
 
-|                     | 单页面应用（SPA）                                            | 多页面应用（MPA）                          |
-| ------------------- | ------------------------------------------------------------ | ------------------------------------------ |
-| 结构                | 一个主页面 + 许多模块的组件                                  | 许多完整的页面                             |
-| 资源文件（CSS丶JS） | 组件公用的资源只需要加载一次                                 | 每个页面都要加载公用的资源                 |
-| 刷新方式            | 页面局部刷新                                                 | 整页刷新                                   |
-| url 模式            | a.com/#/page1  a.com/#/page2  hash和history都可使用          | a.com/page1.html a.com/page2.html          |
-| 用户体验            | 页面切换快丶体验佳；当初次加载文件过多时，需要做相关的调优   | 页面切换慢，网速慢得时候，体验尤其不好     |
-| 转场动画            | 容易实现                                                     | 无法实现                                   |
-| 数据传递            | 容易                                                         | 依赖 url 传参丶或者 cookie丶localStorage等 |
-| 搜索引擎优化（SEO） | 需要单独方案丶实现较为困难丶不利于SEO检索 可用服务器渲染（SSR）优化 | 实现方法简易                               |
-| 适用范围            | 高要求的体验度丶追求界面流畅的应用                           | 适用于追求高度支持搜索引擎的应用           |
-| 开发成本            | 较高，常需要借助专业的框架                                   | 较低，但页面重复代码多                     |
-| 维护成本            | 相对容易                                                     | 相对复杂                                   |
-|                     |                                                              |                                            |
-
-
-
-
+|                       | 单页面应用（SPA）                                                     | 多页面应用（MPA）                             |
+| --------------------- | --------------------------------------------------------------------- | --------------------------------------------- |
+| 结构                  | 一个主页面 + 许多模块的组件                                           | 许多完整的页面                                |
+| 资源文件（CSS 丶 JS） | 组件公用的资源只需要加载一次                                          | 每个页面都要加载公用的资源                    |
+| 刷新方式              | 页面局部刷新                                                          | 整页刷新                                      |
+| url 模式              | a.com/#/page1 a.com/#/page2 hash 和 history 都可使用                  | a.com/page1.html a.com/page2.html             |
+| 用户体验              | 页面切换快丶体验佳；当初次加载文件过多时，需要做相关的调优            | 页面切换慢，网速慢得时候，体验尤其不好        |
+| 转场动画              | 容易实现                                                              | 无法实现                                      |
+| 数据传递              | 容易                                                                  | 依赖 url 传参丶或者 cookie 丶 localStorage 等 |
+| 搜索引擎优化（SEO）   | 需要单独方案丶实现较为困难丶不利于 SEO 检索 可用服务器渲染（SSR）优化 | 实现方法简易                                  |
+| 适用范围              | 高要求的体验度丶追求界面流畅的应用                                    | 适用于追求高度支持搜索引擎的应用              |
+| 开发成本              | 较高，常需要借助专业的框架                                            | 较低，但页面重复代码多                        |
+| 维护成本              | 相对容易                                                              | 相对复杂                                      |
+|                       |                                                                       |                                               |
 
 # 31. Vue 中的 computed 实现原理
 
@@ -2192,25 +2119,25 @@ https://www.jianshu.com/p/79a37137e45d
 
   ```js
   function initComputed(vm, computed) {
-      var watchers = vm._computedWatchers = Object.create(null); // 存放 computed 的观察者
-      var isSSR = isServerRendering();
-      for(var key in computed) {
-          var userDef = computed[key];
-          var getter = typeof userDef === "function" ? userDef : userDef.get;
-          // ...
-          watchers[key] = new Watcher( // 生成观察者（Watcher 实例）
-              vm,
-              getter || noop, // getter 将在观察者 get 方法中执行
-              noop,
-              computedWatcherOptions // { lazy: true } 懒加载，暂不执行 get 方法，当读取 computed 属性值执行
-          )
-          // ...
-          defineComputed(vm, key, userDef);
-      }
+    var watchers = (vm._computedWatchers = Object.create(null)); // 存放 computed 的观察者
+    var isSSR = isServerRendering();
+    for (var key in computed) {
+      var userDef = computed[key];
+      var getter = typeof userDef === "function" ? userDef : userDef.get;
+      // ...
+      watchers[key] = new Watcher( // 生成观察者（Watcher 实例）
+        vm,
+        getter || noop, // getter 将在观察者 get 方法中执行
+        noop,
+        computedWatcherOptions // { lazy: true } 懒加载，暂不执行 get 方法，当读取 computed 属性值执行
+      );
+      // ...
+      defineComputed(vm, key, userDef);
+    }
   }
   ```
 
-- 将 compted 属性添加到组件实例上，并通过 get丶set 方法获取或者设置属性值，并且重定义 getter 函数、
+- 将 compted 属性添加到组件实例上，并通过 get 丶 set 方法获取或者设置属性值，并且重定义 getter 函数、
 
   ```js
   function defineCompted(target, key, userDef) {
@@ -2227,17 +2154,17 @@ https://www.jianshu.com/p/79a37137e45d
   ```js
   // 重定义的 getter 函数
   function createComputedGetter(key) {
-      return function computedGetter() {
-          var watcher = this._computedWatchers && this.computedWatchers[key];
-          if(watcher) {
-              // true  懒加载
-              watcher.evaluate(); // 执行 watcher 方法后设置 dirty 为 false
-          }
-          if(Dep.target) {
-              watcher.depend();
-          }
-          return watch.value; // 返回观察者的 value 值
+    return function computedGetter() {
+      var watcher = this._computedWatchers && this.computedWatchers[key];
+      if (watcher) {
+        // true  懒加载
+        watcher.evaluate(); // 执行 watcher 方法后设置 dirty 为 false
       }
+      if (Dep.target) {
+        watcher.depend();
+      }
+      return watch.value; // 返回观察者的 value 值
+    };
   }
   ```
 
@@ -2249,9 +2176,7 @@ https://www.jianshu.com/p/79a37137e45d
 
   <img src="https://image-static.segmentfault.com/172/761/1727619555-5e7d9c4504ec5_fix732">
 
-- dirty  值初始为 true，即首次读取 computed 属性值时，根据 setter 计算属性值，并保存在观察者 value 上，然后设置 dirty 值为 false。之后读取 computed 属性值时，dirty 值为 false，不调用 setter 重新计算值，而是直接返回观察者的 value，也就是上一次计算值。只有当 computed 属性 setter 函数依赖的 data 发生变化时，才设置 dirty 为 true，即下一次读取 computed 函数值调用 setter 重新计算。也就是说，computed 属性依赖的 data 不发生变化时，不会调用 setter 函数重新计算值，而是读取上一次计算值。
-
-
+- dirty 值初始为 true，即首次读取 computed 属性值时，根据 setter 计算属性值，并保存在观察者 value 上，然后设置 dirty 值为 false。之后读取 computed 属性值时，dirty 值为 false，不调用 setter 重新计算值，而是直接返回观察者的 value，也就是上一次计算值。只有当 computed 属性 setter 函数依赖的 data 发生变化时，才设置 dirty 为 true，即下一次读取 computed 函数值调用 setter 重新计算。也就是说，computed 属性依赖的 data 不发生变化时，不会调用 setter 函数重新计算值，而是读取上一次计算值。
 
 ## 总结：
 
@@ -2260,7 +2185,7 @@ https://www.jianshu.com/p/79a37137e45d
   - 注册一个 watcher 实例，并在内实例化一个 Dep 消息订阅器用作后续收集依赖（比如渲染函数的 watcher 或者其它观察该计算属性的 watcher）
   - 调用计算属性时会触发器 Object.defineProperty 的 get 访问器函数
   - 调用 watch.depend() 方法向自身的消息订阅器 dep 的 subs 中添加其它属性的 watcher
-  - 调用 watcher 的 evaluate 方法（进而调用 watcher 的 get 方法）让自身成为其它 watcher 的消息订阅器的订阅者，首先把 watcher 赋给 Dep.target，然后执行 getter 求值函数，当访问求值函数里面的属性（比如来自 data丶props 或 其它 computed）时，会同样触发它们的 get 访问器函数从而把该计算属性的 watcher 添加到求值函数中的属性 watcher 的消息订阅器 dep 中，当这些操作完成，最后关闭 Dep.target 赋为 null 并返回求值函数结果
+  - 调用 watcher 的 evaluate 方法（进而调用 watcher 的 get 方法）让自身成为其它 watcher 的消息订阅器的订阅者，首先把 watcher 赋给 Dep.target，然后执行 getter 求值函数，当访问求值函数里面的属性（比如来自 data 丶 props 或 其它 computed）时，会同样触发它们的 get 访问器函数从而把该计算属性的 watcher 添加到求值函数中的属性 watcher 的消息订阅器 dep 中，当这些操作完成，最后关闭 Dep.target 赋为 null 并返回求值函数结果
 - 当某个属性发生变化，触发 set 拦截函数，然后调用自身消息订阅器 dep 的 notify 方法，遍历当前 dep 中保存所有订阅者 watcher 的 subs 数组，并逐个调用 watcher 的 update 方法，完成响应更新
 
 ## computed 计算值为什么还可以依赖另外一个 computed 计算值
@@ -2271,39 +2196,39 @@ https://www.jianshu.com/p/79a37137e45d
 
 ```js
 function createComputedGetter(key) {
-    return function computedGetter() {
-        const watcher = vm.computedWatchers[key];
-        
-        if(watcher) {
-            if(watch.dirty) {
-                watcher.evaluate();
-            }
+  return function computedGetter() {
+    const watcher = vm.computedWatchers[key];
 
-         	// 这里非常关键
-            if(Dep.target) {
-                watcher.depend();
-            }
-            
-         	return watcher.value;
-        }
+    if (watcher) {
+      if (watch.dirty) {
+        watcher.evaluate();
+      }
+
+      // 这里非常关键
+      if (Dep.target) {
+        watcher.depend();
+      }
+
+      return watcher.value;
     }
+  };
 }
 ```
 
-为什么在计算属性 B 的 getter 函数里面会添加计算属性 A 的 watcher呢？这是因为计算属性 B 在求值成功完成后，会自动把 Dep.target 出栈，从而暴露出计算属性 A 的 watcher。代码如下：
+为什么在计算属性 B 的 getter 函数里面会添加计算属性 A 的 watcher 呢？这是因为计算属性 B 在求值成功完成后，会自动把 Dep.target 出栈，从而暴露出计算属性 A 的 watcher。代码如下：
 
 ```js
 class Watcher {
-    get() {
-        // 这里把自己的 watcher 入栈
-        pushTarget(this);
-        const value = this.getter();
-        // 这里把自己的 watcher 出栈
-        popTarget(this);
-        this.deps = [...this.newDeps];
-        this.newDeps = [];
-        return value;
-    }
+  get() {
+    // 这里把自己的 watcher 入栈
+    pushTarget(this);
+    const value = this.getter();
+    // 这里把自己的 watcher 出栈
+    popTarget(this);
+    this.deps = [...this.newDeps];
+    this.newDeps = [];
+    return value;
+  }
 }
 ```
 
@@ -2312,17 +2237,11 @@ class Watcher {
 **需要注意的点：**
 
 - 在计算属性生成 getter 的时候，不能直接使用 Object.defineProperty，而是使用闭包把 key 值存储了起来
-- 为什么不直接使用 defineReative 把计算属性变成响应式的。因为当把计算属性用setter 挂载到 vm 上面的时候，计算属性这里确实变成了一个具体的值，但是如果使用 defineReative 把计算属性变成响应式的话，计算属性会执行自己的依赖，从而和响应式数据的依赖重复了。其实这也是把非数据变成响应式的的一种方法。
+- 为什么不直接使用 defineReative 把计算属性变成响应式的。因为当把计算属性用 setter 挂载到 vm 上面的时候，计算属性这里确实变成了一个具体的值，但是如果使用 defineReative 把计算属性变成响应式的话，计算属性会执行自己的依赖，从而和响应式数据的依赖重复了。其实这也是把非数据变成响应式的的一种方法。
 
-
-
-# 32.  Vue 中的 watch 实现原理
+# 32. Vue 中的 watch 实现原理
 
 <img src="https://upload-images.jianshu.io/upload_images/9896962-3705f526761ae703.png?imageMogr2/auto-orient/strip|imageView2/2/w/1200/format/webp">
-
-
-
-
 
 ## 简述响应式
 
@@ -2436,11 +2355,7 @@ data() {
 
 于是我们能看到，parentName 以及 parentName 内部的属性 a 都收集了 watch 的 watcher，以此类推，就算嵌套再深，设置深度监听就可以触发回调了。
 
-
-
-
-
-# 33. vue和react谈谈区别和选型考虑
+# 33. vue 和 react 谈谈区别和选型考虑
 
 ## 相同
 
@@ -2450,7 +2365,7 @@ data() {
 
 ## 不同
 
-- 性能：到目前为止，针对现实情况的测试中，Vue 的性能是优于 React的
+- 性能：到目前为止，针对现实情况的测试中，Vue 的性能是优于 React 的
 
 - 选型：
   - 如果你希望用（或希望能够用）模板搭建应用，请使用 Vue
@@ -2460,10 +2375,6 @@ data() {
   - 如果你想要一个同时适用于 Web 端和原生 App 的框架，请选择 React
   - 如果你需要最大的生态圈，请使用 React
 
-
-
-
-
 # 34. Vue 的数据为什么频繁变化但只会更新一次
 
 Vue 在更新 DOM 时是异步执行的，只要侦听到数据变化，Vue 将开启有个队列，并缓存在同一个事件循环中发生的所有数据变更。
@@ -2472,19 +2383,13 @@ Vue 在更新 DOM 时是异步执行的，只要侦听到数据变化，Vue 将�
 
 然后，在下一个事件循环 tick 中，Vue 刷新队列并执行实际（已去重的）工作。Vue 在内部对异步队列尝试原生的 Promise.then，MutationObserver 和 setTimmediate，如果执行环境不支持，则会采用 setTimeout(fn, 0) 代替。
 
-
-
-
-
-
-
 # 35. Vue 如何实现多个路由共用一个页面组件
 
 ## 多个页面共用同一个组件
 
 **当多个路由共用同一个组件时，切换路由不会触发该组件页面的钩子函数。为了重新触发钩子函数，获取最新数据，有两种方式：**
 
-- 假如父组件下的两个子组件 A丶B需要共用同一个组件，在父组件中，router-view 中添加 key，并保证 key 值具有类似 ID 值得唯一性。这样就能实现，进行相应的子组件路由，会根据相应的 key 值触发相应子组件
+- 假如父组件下的两个子组件 A 丶 B 需要共用同一个组件，在父组件中，router-view 中添加 key，并保证 key 值具有类似 ID 值得唯一性。这样就能实现，进行相应的子组件路由，会根据相应的 key 值触发相应子组件
 - 通过监听路由的变化，来处理数据
 
 ## 在 router-veiw 里添加 key 控制
@@ -2503,7 +2408,7 @@ computed: {
         console.log(this.$route.fullPath);
         return this.$route.fullPath
     }
-}    
+}
 
 // 在 index.js 文件中，让多个路由共用同一个组件，路径指向同一个组件，保证路由 path 和 name 属性具有唯一性
 {
@@ -2512,7 +2417,7 @@ computed: {
     meta: {
         requireAuth: true // 表示该路由需要登录验证后才能进入，在切换路径跳转路由之前作判断
     },
-    component: () => import("@/view/policy/policy.vue")   
+    component: () => import("@/view/policy/policy.vue")
 },
 {
     path: "/strategy",
@@ -2520,8 +2425,8 @@ computed: {
     meta: {
         requireAuth: true // 表示该路由需要验证后才能进入 在切换路径跳转之前作判断
     },
-    component: () => import("@/veiws/policy/policy.vue")    
-}    
+    component: () => import("@/veiws/policy/policy.vue")
+}
 ```
 
 ## 通过监听路由的方法来重新触发钩子函数
@@ -2530,22 +2435,18 @@ computed: {
 
 ```js
 watch: {
-    $route: {
-        handler: "resetData"
-    }
+  $route: {
+    handler: "resetData";
+  }
 }
 method: {
-    resetData: {
-        if(this.$route.fullPath === '/strategy') {
-           // 在这里获取并处理该路由下所需要的数据
-        }
+  resetData: {
+    if (this.$route.fullPath === "/strategy") {
+      // 在这里获取并处理该路由下所需要的数据
     }
+  }
 }
 ```
-
-
-
-
 
 # 36. React 和 Vue 更新机制的区别
 
@@ -2557,11 +2458,7 @@ method: {
 **对更新数据是否需要渲染页面的处理不一样**
 
 - 只有依赖收集的数据发生更新，Vue 才回去重新渲染页面
-- 只要数据有更新（setData丶useState 等手段触发更新），都会去重新渲染页面（可以使用 shouldComponentUpdate / PureComponent 改善）
-
-
-
-
+- 只要数据有更新（setData 丶 useState 等手段触发更新），都会去重新渲染页面（可以使用 shouldComponentUpdate / PureComponent 改善）
 
 # 37. 数据绑定与数据流
 
@@ -2626,10 +2523,6 @@ Vue 的双向数据绑定就是指使用 v-model 指令进行数据绑定，而 
 
 <img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/7/26/1738a3b9a230688e~tplv-t2oaga2asx-watermark.awebp">
 
-
-
-
-
 # 38. Vue.use 源码
 
 **Vue.use() 的作用**
@@ -2641,16 +2534,16 @@ Vue 的双向数据绑定就是指使用 v-model 指令进行数据绑定，而 
 可以在项目中使用 vue.use() 全局注入一个插件，从而不需要在每个组件中 import 插件。例如：不使用 vue.use() 注入插件
 
 ```js
-const utils = require('./utils');
+const utils = require("./utils");
 // 或者
-import utils from './utils'
+import utils from "./utils";
 ```
 
 使用 vue.use() 注入插件，最典型的案例：
 
 ```js
-import Vue from 'vue';
-import Router from 'vue-router';
+import Vue from "vue";
+import Router from "vue-router";
 
 Vue.use(Router);
 ```
@@ -2670,7 +2563,7 @@ export function initUse(Vue: GlobalAPI) {
       if(installedPlugins.indexOf(plugin) > -1) {
         return this;
       }
-      
+
       // additional parameters
       const args = toArray(arguments, 1) {
         if(typeof plugins.install === 'function') {
@@ -2717,14 +2610,14 @@ vue.use() 源码中采用了 flow 的语法。flow 语法，官方解释是：Fl
 - **toArray() 取参数**
 
   ```js
-  export function toArray (list: any, start ?: number): Array<any> {
+  export function toArray(list: any, start?: number): Array<any> {
     start = start || 0;
     let i = list.length - start;
     const res: Array<any> = new Array(i);
-  	while(i --) {
-      ret[i] = list[i + start]
-    } 
-  	return ret;
+    while (i--) {
+      ret[i] = list[i + start];
+    }
+    return ret;
   }
   ```
 
@@ -2733,9 +2626,9 @@ vue.use() 源码中采用了 flow 的语法。flow 语法，官方解释是：Fl
 - **判断插件是否有 install 方法，如果有就执行 install() 方法。没有就直接把 plugin 当 install 执行**
 
   ```js
-  if(typeof plugin.install === 'function') {
+  if (typeof plugin.install === "function") {
     plugin.install.apply(plugin, args);
-  }else if(typeof plugin === 'function') {
+  } else if (typeof plugin === "function") {
     plugin.apply(null, args);
   }
   ```
@@ -2752,15 +2645,11 @@ vue.use() 源码中采用了 flow 的语法。flow 语法，官方解释是：Fl
 
 个人还是喜欢使用将插件的功能方法写在 install 方法里。因为 install 内的 this 指向的是 plugin 对象自身，拓展性更好
 
-
-
-
-
 # 39. 数据更新了但是页面没有更新
 
 **1. Vue 无法检测实例被创建时不存在于 data 中的 property**
 
-原因：由于 Vue 会在初始化实例时对 property 执行 getter/setter 转化，所以 property 必须在 data 对象上存在才能让 Vue  将它转化为响应式的
+原因：由于 Vue 会在初始化实例时对 property 执行 getter/setter 转化，所以 property 必须在 data 对象上存在才能让 Vue 将它转化为响应式的
 
 场景：
 
@@ -2823,7 +2712,7 @@ vue.use() 源码中采用了 flow 的语法。flow 语法，官方解释是：Fl
               message: 222
             } // 声明为空字符串
         })
-        app.message = '111!' 
+        app.message = '111!'
 
     </script>
 
@@ -2863,7 +2752,7 @@ vue.use() 源码中采用了 flow 的语法。flow 语法，官方解释是：Fl
                 }
             }
         })
-      
+
         delete app.obj.id; // 不是响应式的
 
     </script>
@@ -2901,10 +2790,10 @@ app.$delete(app.obj, propertName);
 ```js
 var vm = new Vue({
   data: {
-    items: ['a', 'b', 'c']
-  }
-})
-vm.items[1] = 'x'; // 不能是响应式的
+    items: ["a", "b", "c"],
+  },
+});
+vm.items[1] = "x"; // 不能是响应式的
 ```
 
 解决方法：
@@ -2917,7 +2806,7 @@ Vue.set(vm.items, indexOfItem, newVal);
 vm.$set(vm.items, indexOfItem, newValue);
 
 // Array.prototype.splice
-vm.items.splice(indexOfItem, 1, newValue)
+vm.items.splice(indexOfItem, 1, newValue);
 ```
 
 **拓展：Object.definedProperty() 可以检测数组的变化**
@@ -2955,9 +2844,9 @@ arr[5] = 5; // 不会触发
 ```js
 var vm = new Vue({
   data: {
-    items: ['a', 'b', 'c']
-  }
-})
+    items: ["a", "b", "c"],
+  },
+});
 
 vm.items.length = 2; // 不是响应式
 ```
@@ -2982,12 +2871,12 @@ vm.items.splice(newLength);
 var vm = new Vue({
   el: "#example",
   data: {
-    message: '123'
-  }
-})
+    message: "123",
+  },
+});
 vm.messgae = "new message"; // 更改数据
-vm.$el.textContent = 'new message'; // false
-vm.$el.style.color = 'red'; // 页面没有变化
+vm.$el.textContent = "new message"; // false
+vm.$el.style.color = "red"; // 页面没有变化
 ```
 
 解决方法：
@@ -2996,15 +2885,15 @@ vm.$el.style.color = 'red'; // 页面没有变化
 var vm = new Vue({
   el: "#example",
   data: {
-    message: '123'
-  }
-})
-vm.message = 'new message'; // 更改数据
+    message: "123",
+  },
+});
+vm.message = "new message"; // 更改数据
 // 使用 Vue.nextTick(call) callback 将在 DOM 更新完成后被调用
 Vue.nextTick(function () {
-  vm.$el.textContent === 'new message'; // true
-  vm.$el.style.color = 'red'; // 文字颜色变成红色
-})
+  vm.$el.textContent === "new message"; // true
+  vm.$el.style.color = "red"; // 文字颜色变成红色
+});
 ```
 
 **拓展：异步更新带来的数据响应的误解**
@@ -3018,14 +2907,14 @@ Vue.nextTick(function () {
 var vm = new Vue({
   el: "#example",
   data: {
-    message: {}
-  }
-})
+    message: {},
+  },
+});
 
-vm.$nextTick(function() {
+vm.$nextTick(function () {
   this.message = {};
-  this.message.text = '我要更新啦！';
-})
+  this.message.text = "我要更新啦！";
+});
 ```
 
 上段代码中，我们在 data 对象中声明了一个 message 空对象，然后在下次 DOM 更新循环结束之后触发的异步回到中，执行了如下两段代码：
@@ -3084,13 +2973,19 @@ vm.$forceUpdate();
 
 ```js
 <div id="app">
-	<ul>
-  	<li><router-link to="/homr/foo">Too Foo</router-link></li>
-    <li><router-link to="/homr/foo">Too Foo</router-link></li>
-    <li><router-link to="/homr/foo">Too Foo</router-link></li>
+  <ul>
+    <li>
+      <router-link to="/homr/foo">Too Foo</router-link>
+    </li>
+    <li>
+      <router-link to="/homr/foo">Too Foo</router-link>
+    </li>
+    <li>
+      <router-link to="/homr/foo">Too Foo</router-link>
+    </li>
   </ul>
-	<router-view></router-view>
-</div>  
+  <router-view></router-view>
+</div>
 ```
 
 ```js
@@ -3098,28 +2993,29 @@ const Home = {
   template: `<div>{{ message}} </div>`,
   data() {
     return {
-      message: this.$route.params.name
-    }
-  }
-}
+      message: this.$route.params.name,
+    };
+  },
+};
 
 const router = new VueRouter({
   mode: "history",
   routes: [
     {
-      path: '/home', component: Home
+      path: "/home",
+      component: Home,
     },
     {
-      path: '/home/:name',
-      component: Home
-    }
-  ]
-})
+      path: "/home/:name",
+      component: Home,
+    },
+  ],
+});
 
 new Vue({
   el: "#app",
-  router
-})
+  router,
+});
 ```
 
 上段代码中，我们在路由构建选项 routes 中配置了一个动态路由 '/home/:name'，它们公用一个路由组件 Home，这代表它们复用 RouterView
@@ -3144,7 +3040,7 @@ new Vue({
       }
     }
   }
-  
+
   new Vue({
     el: '#app',
     router
@@ -3155,15 +3051,11 @@ new Vue({
 
   > 弊端：如果从 /home 跳转到 /user 等其它路由下，我们是不用担心组件更新问题，所以这个时候 key 属性是多余的
 
-  ````js
+  ```js
   <div id="app">
   	<router-view :key="key"></router-view>
   </div>
-  ````
-
-  
-
-  
+  ```
 
 # 40. Vue 常用指令
 
@@ -3177,7 +3069,7 @@ new Vue({
     <p v-once>{{ name }} <span>我会进行一次渲染</span></p>
     <p>{{ name }} <span>我会进行多次渲染</span></p>
 </div>
-    
+
 <script>
     new Vue({
         el: "#app",
@@ -3318,7 +3210,7 @@ vue 如果渲染的时候使用的是 {{data}} 进行渲染的话，在网络不
 
 **v-model**
 
-````hs
+```hs
 <div id="app">
     <input placeholder="请输入数据" type="text" v-model="name">
     <p>{{ name }}</p>
@@ -3333,7 +3225,7 @@ vue 如果渲染的时候使用的是 {{data}} 进行渲染的话，在网络不
         })
     })
 </script>
-````
+```
 
 **v-for**
 
@@ -3379,7 +3271,7 @@ vue 如果渲染的时候使用的是 {{data}} 进行渲染的话，在网络不
 
 **v-bind**
 
-````js
+```js
 <div id="app">
     <!-- value 绑定 -->
     <input type="text" v-bind:value="name">
@@ -3398,15 +3290,9 @@ vue 如果渲染的时候使用的是 {{data}} 进行渲染的话，在网络不
         })
     })
 </script>
-````
+```
 
-
-
-
-
-
-
-# 41. Flux、Vuex、MobX 和 Redux各自的特点和区别
+# 41. Flux、Vuex、MobX 和 Redux 各自的特点和区别
 
 ## Flux
 
@@ -3416,6 +3302,7 @@ Flux 是一种架构思想，类似于 MVC、MVVM 等
 
 - **View：**视图层
 - **Action：**动作，即数据改变的消息对象（可通过事件触发、测试用例触发等）
+
   - Store 的改变只能通过 Action
   - 具体 Action 的处理逻辑一般放在 Store 里
   - Action 对象包含 type（类型）与 payload（传递参数）
@@ -3515,12 +3402,12 @@ MobX 背后的哲学是：任何源自应用状态的东西都应该自动地获
 ```js
 const obj = observable({
   a: 1,
-  b: 2
-})
+  b: 2,
+});
 
 autoRun((obj) => {
   console.log(obj.a);
-})
+});
 
 obj.b = 3; // 什么都没有发生
 obj.a = 2; // observe 函数的回调触发了 控制台输出：2
@@ -3544,11 +3431,7 @@ obj.a = 2; // observe 函数的回调触发了 控制台输出：2
 - Redux 中引入了中间件，主要解决异步带来的副作用，可通过约定完成许多复杂工作
 - MobX 是状态管理库中代码倾入性最小的之一，具有颗粒度控制、简单可拓展等优势，但是没有时间回溯能力，一般适用于中小型项目中
 
-
-
-
-
-# 42. React、Vue 和 JQuery在什么场景下怎么选型
+# 42. React、Vue 和 JQuery 在什么场景下怎么选型
 
 ## Vue
 
@@ -3566,21 +3449,20 @@ obj.a = 2; // observe 函数的回调触发了 控制台输出：2
 <p>{{ message }}</p>
 ```
 
-首先我们说的 vue 的模版其实不 html，那么既然不是 html它一定是被转换成了一个 JS 代码，就是所谓的模版编译，在 vue 中使用的就是 vue-template-compiler 这个模版编译工具，那这个工具做了什么？其实就是将 Vue 2.0 模版预编译为渲染函数（template => ast => render）
+首先我们说的 vue 的模版其实不 html，那么既然不是 html 它一定是被转换成了一个 JS 代码，就是所谓的模版编译，在 vue 中使用的就是 vue-template-compiler 这个模版编译工具，那这个工具做了什么？其实就是将 Vue 2.0 模版预编译为渲染函数（template => ast => render）
 
 ```js
 //模板代码
-const compiler = require('vue-template-compiler')
+const compiler = require("vue-template-compiler");
 const result = compiler.compile(`
   <div id="test">
     <div>
       <p>This is my vue render test</p>
     </div>
     <p>my name is {{myName}}</p>
-  </div>`
-)
+  </div>`);
 
-console.log(result)
+console.log(result);
 ```
 
 ```js
@@ -3695,34 +3577,21 @@ react 上手很比较简单，尤其是 16 引入 hooks 之后，号称 API 终�
 
 vue 由于是中国人写的，有着完善的中文文档和稳定的社区，并且有着亲切的模版语法，应当说是入门是最简单的
 
+### Vue 的整个实现原理
 
+1. vuex 数据流动过程
 
-
-
-
-
-
-
-
-
-
-
-### Vue的整个实现原理
-
-1. vuex数据流动过程
-
-
-前端SEO 
+前端 SEO
 
 Vue 自定义指令
 
 Taro 适配 存储 兼容性 基础库 三套登录方案 取舍
 
-iOS七层
+iOS 七层
 
 Taro 怎么处理 图片资源。统一扔到服务器？
 
-小程序有原生的map 移动端没有 怎么处理？
+小程序有原生的 map 移动端没有 怎么处理？
 
 小程序双向数据绑定 生命周期
 
@@ -3737,4 +3606,3 @@ html 新特性
 查找
 
 小程序双向数据绑定是怎么实现的
-
