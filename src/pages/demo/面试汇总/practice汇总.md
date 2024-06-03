@@ -399,7 +399,7 @@ const fns = () => {
 
 # 18. elementui 用法
 
-## el-tree 组件
+## el-tree 组件筛选
 
 ```js
   <el-tree
@@ -432,7 +432,25 @@ const fns = () => {
   const checkDeptId = (row) => {
     state.deptId = row.id;
   };
+```
 
+### 级联选择收集 label 和 value
+
+```js
+const handleChangeCity = (val) => {
+  const provinceRef = this.$refs.provinceRef?.[0] || this.$refs.provinceRef;
+  const pathLabels = provinceRef?.getCheckedNodes?.()?.[0]?.pathLabels || [];
+  const [provinceName, cityName, countyName] = pathLabels;
+  const [provinceCode, cityCode, countyCode] = val;
+  console.log("pathLabels", pathLabels);
+  this.form.address = null;
+  this.form.provinceCode = provinceCode;
+  this.form.provinceName = provinceName;
+  this.form.cityCode = cityCode;
+  this.form.cityName = cityName;
+  this.form.countyCode = countyCode;
+  this.form.countyName = countyName;
+};
 ```
 
 ## el-autocomplete 组件
@@ -514,25 +532,6 @@ const fns = () => {
 
 ## el-tree 组件
 
-# 收集 label 和 value
-
-```js
-const handleChangeCity = (val) => {
-  const provinceRef = this.$refs.provinceRef?.[0] || this.$refs.provinceRef;
-  const pathLabels = provinceRef?.getCheckedNodes?.()?.[0]?.pathLabels || [];
-  const [provinceName, cityName, countyName] = pathLabels;
-  const [provinceCode, cityCode, countyCode] = val;
-  console.log("pathLabels", pathLabels);
-  this.form.address = null;
-  this.form.provinceCode = provinceCode;
-  this.form.provinceName = provinceName;
-  this.form.cityCode = cityCode;
-  this.form.cityName = cityName;
-  this.form.countyCode = countyCode;
-  this.form.countyName = countyName;
-};
-```
-
 # 19. vue 具体实现原理
 
 https://segmentfault.com/img/bVdcrRt
@@ -589,3 +588,68 @@ Vue 2 的响应式系统是其核心特性之一，它通过 Observer、Dep 和 
 #### 5. 视图更新：
 
      Watcher 收到通知后，重新计算并更新视图。
+
+# 20. responsetype 和 content-type
+
+## 1 responsetype 类型(ajax 的属性)
+
+”“（空字符串）：等同于 text，表示服务器返回文本数据。
+“arraybuffer”：ArrayBuffer 对象，表示服务器返回二进制数组。
+“blob”：Blob 对象，表示服务器返回二进制对象。
+“document”：Document 对象，表示服务器返回一个文档对象。
+“json”：JSON 对象。
+“text”：字符串。
+
+## 2 content-type 类型(http headers 的属性)
+
+### 1 content-disposition
+
+使用 express 模拟请求下载接口，返回流文件的时候只需要统一设置 content-type: 'application/octet-stream' 即可，不需要因为不同的文件类型设置不同的 content-type。
+另外对于 content-disposition 在设置 filename 的时候，需要对 filename 进行转码，防止下载的文件名中有中文时出现乱码。
+
+### 常见的媒体格式类型：
+
+text/html ： HTML 格式
+text/plain ：纯文本格式
+text/xml ： XML 格式
+image/gif ：gif 图片格式
+image/jpeg ：jpg 图片格式
+image/png：png 图片格式
+以 application 开头的媒体格式类型：
+
+application/xhtml+xml ：XHTML 格式
+application/xml： XML 数据格式
+application/atom+xml ：Atom XML 聚合格式
+application/json： JSON 数据格式
+application/pdf：pdf 格式
+application/msword ： Word 文档格式
+application/octet-stream ： 二进制流数据（如常见的文件下载）
+application/x-www-form-urlencoded ： <form encType=””>中默认的 encType，form 表单数据被编码为 key/value 格式发送到服务器（表单默认的提交数据的格式）
+另外一种常见的媒体格式是上传文件之时使用的：
+
+multipart/form-data ： 需要在表单中进行文件上传时，就需要使用该格式
+
+# 22 不同 content-type 对应的前端请求参数处理格式
+
+## 常见的 Content-Type 及其对应的请求参数处理格式：
+
+### 1 Content-Type: application/json：
+
+```js
+{
+"name": "John Doe",
+"email": "johndoe@example.com"
+}
+```
+### 2 Content-Type: application/x-www-form-urlencoded：
+
+```js
+"name=John+Doe&email=johndoe%40example.com";
+```
+
+### 3 Content-Type: multipart/form-data：
+
+```js
+let form = new FormData();
+form.append("file", file);
+```
