@@ -1549,14 +1549,7 @@ const result = myAsync(myGenerator);
 
 当前调用栈中执行的代码称为宏任务
 
-- **主代码块**
-- **setTimeout**
-- **setInterval**
-- **I/O（ajax）**
-- **UI 渲染**
-- **setImmediate    (nodejs)**
-- **可以看到，事件队列中的每个事件都是一个宏任务，现在称为宏任务队列**
-
+ 
 
 > Promise 和 setTimout 的区别？
 

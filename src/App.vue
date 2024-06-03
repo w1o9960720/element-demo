@@ -1,5 +1,6 @@
 <script setup>
 import { useRouter } from "vue-router";
+import downloadUrlFile from "@/pages/demo/downloadUrl.js";
 const router = useRouter();
 
 const handleclick = () => {
@@ -11,7 +12,10 @@ const handleclick = () => {
 
   window.open(routeUrl.href, "_blank");
 };
-
+downloadUrlFile(
+  "https://i2.hdslb.com/bfs/archive/120686ca-18a1fed2c41.jpeg",
+  "图片"
+);
 const test = () => {
   console.log(1);
   Promise.resolve("weq").then((res) => {
@@ -36,9 +40,6 @@ const test = () => {
   console.log(10);
 };
 // console.log("test(): ", test());
-
-
-
 </script>
 
 <template>

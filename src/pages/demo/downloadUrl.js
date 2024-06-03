@@ -22,6 +22,7 @@ export const getDownUrl = (url) => {
     }
     url2 = `${import.meta.env.VITE_PROXY_URL}${url2}`;
   }
+  
   return url2;
 };
 // 下载含有url的文件

@@ -1,0 +1,11 @@
+const CONFIG_MANAGEMENT = 'ConfigManagement';
+
+export default {
+  RULE_BACH_ATTR: `${CONFIG_MANAGEMENT}RuleBachAttr`,
+  CODE_RULE: `${CONFIG_MANAGEMENT}CodeRule`,
+  GOODS_STORE_SETUP: `${CONFIG_MANAGEMENT}GoodsStoreSetup`,
+  FOREWARING_RULES: `${CONFIG_MANAGEMENT}ForewaringRules`,
+  IMPORT: `${CONFIG_MANAGEMENT}Import`,
+  IMPORT_EDIT: `${CONFIG_MANAGEMENT}ImportEdit`,
+  EXPORT: `${CONFIG_MANAGEMENT}Export`,
+};

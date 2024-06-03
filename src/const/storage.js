@@ -1,0 +1,10 @@
+export const BUTTONPERMISSION = 'buttonPermission';
+export const ACCESSTOKEN = 'accessToken';
+export const OFFICIAL_WEBSITE = 'official_website_article';
+export const USER = 'userInfo';
+export const ACCOUNT = 'accountInfo';
+export const TOKEN = 'TokenKey';
+export const LOGIN_PARAMS = 'loginParams';
+export const RECEIPT_AND_GOODS = 'receiptNoAndgoodsId';
+export const CARTON_LABEL_USER = 'cartonLabelUser';
+export const CARTON_LABEL_CONFIRM = 'cartonLabelConfirm';
