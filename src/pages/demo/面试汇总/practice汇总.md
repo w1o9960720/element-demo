@@ -641,6 +641,7 @@ multipart/form-data ： 需要在表单中进行文件上传时，就需要使�
 "email": "johndoe@example.com"
 }
 ```
+
 ### 2 Content-Type: application/x-www-form-urlencoded：
 
 ```js
@@ -652,4 +653,71 @@ multipart/form-data ： 需要在表单中进行文件上传时，就需要使�
 ```js
 let form = new FormData();
 form.append("file", file);
+```
+
+# 23 树形数据删除指定 key 的项
+
+```js
+let arr = [
+  {
+    key: 1,
+    value: "1",
+    children: [
+      {
+        key: 11,
+        value: "1",
+        children: [
+          {
+            key: 12,
+            value: "1",
+            children: [
+              {
+                key: 122,
+                value: "1",
+                children: [
+                  {
+                    key: 1222,
+                    value: "1",
+                    children: [],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    key: 2,
+    value: "2",
+    children: [
+      {
+        key: 21,
+        value: "2",
+        children: [
+          {
+            key: 31,
+            value: "3",
+            children: [],
+          },
+        ],
+      },
+    ],
+  },
+];
+const deleteArr = (arr, key) => {
+  let tree = [];
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i];
+    if (item.key !== key) {
+      tree.push(item);
+    }
+    if (item.children.length > 0) {
+      item.children = deleteArr(item.children, key);
+    }
+  }
+  return tree || [];
+};
+console.log("deleteArr(arr,1): ", deleteArr(arr, 12));
 ```
