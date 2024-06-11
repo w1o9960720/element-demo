@@ -119,6 +119,8 @@
         </el-table-column>
       </el-table>
     </el-form> -->
+    <demo v-model:formData="forma"></demo>
+    <el-button type="primry" @click="rf">父传子</el-button>
   </div>
 </template>
 
@@ -134,7 +136,16 @@ import initForm from "./useForm.js";
 import { reactive, watch, ref, onMounted } from "vue";
 import printJs from "print-js";
 import Test from "./components/test.vue";
+import demo from "./components/text.vue";
+
 let refs = reactive([]);
+let forma = reactive({
+  menuname: "",
+  car: "",
+});
+const rf = () => {
+  console.log("forma: ", forma);
+};
 const TabNameList = reactive([
   {
     label: "上架规则",
@@ -150,8 +161,7 @@ const TabNameList = reactive([
   },
 ]);
 const tabIndex = ref("LISTING_RULES");
-onMounted(() => {
-});
+onMounted(() => {});
 const ruleTypeChanged = (event) => {
   refs[event.index].getInfo();
 };

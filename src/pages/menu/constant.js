@@ -1,6 +1,12 @@
 import { reactive, ref } from "vue";
 import { useStorage } from "@vueuse/core";
-export let tableList = useStorage("menu", []);
+export let tableList = useStorage("menu", [
+  {
+    label: "菜单",
+    path: "/home/menu",
+    role: "normal,admin",
+  },
+]);
 export const addressList = reactive([
   {
     value: "Option1",
