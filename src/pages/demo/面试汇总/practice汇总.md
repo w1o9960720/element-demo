@@ -721,3 +721,16 @@ const deleteArr = (arr, key) => {
 };
 console.log("deleteArr(arr,1): ", deleteArr(arr, 12));
 ```
+
+# 24 原型链相关
+
+```js
+let f = {};
+var Fsss = function () {};
+Object.prototype.b = "object b";
+Function.prototype.a = "function a";
+console.log("f.b: ", f.b);
+console.log("f.a: ", f.a);
+console.log("F.b: ", Fsss.b);
+console.log("F.a: ", Fsss.a);
+```
