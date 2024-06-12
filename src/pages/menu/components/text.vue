@@ -31,7 +31,90 @@ const props = defineProps({
     default: false,
   },
 });
-
+let arr = [
+  {
+    key: 1,
+    value: "1",
+    children: [
+      {
+        key: 11,
+        value: "1",
+        children: [
+          {
+            key: 12,
+            value: "1",
+            children: [
+              {
+                key: 122,
+                value: "1",
+                children: [
+                  {
+                    key: 1222,
+                    value: "1",
+                    children: [],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        key: 211,
+        value: "1",
+        children: [
+          {
+            key: 221,
+            value: "1",
+            children: [],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    key: 2,
+    value: "2",
+    children: [
+      {
+        key: 21,
+        value: "2",
+        children: [
+          {
+            key: 31,
+            value: "3",
+            children: [],
+          },
+        ],
+      },
+      {
+        key: 331,
+        value: "2",
+        children: [
+          {
+            key: 3331,
+            value: "3",
+            children: [],
+          },
+        ],
+      },
+    ],
+  },
+];
+const deleteArr = (arr, key) => {
+  let tree = [];
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i];
+    if (item.key !== key) {
+      if (item.children.length > 0) {
+        item.children = deleteArr(item.children, key);
+      }
+      tree.push(item);
+    }
+  }
+  return tree || [];
+};
+console.log("deleteArr(arr,1): ", deleteArr(arr, 3331111));
 watch(
   () => props.formData,
   (v) => {
