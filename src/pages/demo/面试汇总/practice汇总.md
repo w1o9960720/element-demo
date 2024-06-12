@@ -686,6 +686,17 @@ let arr = [
           },
         ],
       },
+      {
+        key: 211,
+        value: "1",
+        children: [
+          {
+            key: 221,
+            value: "1",
+            children: [],
+          },
+        ],
+      },
     ],
   },
   {
@@ -703,6 +714,17 @@ let arr = [
           },
         ],
       },
+      {
+        key: 331,
+        value: "2",
+        children: [
+          {
+            key: 3331,
+            value: "3",
+            children: [],
+          },
+        ],
+      },
     ],
   },
 ];
@@ -711,15 +733,15 @@ const deleteArr = (arr, key) => {
   for (let i = 0; i < arr.length; i++) {
     const item = arr[i];
     if (item.key !== key) {
+      if (item.children.length > 0) {
+        item.children = deleteArr(item.children, key);
+      }
       tree.push(item);
-    }
-    if (item.children.length > 0) {
-      item.children = deleteArr(item.children, key);
     }
   }
   return tree || [];
 };
-console.log("deleteArr(arr,1): ", deleteArr(arr, 12));
+console.log("deleteArr(arr,1): ", deleteArr(arr, 3331));
 ```
 
 # 24 原型链相关
