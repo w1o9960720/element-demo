@@ -12,36 +12,96 @@ const router = useRouter();
 //   });
 //   return arr;
 // };
-const readNodes = (nodes = []) => {
-  return nodes.map((item) => {
-    let has = item.children && item.children.length > 0;
-    if (has) {
-      return {
-        label: item.name,
-        value: item.name,
-        children: readNodes(item.children),
-      };
-    } else {
-      return {
-        label: item.name,
-        value: item.name,
-      };
-    }
-  });
-};
+// const readNodes = (nodes = []) => {
+//   return nodes.map((item) => {
+//     let has = item.children && item.children.length > 0;
+//     if (has) {
+//       return {
+//         label: item.name,
+//         value: item.name,
+//         children: readNodes(item.children),
+//       };
+//     } else {
+//       return {
+//         label: item.name,
+//         value: item.name,
+//       };
+//     }
+//   });
+// };
+// let arr = [
+//   {
+//     name: "sdf",
+//     label: "sda",
+//     children: [
+//       {
+//         label: "dsaas",
+//         name: "sdfas",
+//       },
+//     ],
+//   },
+// ];
+// console.log("readNodes: ", readNodes(arr));
 let arr = [
   {
-    name: "sdf",
-    label: "sda",
+    key: 1,
+    value: "1",
     children: [
       {
-        label: "dsaas",
-        name: "sdfas",
+        key: 11,
+        value: "1",
+        children: [
+          {
+            key: 12,
+            value: "1",
+            children: [
+              {
+                key: 122,
+                value: "1",
+                children: [
+                  {
+                    key: 1222,
+                    value: "1",
+                    children: [],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    key: 2,
+    value: "2",
+    children: [
+      {
+        key: 21,
+        value: "2",
+        children: [
+          {
+            key: 31,
+            value: "3",
+            children: [],
+          },
+        ],
       },
     ],
   },
 ];
-console.log("readNodes: ", readNodes(arr));
+
+const deleteArr = (arr, key) => {
+  return arr.filter((item) => {
+    if (item.key !== key) {
+      if (item?.children.length > 0) {
+        item.children = deleteArr(item.children, key);
+      }
+      return true;
+    }
+  });
+};
+console.log("deleteArr(arr,1): ", deleteArr(arr, 21));
 </script>
 
 <template>

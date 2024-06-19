@@ -741,6 +741,16 @@ const deleteArr = (arr, key) => {
   }
   return tree || [];
 };
+const deleteArr = (arr, key) => {
+  return arr.filter((item) => {
+    if (item.key !== key) {
+      if (item?.children.length > 0) {
+        item.children = deleteArr(item.children, key);
+      }
+      return true;
+    }
+  });
+};
 console.log("deleteArr(arr,1): ", deleteArr(arr, 3331));
 ```
 
