@@ -1,45 +1,47 @@
 <script setup>
 import { useRouter } from "vue-router";
-import downloadUrlFile from "@/pages/demo/downloadUrl.js";
 const router = useRouter();
 
-const handleclick = () => {
-  const routeUrl = router.resolve({
-    path: "/home/quantites/detail",
-    query: { id: "row.id" },
+// const readNodes = (nodes = []) => {
+//   const arr = [];
+//   nodes.forEach((item, index) => {
+//     arr.push({ label: item.name, value: item.name });
+//     if (item.children && item.children.length > 0) {
+//       arr[index].children = readNodes(item.children);
+//     }
+//   });
+//   return arr;
+// };
+const readNodes = (nodes = []) => {
+  return nodes.map((item) => {
+    let has = item.children && item.children.length > 0;
+    if (has) {
+      return {
+        label: item.name,
+        value: item.name,
+        children: readNodes(item.children),
+      };
+    } else {
+      return {
+        label: item.name,
+        value: item.name,
+      };
+    }
   });
-  console.log("routeUrl: ", routeUrl.href);
-
-  window.open(routeUrl.href, "_blank");
 };
-downloadUrlFile(
-  "https://i2.hdslb.com/bfs/archive/120686ca-18a1fed2c41.jpeg",
-  "图片"
-);
-const test = () => {
-  console.log(1);
-  Promise.resolve("weq").then((res) => {
-    console.log(res);
-  });
-  let p = new Promise((res, rej) => {
-    console.log(2);
-    setTimeout(() => {
-      console.log(88);
-      res();
-    }, 0);
-  });
-  p.then(() => {
-    console.log(5);
-  });
-  setTimeout(() => {
-    console.log(6);
-  }, 500);
-  setTimeout(() => {
-    console.log(0);
-  }, 0);
-  console.log(10);
-};
-// console.log("test(): ", test());
+let arr = [
+  {
+    name: "sdf",
+    label: "sda",
+    children: [
+      {
+        label: "dsaas",
+        name: "sdfas",
+      },
+    ],
+  },
+];
+console.log("readNodes: ", readNodes(arr));
 </script>
 
 <template>

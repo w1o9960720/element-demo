@@ -114,7 +114,7 @@ const deleteArr = (arr, key) => {
   }
   return tree || [];
 };
-console.log("deleteArr(arr,1): ", deleteArr(arr, 3331111));
+// console.log("deleteArr(arr,1): ", deleteArr(arr, 3331111));
 watch(
   () => props.formData,
   (v) => {

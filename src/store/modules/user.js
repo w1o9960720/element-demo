@@ -59,11 +59,11 @@ const user = {
           })
           .map((item) => item.path);
         let menu = filter(userMenu, cloneDeep(importRoutes.value));
-        console.log(
-          "cloneDeep(importRoutes.value): ",
-          cloneDeep(importRoutes.value)
-        );
-        console.log("userMenu: ", userMenu);
+        // console.log(
+        //   "cloneDeep(importRoutes.value): ",
+        //   cloneDeep(importRoutes.value)
+        // );
+        // console.log("userMenu: ", userMenu);
         // console.log("menu: ", menu);
         commit("SET_MENU", menu);
         setTimeout(() => {
