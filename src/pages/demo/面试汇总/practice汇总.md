@@ -342,6 +342,21 @@ const tree = (arr, pid) => {
   });
   return first || [];
 };
+
+function changeData(data, parentId = 0) {
+  let tree = []; //新建空数组
+  //遍历每条数据
+  data.map((item) => {
+    //每条数据中的和parentId和传入的相同
+    if (item.parentId == parentId) {
+      //就去找这个元素的子集去  找到元素中parentId==item.id 这样层层递归
+      item.children = changeData(data, item.id);
+      tree.push(item);
+    }
+  });
+  return tree;
+}
+
 // console.log("handleTree: ", handleTree(arrs));
 // console.log("tree: ", tree(arr, null));
 ```
@@ -349,17 +364,35 @@ const tree = (arr, pid) => {
 # 15. 树形结构数组转扁平数组
 
 ```js
-let list = [];
-const treetoarr = (arr, list) => {
-  arr.forEach((item) => {
-    list.push(item);
-    if (item.children) {
-      treetoarr(item.children, list);
+//树级结构转平级
+treeToList(tree) {
+  let arrs = [];
+  let result = [];
+  arrs = arrs.concat(tree);
+  // 把数组中每一项全部拉平
+  while (arrs.length) {
+    let first = arrs.shift(); // 弹出第一个元素
+    // 直到每一项数据都没有children
+    if (first.$children) {
+      //如果有children
+      arrs = arrs.concat(first.$children);
+      delete first['$children'];
     }
-  });
-};
-treetoarr(tree(arr, null), list);
-console.log("treetoarr: ", list);
+    result.push(first);
+  }
+  return result;
+},
+// let list = [];
+// const treetoarr = (arr, list) => {
+//   arr.forEach((item) => {
+//     list.push(item);
+//     if (item.children) {
+//       treetoarr(item.children, list);
+//     }
+//   });
+// };
+// treetoarr(tree(arr, null), list);
+// console.log("treetoarr: ", list);
 ```
 
 # 16. Promise.reslove()三种入参
