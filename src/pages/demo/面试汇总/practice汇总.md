@@ -799,3 +799,70 @@ console.log("f.a: ", f.a);
 console.log("F.b: ", Fsss.b);
 console.log("F.a: ", Fsss.a);
 ```
+
+# 25 数字转数组(可用数组方法)
+
+```js
+function NumbertoArray(n) {
+  const num = Number(n);
+  return [...new Array(num)];
+}
+```
+
+# 26 switch 用法
+
+```js
+function NumbertoArray(n) {
+  switch (n) {
+    case 1:
+      this.form.tableList = "1";
+      break;
+    case 2:
+      this.form.tableList = "2";
+      break;
+    default:
+      this.form.tableList = "3";
+  }
+}
+```
+
+# 27 非响应式数据定义
+
+```js
+  data() {
+    const validateStart = (rule, value, callback) => {
+      if (!Number.isInteger(value)) {
+        return callback(new Error('请输入数字值'));
+      }
+      if (value < 0) {
+        return callback(new Error('不能为负数'));
+      }
+      return callback();
+    };
+    return {
+      visible: false,
+    };
+  },
+```
+
+# 28 重置表单
+
+```js
+// el-form实例属性无效或者不用表单方法重置
+handleReset() {
+  this.formData = {
+    batchs: [{}],
+    bookingNumBig: 0,
+    bookingNumSmall: 0,
+    goodsName: undefined,
+    goodsCode: undefined,
+    internationalCode: undefined,
+    goodsSpecifications: undefined,
+    weight: undefined,
+    shelfLife: undefined,
+    temperatureLayerName: undefined,
+    goods: {},
+  };
+  this.$forceUpdate();
+},
+```
