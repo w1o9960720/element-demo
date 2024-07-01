@@ -845,10 +845,10 @@ function NumbertoArray(n) {
   },
 ```
 
-# 28 重置表单
+# 28 重置表单 el-form实例属性无效或者不用表单方法重置
 
 ```js
-// el-form实例属性无效或者不用表单方法重置
+
 handleReset() {
   this.formData = {
     batchs: [{}],
